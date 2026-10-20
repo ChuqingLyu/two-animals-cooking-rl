@@ -126,7 +126,12 @@ class Replay {
 const Pop = {
   card(key, then) {
     Pop.show(Lang.t(key + "_title"), Lang.t(key), null, then);
+    const img = document.createElement("img");
+    img.src = "assets/cards/knowledge_card_" + Pop.CARD_IMG[key] + "_v2.png";
+    img.alt = Lang.t(key + "_title"); img.style.cssText = "display:block;max-width:100%;margin-top:8px;border-radius:8px";
+    document.getElementById("popBody").appendChild(img);
   },
+  CARD_IMG: {card1: 1, card2: 2, card3: 4, card4: 3},
   question(q) {
     const box = document.getElementById("popChoices"); box.innerHTML = "";
     const fb = document.getElementById("popFeedback");
