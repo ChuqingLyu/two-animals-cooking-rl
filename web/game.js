@@ -165,12 +165,13 @@ const Pop = {
 const L1 = {
   async start() {
     this.rp = this.rp || new Replay(document.getElementById("c1"), (fr, r) => this.stats(fr, r));
-    Pop.card("card1", () => this.run());
+    const go = () => Pop.card("card1", () => { Voice.play(["dingo_L1_01"]); this.run(); });
+    Theatre.seen.l1 ? go() : Theatre.show("l1", go);
   },
   async run() {
     const soup = document.getElementById("soupReward").value;
     const roll = await Assets.json(soup === "0" ? "nosoup_ep100" : "full_ep100");
-    this.rp.play(roll, {popups: true, ms: 90});
+    this.rp.play(roll, {popups: true, ms: 90, onEnd: () => Voice.play(soup === "0" ? ["wendy_L1_02", "kai_L1_03"] : ["wendy_L1_06", "dingo_L1_07"])});
   },
   stats(fr, r) {
     const ev = Lang.t("ev"), soup = document.getElementById("soupReward").value;
@@ -187,7 +188,8 @@ const L2 = {
     this.rp = this.rp || new Replay(document.getElementById("c2"), fr => {
       document.getElementById("l2stats").textContent = `${Lang.t("soups")}: ${fr.soups}`;
     });
-    Pop.card("card2", () => this.run());
+    const go = () => Pop.card("card2", () => { Voice.play(["wendy_L2_01", "kai_L2_02", "dingo_L2_03"]); this.run(); });
+    Theatre.seen.l2 ? go() : Theatre.show("l2", go);
   },
   async run() {
     const ep = STAGES[+document.getElementById("stage").value];
@@ -217,33 +219,40 @@ const Kitchen = {
   new(terrain) {
     return {terrain, p: [{x: 1, y: 2, f: "up", h: null}, {x: 3, y: 1, f: "up", h: null}],
       pots: Draw.cells(terrain, "P").map(() => ({n: 0, cooking: false, ready: false, t: 0, who: new Set()})),
-      counterObj: {}, soups: 0, coop: 0, bumps: 0};
+      counterObj: {}, soups: 0, coop: 0, bumps: 0, ev: []};
   },
+  COOK: 20,
   tile(k, x, y) { return (k.terrain[y] || "")[x]; },
+  emit(k, type, i, x, y) { k.ev.push({type, who: i, x, y}); },
   move(k, i, dir) {
     const p = k.p[i], [dx, dy] = Kitchen.DIRS[dir], nx = p.x + dx, ny = p.y + dy, o = k.p[1 - i];
     p.f = dir;
-    if (Kitchen.tile(k, nx, ny) !== " ") return;
-    if (o.x === nx && o.y === ny) { k.bumps++; return; }
-    p.x = nx; p.y = ny;
+    if (Kitchen.tile(k, nx, ny) !== " ") return false;
+    if (o.x === nx && o.y === ny) { k.bumps++; Kitchen.emit(k, "bump", i, nx, ny); return false; }
+    p.x = nx; p.y = ny; return true;
   },
   interact(k, i) {
     const p = k.p[i], [dx, dy] = Kitchen.DIRS[p.f], x = p.x + dx, y = p.y + dy, c = Kitchen.tile(k, x, y), key = x + "," + y;
-    if (c === "O" && !p.h) p.h = "onion";
-    else if (c === "D" && !p.h) p.h = "dish";
-    else if (c === "P") {
+    const ok = t => { Kitchen.emit(k, t, i, x, y); return true; };
+    if (c === "O" && !p.h) { p.h = "onion"; return ok("pick_onion"); }
+    if (c === "D" && !p.h) { p.h = "dish"; return ok("pick_dish"); }
+    if (c === "P") {
       const pot = k.pots[Draw.cells(k.terrain, "P").findIndex(([a, b]) => a === x && b === y)];
       if (p.h === "onion" && pot.n < 3 && !pot.cooking && !pot.ready) {
-        pot.n++; pot.who.add(i); p.h = null; if (pot.n === 3) { pot.cooking = true; pot.t = 20; }
-      } else if (p.h === "dish" && pot.ready) { p.h = "soup"; pot.who.add(i); p.soupWho = new Set(pot.who); Object.assign(pot, {n: 0, ready: false, who: new Set()}); }
+        pot.n++; pot.who.add(i); p.h = null; if (pot.n === 3) { pot.cooking = true; pot.t = Kitchen.COOK; } return ok("pot_onion");
+      } else if (p.h === "dish" && pot.ready) { p.h = "soup"; pot.who.add(i); p.soupWho = new Set(pot.who); Object.assign(pot, {n: 0, ready: false, who: new Set()}); return ok("pick_soup"); }
     } else if (c === "S" && p.h === "soup") {
-      p.h = null; k.soups++; p.soupWho.add(i); if (p.soupWho.size === 2) k.coop++;
+      p.h = null; k.soups++; p.soupWho.add(i); if (p.soupWho.size === 2) k.coop++; return ok("serve");
     } else if (c === "X") {
-      if (p.h && !k.counterObj[key]) { k.counterObj[key] = {o: p.h, who: i, soupWho: p.soupWho}; p.h = null; }
-      else if (!p.h && k.counterObj[key]) { const it = k.counterObj[key]; p.h = it.o; if (it.who !== i) k.coop++; p.soupWho = it.soupWho; delete k.counterObj[key]; }
+      if (p.h && !k.counterObj[key]) { k.counterObj[key] = {o: p.h, who: i, soupWho: p.soupWho}; p.h = null; return ok("drop"); }
+      else if (!p.h && k.counterObj[key]) { const it = k.counterObj[key]; p.h = it.o; if (it.who !== i) k.coop++; p.soupWho = it.soupWho; delete k.counterObj[key]; return ok("pick_" + it.o); }
     }
+    Kitchen.emit(k, "wrong", i, x, y); return false;
   },
-  tick(k) { k.pots.forEach(p => { if (p.cooking && --p.t <= 0) { p.cooking = false; p.ready = true; } }); },
+  tick(k) {
+    const cells = Draw.cells(k.terrain, "P");
+    k.pots.forEach((p, j) => { if (p.cooking && --p.t <= 0) { p.cooking = false; p.ready = true; Kitchen.emit(k, "ready", -1, ...cells[j]); } });
+  },
   frame(k, intent) {
     return {pots: k.pots, soups: k.soups, ev: [],
       counter: Object.entries(k.counterObj).map(([s, v]) => { const [x, y] = s.split(",").map(Number); return {x, y, o: v.o}; }),
@@ -308,21 +317,42 @@ const Partner = {
   },
 };
 
+// Interactive kitchen: 1280x720 logical canvas (CSS-scaled to the viewport), kitchen drawn at scale S.
 const L3 = {
-  rounds: [], questioned: 0,
+  rounds: [], questioned: 0, W: 1280, H: 720, S: 2, OX: 320, OY: 104 - TOP * 2,
+  WIN_SOUPS: 2,   // web/data/l4_threshold.json: trained Kai+Wendy make 2 soups in 80 partner steps (= this game's 60 s)
   start() {
-    this.ctx = document.getElementById("c3").getContext("2d");
-    Pop.card("card3", () => this.idle());
+    const c = document.getElementById("c3"); this.ctx = c.getContext("2d");
+    if (!this.bound) {
+      this.bound = true;
+      c.addEventListener("click", e => this.click(e));
+      document.getElementById("fsBtn").onclick = () => {
+        const w = document.getElementById("l3wrap");
+        document.fullscreenElement ? document.exitFullscreen() : (w.requestFullscreen && w.requestFullscreen());
+      };
+    }
+    this.idle();
+    const go = () => Pop.card("card3", () => Voice.play(Voice.ids("L3")));
+    Theatre.seen.l3 ? go() : Theatre.show("l3", go);
   },
   idle() {
-    this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]);
-    Draw.scene(this.ctx, this.k.terrain, Kitchen.frame(this.k, null), {bubble: false});
+    this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]); this.plan = null; this.timeLeft = 60; this.path = null;
+    Fx.live = []; this.loop();
+  },
+  loop() {
+    cancelAnimationFrame(this.raf);
+    const f = () => { if (App.cur !== "l3") return; this.render(); this.raf = requestAnimationFrame(f); };
+    this.raf = requestAnimationFrame(f);
   },
   begin() {
     this.stop(); this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]);
     this.bubbleOn = document.getElementById("bubbleOn").checked;
-    this.timeLeft = 60; this.ticks = 0; this.override = false; this.prompted = null; this.questionedRound = 0;
+    this.timeLeft = 60; this.ticks = 0; this.override = false; this.prompted = null; this.questionedRound = 0; this.path = null;
+    Fx.live = [];
     this.timer = setInterval(() => this.tick(), 250);
+    this.walker = setInterval(() => this.walk(), 170);
+    Voice.play(["dingo_L4_01"]);
+    this.loop();
     document.getElementById("c3").focus();
   },
   tick() {
@@ -337,34 +367,115 @@ const L3 = {
     if (plan.style !== "dashed") box.classList.add("hidden");
     if (this.ticks % 3 === 0) Partner.act(k, plan);       // partner moves at ~1.3 steps/s
     this.plan = plan;
-    if (this.ticks % 4 === 0) this.timeLeft--;
-    this.render();
+    if (this.ticks % 4 === 0) { this.timeLeft--; if (this.timeLeft <= 10 && this.timeLeft > 0) Sfx.play("tick", .7); }
+    Sfx.setLoop(k.pots.some(p => p.cooking));
+    this.feedback();
     if (this.timeLeft <= 0) this.end();
   },
+  // turn kitchen events into animations + sounds
+  feedback() {
+    const k = this.k, C = (x, y) => [x * T + T / 2, y * T + TOP + T / 2];
+    for (const e of k.ev.splice(0)) {
+      const p = e.who >= 0 ? k.p[e.who] : null, head = p ? [p.x * T + T / 2, (p._top || p.y * T + TOP) - 6] : null;
+      const [cx, cy] = C(e.x, e.y);
+      if (e.type === "pick_onion") { Fx.spawn("hud_pickup_onion", ...head, 44, 20, {rise: 20}); Sfx.play("pickup"); }
+      else if (e.type === "pick_dish") { Fx.spawn("hud_pickup_dish", ...head, 44, 20, {rise: 20}); Sfx.play("clink"); }
+      else if (e.type === "pick_soup") { Fx.spawn("hud_pickup_dish", ...head, 44, 20, {rise: 20}); Sfx.play("clink"); }
+      else if (e.type === "pot_onion") { Fx.spawn("hud_splash", cx, cy, 72, 24); Sfx.play("plop"); }
+      else if (e.type === "ready") Sfx.play("ding");
+      else if (e.type === "serve") { Fx.spawn("star_coin_fly", cx, cy - 40, 200, 24); Sfx.play("serve"); }
+      else if (e.type === "drop") Sfx.play("pickup", .5);
+      else if (e.type === "bump") { Fx.spawn(e.who ? "kai_confused" : "wendy_confused", ...head, 48, 24); }
+      else if (e.type === "wrong" && e.who === 0) { Fx.spawn("wrong_x", cx, cy, 44); Sfx.play("wrong"); }
+    }
+  },
   render() {
-    const k = this.k;
-    Draw.scene(this.ctx, k.terrain, Kitchen.frame(k, this.plan), {bubble: this.bubbleOn});
-    Draw.hud(this.ctx, [`${Lang.t("time")}: ${this.timeLeft}s   ${Lang.t("soups")}: ${k.soups}`]);
+    const k = this.k, ctx = this.ctx; if (!k) return;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "#fff8ec"; ctx.fillRect(0, 0, this.W, this.H);
+    ctx.imageSmoothingEnabled = true;
+    ctx.setTransform(this.S, 0, 0, this.S, this.OX, this.OY);
+    Draw.scene(ctx, k.terrain, Kitchen.frame(k, this.plan), {bubble: this.bubbleOn && !!this.plan});
+    // copy back sprite tops (used to place overhead pops)
+    k.p.forEach((p, i) => { const img = Assets.img[(i ? "partner_" : "player_") + p.f], w = Math.min(T, img.naturalWidth || T);
+      p._top = p.y * T + TOP + T - (img.naturalHeight || T) * w / (img.naturalWidth || T); });
+    Draw.cells(k.terrain, "P").forEach(([x, y], j) => {
+      const pot = k.pots[j]; if (!pot.cooking && !pot.ready) return;
+      const fr = Fx.frames.hud_cook_ring, i = pot.ready ? 39 : Math.min(38, Math.floor((1 - pot.t / Kitchen.COOK) * 39));
+      ctx.drawImage(fr[i], x * T + T - 26, y * T + TOP + 2, 24, 24);
+    });
+    if (this.path && this.path.goal) { const [gx, gy] = this.path.goal; ctx.strokeStyle = "#e9b824"; ctx.lineWidth = 2; ctx.setLineDash([4, 3]);
+      ctx.strokeRect(gx * T + 3, gy * T + TOP + 3, T - 6, T - 6); ctx.setLineDash([]); }
+    Fx.draw(ctx);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // HUD (logical 1280x720)
+    const tim = Fx.timer[Math.max(0, Math.min(60, this.timeLeft))];
+    if (tim) ctx.drawImage(tim, this.W - 300, 24, 270, 96);
+    ctx.fillStyle = "#4a3420"; ctx.font = "bold 34px sans-serif";
+    ctx.fillText(`${Lang.t("soups")}: ${k.soups}`, 36, 70);
+    ctx.font = "bold 20px sans-serif";
+    k.p.forEach((p, i) => { ctx.fillStyle = i ? "#2a7d72" : "#b8860b"; ctx.textAlign = "center";
+      ctx.fillText(i ? "Kai" : "Wendy", this.OX + (p.x * T + T / 2) * this.S, this.OY + ((p.y + 1) * T + TOP) * this.S - 4); });
+    ctx.textAlign = "left";
     document.getElementById("l3stats").textContent =
-      `${Lang.t("recap_coop")}: ${k.coop}\n${Lang.t("recap_bumps")}: ${k.bumps}\n${Lang.t("recap_questioned")}: ${this.questionedRound}`;
+      `${Lang.t("recap_coop")}: ${k.coop}\n${Lang.t("recap_bumps")}: ${k.bumps}\n${Lang.t("recap_questioned")}: ${this.questionedRound || 0}`;
   },
   key(e) {
-    if (!this.timer) return;
-    const m = {ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right"}[e.key];
-    if (m) { Kitchen.move(this.k, 0, m); e.preventDefault(); }
-    else if (e.key === " ") { Kitchen.interact(this.k, 0); e.preventDefault(); }
+    if (!this.timer || App.cur !== "l3") return;
+    const m = {ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right",
+               W: "up", S: "down", A: "left", D: "right"}[e.key];
+    if (m) { this.path = null; Kitchen.move(this.k, 0, m); e.preventDefault(); }
+    else if (e.key === " ") { this.path = null; Kitchen.interact(this.k, 0); e.preventDefault(); }
     else return;
-    this.render();
+    this.feedback();
+  },
+  // click/tap a tile -> BFS walk there; if it's a station/counter, face it and interact on arrival
+  click(e) {
+    if (!this.timer) return;
+    const c = e.currentTarget, r = c.getBoundingClientRect();
+    const lx = (e.clientX - r.left) * this.W / r.width, ly = (e.clientY - r.top) * this.H / r.height;
+    const gx = Math.floor((lx - this.OX) / this.S / T), gy = Math.floor(((ly - this.OY) / this.S - TOP) / T);
+    const t = Kitchen.tile(this.k, gx, gy); if (t === undefined) return;
+    const me = this.k.p[0], key = (x, y) => x + "," + y, prev = {[key(me.x, me.y)]: null}, q = [[me.x, me.y]];
+    const station = t !== " ";
+    let end = null;
+    while (q.length) {
+      const [x, y] = q.shift();
+      if (station ? Math.abs(x - gx) + Math.abs(y - gy) === 1 : (x === gx && y === gy)) { end = [x, y]; break; }
+      for (const [dx, dy] of Object.values(Kitchen.DIRS)) {
+        const nx = x + dx, ny = y + dy, o = this.k.p[1];
+        if (Kitchen.tile(this.k, nx, ny) !== " " || key(nx, ny) in prev || (o.x === nx && o.y === ny)) continue;
+        prev[key(nx, ny)] = [x, y]; q.push([nx, ny]);
+      }
+    }
+    if (!end) { Fx.spawn("wrong_x", gx * T + T / 2, gy * T + TOP + T / 2, 44); Sfx.play("wrong"); return; }
+    const steps = []; let cur = end;
+    while (prev[key(...cur)]) { const p = prev[key(...cur)]; steps.unshift(Object.keys(Kitchen.DIRS).find(d => Kitchen.DIRS[d][0] === cur[0] - p[0] && Kitchen.DIRS[d][1] === cur[1] - p[1])); cur = p; }
+    if (station) steps.push(Object.keys(Kitchen.DIRS).find(d => Kitchen.DIRS[d][0] === gx - end[0] && Kitchen.DIRS[d][1] === gy - end[1]), "act");
+    this.path = {steps, goal: [gx, gy]};
+  },
+  walk() {
+    if (!this.path || !this.timer) return;
+    const s = this.path.steps.shift();
+    if (s === undefined) { this.path = null; return; }
+    if (s === "act") { Kitchen.interact(this.k, 0); this.path = null; }
+    else if (this.path.steps[0] === "act" && this.path.steps.length === 1) this.k.p[0].f = s;   // final turn to face the station
+    else if (!Kitchen.move(this.k, 0, s)) this.path = null;                                  // blocked (e.g. Kai moved in): stop
+    this.feedback();
   },
   agree() { document.getElementById("unsureBox").classList.add("hidden"); },
   disagree() { this.override = true; this.questioned++; this.questionedRound++; document.getElementById("unsureBox").classList.add("hidden"); },
-  end() {
-    this.stop();
+  async end() {
+    this.stop(); Sfx.setLoop(false);
     const k = this.k;
     this.rounds.push({bubble: this.bubbleOn, soups: k.soups, coop: k.coop, bumps: k.bumps, q: this.questionedRound});
-    Recap.show(this.rounds);
+    const win = k.soups >= this.WIN_SOUPS;
+    await Voice.play(win ? ["kai_L4_02", "wendy_L4_03", "dingo_L4_04_a", {say: String(k.soups)}, "dingo_L4_04_b"]
+                         : ["kai_L4_05", "wendy_L4_06", "dingo_L4_07"]);
+    if (App.cur === "l3") Recap.show(this.rounds);
   },
-  stop() { clearInterval(this.timer); this.timer = null; document.getElementById("unsureBox").classList.add("hidden"); },
+  stop() { clearInterval(this.timer); clearInterval(this.walker); this.timer = null; this.path = null; Sfx.setLoop(false);
+    document.getElementById("unsureBox").classList.add("hidden"); },
 };
 
 // ---------- recap (real counts from the rounds played in L3) ----------
@@ -386,14 +497,16 @@ const Recap = {
 const App = {
   cur: "menu",
   go(id) {
-    [L1, L2, L3, Team].forEach(l => l.stop && l.stop());
+    [L1, L2, L3, Team].forEach(l => l.stop && l.stop()); Voice.stop();
     document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
     this.cur = id;
     ({l1: L1, l2: L2, l3: L3, team: Team}[id] || {start() {}}).start();
   },
   refresh() { if (this.cur === "recap" && L3.rounds.length) Recap.show(L3.rounds); },
   async init() {
-    await Assets.load();
+    await Promise.all([Assets.load(), Fx.load(), Sfx.load(), Voice.load()]);
+    document.getElementById("muteBtn").onclick = () => Sfx.toggle(); document.getElementById("muteBtn").textContent = Sfx.muted ? "🔇" : "🔊";
+    document.querySelectorAll("[data-theatre]").forEach(b => b.onclick = () => Theatre.show(b.dataset.theatre));
     document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => this.go(b.dataset.go));
     document.querySelectorAll("[data-q]").forEach(b => b.onclick = () => Pop.question(b.dataset.q));
     document.getElementById("langBtn").onclick = () => { Lang.cur = Lang.cur === "zh" ? "en" : "zh"; Lang.apply(); };
@@ -406,6 +519,8 @@ const App = {
     document.getElementById("disagree").onclick = () => L3.disagree();
     window.addEventListener("keydown", e => L3.key(e));
     Lang.apply(); this.go("menu");
+    // opening plays on the first click on the menu (audio needs a user gesture)
+    window.addEventListener("pointerdown", e => { if (!Theatre.seen.intro && this.cur === "menu" && !e.target.closest("[data-go],[data-theatre],#langBtn,#muteBtn")) Theatre.show("intro"); }, {once: true});
   },
 };
 App.init();

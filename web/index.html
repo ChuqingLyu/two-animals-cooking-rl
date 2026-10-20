@@ -10,6 +10,7 @@
   <h1 data-t="title"></h1>
   <nav>
     <button data-go="menu" data-t="nav_menu"></button>
+    <button id="muteBtn" title="Sound on/off">🔊</button>
     <button id="langBtn">EN</button>
   </nav>
 </header>
@@ -21,6 +22,7 @@
       <button data-go="l3"><b>3</b> <span data-t="l3_name"></span></button>
       <button data-go="team"><b>+</b> <span data-t="team_name"></span></button>
     </div>
+    <button data-theatre="intro" data-t="watch_opening"></button>
     <p class="note" data-t="menu_note"></p>
   </section>
 
@@ -35,6 +37,7 @@
         <p class="small" data-t="l1_precomputed"></p>
         <div id="l1stats" class="stats"></div>
         <button id="l1play" data-t="replay"></button>
+        <button data-theatre="l1" data-t="watch_again"></button>
         <button class="ask" data-q="q1" data-t="ask"></button>
       </div>
     </div>
@@ -49,27 +52,32 @@
         <div id="stageLabel" class="stats"></div>
         <label><input type="checkbox" id="trail" checked> <span data-t="l2_trail"></span></label>
         <div id="l2stats" class="stats"></div>
+        <button data-theatre="l2" data-t="watch_again"></button>
         <button class="ask" data-q="q2" data-t="ask"></button>
       </div>
     </div>
   </section>
 
   <section id="l3" class="screen">
-    <div class="row">
-      <canvas id="c3" width="320" height="320" tabindex="0"></canvas>
-      <div class="panel">
-        <p class="hint" data-t="l3_keys"></p>
-        <label><input type="checkbox" id="bubbleOn" checked> <span data-t="l3_bubble"></span></label>
+    <div class="toolbar">
+      <button id="l3start" data-t="l3_start"></button>
+      <label><input type="checkbox" id="bubbleOn" checked> <span data-t="l3_bubble"></span></label>
+      <span class="hint" data-t="l3_keys"></span>
+      <button data-theatre="l3" data-t="watch_again"></button>
+      <button id="fsBtn" title="Fullscreen">⛶</button>
+    </div>
+    <div id="l3wrap">
+      <canvas id="c3" width="1280" height="720" tabindex="0"></canvas>
+      <div class="l3side">
         <div id="l3stats" class="stats"></div>
         <div id="unsureBox" class="unsure hidden">
           <p data-t="l3_unsure"></p>
           <button id="agree" data-t="l3_follow"></button>
           <button id="disagree" data-t="l3_ignore"></button>
         </div>
-        <button id="l3start" data-t="l3_start"></button>
-        <p class="small" data-t="l3_note"></p>
       </div>
     </div>
+    <p class="small" data-t="l3_note"></p>
   </section>
 
   <section id="recap" class="screen">
@@ -106,7 +114,13 @@
     </div>
   </div>
 </div>
+<div id="theatre" class="hidden">
+  <video id="theatreVideo" playsinline muted preload="auto"></video>
+  <button id="theatreSkip" data-t="skip"></button>
+</div>
+<div id="subtitle" class="hidden"></div>
 <script src="i18n.js"></script>
+<script src="fx.js"></script>
 <script src="game.js"></script>
 </body>
 </html>

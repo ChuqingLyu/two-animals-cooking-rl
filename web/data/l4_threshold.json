@@ -1,0 +1,142 @@
+{
+ "model": "code/results_presets/soup_shaped_s7/ckpt/vdn_ep200.pt",
+ "layout": "cramped_room",
+ "kai_agent_index": 1,
+ "policy": "greedy argmax (eps=0); 10 rollouts, seeds 0-9, random start positions (overcooked random_start_pos)",
+ "tick_rate_note": "web/game.js L3: tick every 250ms (4 ticks/s), timer -1s every 4 ticks, AI partner acts every 3 ticks (~1.33 steps/s), pot cooks 20 ticks. So 60s = 240 game ticks but only 80 partner steps. Reported at 80 (web partner pace), 240 (web tick count) and 400 (overcooked default horizon).",
+ "results": {
+  "stay_80": {
+   "steps": 80,
+   "partner": "stay",
+   "soups": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "mean": 0.0,
+   "min": 0,
+   "max": 0
+  },
+  "trained_wendy_80": {
+   "steps": 80,
+   "partner": "trained_wendy",
+   "soups": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "mean": 2.0,
+   "min": 2,
+   "max": 2
+  },
+  "stay_240": {
+   "steps": 240,
+   "partner": "stay",
+   "soups": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "mean": 0.0,
+   "min": 0,
+   "max": 0
+  },
+  "trained_wendy_240": {
+   "steps": 240,
+   "partner": "trained_wendy",
+   "soups": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9
+   ],
+   "mean": 9.0,
+   "min": 9,
+   "max": 9
+  },
+  "stay_400": {
+   "steps": 400,
+   "partner": "stay",
+   "soups": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "mean": 0.0,
+   "min": 0,
+   "max": 0
+  },
+  "trained_wendy_400": {
+   "steps": 400,
+   "partner": "trained_wendy",
+   "soups": [
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16,
+    16
+   ],
+   "mean": 16.0,
+   "min": 16,
+   "max": 16
+  }
+ },
+ "observation": "Greedy policy is deterministic and converges to the same cycle regardless of start, so min=max. Kai with a STAY partner delivers 0 soups at every horizon (the trained policy relies on Wendy).",
+ "suggested_threshold": {
+  "web_pace_80_steps": {
+   "kai_with_trained_wendy": 2,
+   "win_soups": 2,
+   "pass_soups": 1,
+   "rationale": "child+Kai should match the trained pair (2) at web pace; 1 soup = partial credit since Kai alone makes 0"
+  },
+  "if_L4_runs_240_steps": {
+   "kai_with_trained_wendy": 9,
+   "win_soups": 7,
+   "rationale": "~80% of trained-pair level"
+  },
+  "if_L4_runs_400_steps": {
+   "kai_with_trained_wendy": 16,
+   "win_soups": 12,
+   "rationale": "~75% of trained-pair level"
+  }
+ }
+}

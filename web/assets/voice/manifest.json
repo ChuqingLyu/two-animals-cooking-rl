@@ -1,0 +1,378 @@
+[
+ {
+  "file": "dingo_L0_01.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 1,
+  "text": "Welcome to my kitchen! Have you ever made onion soup? Let's make one together.",
+  "note": ""
+ },
+ {
+  "file": "dingo_L0_02.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 2,
+  "text": "First, grab an onion.",
+  "note": ""
+ },
+ {
+  "file": "dingo_L0_03.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 3,
+  "text": "Now drop it in the pot.",
+  "note": ""
+ },
+ {
+  "file": "dingo_L0_04.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 4,
+  "text": "Let it cook for a bit.",
+  "note": ""
+ },
+ {
+  "file": "dingo_L0_05.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 5,
+  "text": "Grab a plate.",
+  "note": ""
+ },
+ {
+  "file": "dingo_L0_06.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 6,
+  "text": "Serve it right here!",
+  "note": ""
+ },
+ {
+  "file": "dingo_L0_07.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 7,
+  "text": "You did it! That's a perfect bowl. You're officially a Soup Master!",
+  "note": ""
+ },
+ {
+  "file": "wendy_L0_08.mp3",
+  "character": "wendy",
+  "level": "L0",
+  "index": 8,
+  "text": "Hi! I'm Wendy, nice to meet you! Ooh, is that soup? It smells amazing!",
+  "note": "冲进门"
+ },
+ {
+  "file": "kai_L0_09.mp3",
+  "character": "kai",
+  "level": "L0",
+  "index": 9,
+  "text": "Um... hello. I'm Kai. We're new here... could you show us how to make soup?",
+  "note": "慢慢跟进来"
+ },
+ {
+  "file": "dingo_L0_10.mp3",
+  "character": "dingo",
+  "level": "L0",
+  "index": 10,
+  "text": "They're my new apprentices. They can't learn just by watching. They learn from stars. Every time they do a step right, you give them a star. Will you teach them?",
+  "note": ""
+ },
+ {
+  "file": "dingo_L1_01.mp3",
+  "character": "dingo",
+  "level": "L1",
+  "index": 1,
+  "text": "Pick the steps that deserve a star, then press Train.",
+  "note": ""
+ },
+ {
+  "file": "wendy_L1_02.mp3",
+  "character": "wendy",
+  "level": "L1",
+  "index": 2,
+  "text": "Onions! More onions! I love onions!",
+  "note": "只奖励拿洋葱"
+ },
+ {
+  "file": "kai_L1_03.mp3",
+  "character": "kai",
+  "level": "L1",
+  "index": 3,
+  "text": "Um... I think we have too many onions...",
+  "note": "只奖励拿洋葱"
+ },
+ {
+  "file": "kai_L1_04.mp3",
+  "character": "kai",
+  "level": "L1",
+  "index": 4,
+  "text": "I want a star... but how do I get one?",
+  "note": "只奖励端汤，训练中"
+ },
+ {
+  "file": "dingo_L1_05.mp3",
+  "character": "dingo",
+  "level": "L1",
+  "index": 5,
+  "text": "It took them a long time to find their first star.",
+  "note": "只奖励端汤，学会后"
+ },
+ {
+  "file": "wendy_L1_06.mp3",
+  "character": "wendy",
+  "level": "L1",
+  "index": 6,
+  "text": "We did it! Soup's up!",
+  "note": "学会全流程"
+ },
+ {
+  "file": "dingo_L1_07.mp3",
+  "character": "dingo",
+  "level": "L1",
+  "index": 7,
+  "text": "See? They learn whatever you reward. Nice work!",
+  "note": ""
+ },
+ {
+  "file": "wendy_L2_01.mp3",
+  "character": "wendy",
+  "level": "L2",
+  "index": 1,
+  "text": "I know you gave me stars for soup... but what's over there? I just have to check!",
+  "note": ""
+ },
+ {
+  "file": "kai_L2_02.mp3",
+  "character": "kai",
+  "level": "L2",
+  "index": 2,
+  "text": "Wendy, wait for me!",
+  "note": ""
+ },
+ {
+  "file": "dingo_L2_03.mp3",
+  "character": "dingo",
+  "level": "L2",
+  "index": 3,
+  "text": "They're very curious. Try turning their curiosity up or down.",
+  "note": ""
+ },
+ {
+  "file": "wendy_L2_04.mp3",
+  "character": "wendy",
+  "level": "L2",
+  "index": 4,
+  "text": "Wheee! Everything is so interesting!",
+  "note": "好奇心高，训练中乱跑"
+ },
+ {
+  "file": "kai_L2_05.mp3",
+  "character": "kai",
+  "level": "L2",
+  "index": 5,
+  "text": "Um... I'll just stay here. I don't want to try anything new.",
+  "note": "好奇心为 0"
+ },
+ {
+  "file": "dingo_L2_06.mp3",
+  "character": "dingo",
+  "level": "L2",
+  "index": 6,
+  "text": "If they never try anything, they never find a star.",
+  "note": "好奇心为 0"
+ },
+ {
+  "file": "dingo_L2_07.mp3",
+  "character": "dingo",
+  "level": "L2",
+  "index": 7,
+  "text": "A little curious at first, then focused. That's how they find the best path. Trying lots of things at the start really helps!",
+  "note": "中间档"
+ },
+ {
+  "file": "dingo_L3_01.mp3",
+  "character": "dingo",
+  "level": "L3",
+  "index": 1,
+  "text": "Wow, you taught them well. Ready for the soup contest? First, how sure are you that we'll win?",
+  "note": ""
+ },
+ {
+  "file": "dingo_L3_02.mp3",
+  "character": "dingo",
+  "level": "L3",
+  "index": 2,
+  "text": "Now let's ask Wendy and Kai.",
+  "note": ""
+ },
+ {
+  "file": "wendy_L3_03.mp3",
+  "character": "wendy",
+  "level": "L3",
+  "index": 3,
+  "text": "Totally! I know exactly where the onions are!",
+  "note": "有把握"
+ },
+ {
+  "file": "kai_L3_04.mp3",
+  "character": "kai",
+  "level": "L3",
+  "index": 4,
+  "text": "Um... I'm not so sure about the plates...",
+  "note": "没把握"
+ },
+ {
+  "file": "dingo_L4_01.mp3",
+  "character": "dingo",
+  "level": "L4",
+  "index": 1,
+  "text": "You'll play as Wendy. Kai is counting on you. Ready... cook!",
+  "note": ""
+ },
+ {
+  "file": "kai_L4_02.mp3",
+  "character": "kai",
+  "level": "L4",
+  "index": 2,
+  "text": "We actually did it!",
+  "note": "成功"
+ },
+ {
+  "file": "wendy_L4_03.mp3",
+  "character": "wendy",
+  "level": "L4",
+  "index": 3,
+  "text": "Best team ever!",
+  "note": "成功"
+ },
+ {
+  "file": "dingo_L4_04_a.mp3",
+  "character": "dingo",
+  "level": "L4",
+  "index": 4,
+  "text": "Your team made",
+  "note": "成功 [number inserted between _a and _b]"
+ },
+ {
+  "file": "dingo_L4_04_b.mp3",
+  "character": "dingo",
+  "level": "L4",
+  "index": 4,
+  "text": "bowls. Great teamwork!",
+  "note": "成功 [number inserted between _a and _b]"
+ },
+ {
+  "file": "kai_L4_05.mp3",
+  "character": "kai",
+  "level": "L4",
+  "index": 5,
+  "text": "Um... that was hard. I'll do my best next time.",
+  "note": "失败"
+ },
+ {
+  "file": "wendy_L4_06.mp3",
+  "character": "wendy",
+  "level": "L4",
+  "index": 6,
+  "text": "Let's try again! I know we can do it!",
+  "note": "失败"
+ },
+ {
+  "file": "dingo_L4_07.mp3",
+  "character": "dingo",
+  "level": "L4",
+  "index": 7,
+  "text": "Close! Want another round?",
+  "note": "失败"
+ },
+ {
+  "file": "wendy_C1_01.mp3",
+  "character": "wendy",
+  "level": "C1",
+  "index": 1,
+  "text": "Whoa! I got a star! What did I do?",
+  "note": ""
+ },
+ {
+  "file": "dingo_C1_02.mp3",
+  "character": "dingo",
+  "level": "C1",
+  "index": 2,
+  "text": "You put an onion in the pot. Stars tell you 'that was good, do it again!'",
+  "note": ""
+ },
+ {
+  "file": "kai_C1_03.mp3",
+  "character": "kai",
+  "level": "C1",
+  "index": 3,
+  "text": "Um... so if I want more stars, I do more of that?",
+  "note": ""
+ },
+ {
+  "file": "dingo_C1_04.mp3",
+  "character": "dingo",
+  "level": "C1",
+  "index": 4,
+  "text": "Exactly. That's called a reward.",
+  "note": ""
+ },
+ {
+  "file": "kai_C2_01.mp3",
+  "character": "kai",
+  "level": "C2",
+  "index": 1,
+  "text": "I always go this way. It's... a long way, but I know it.",
+  "note": ""
+ },
+ {
+  "file": "wendy_C2_02.mp3",
+  "character": "wendy",
+  "level": "C2",
+  "index": 2,
+  "text": "Ooh, what's that? I found a shortcut!",
+  "note": ""
+ },
+ {
+  "file": "dingo_C2_03.mp3",
+  "character": "dingo",
+  "level": "C2",
+  "index": 3,
+  "text": "Trying something new is called exploring. Sometimes it's a mess, sometimes you find something better.",
+  "note": ""
+ },
+ {
+  "file": "dingo_C3_01.mp3",
+  "character": "dingo",
+  "level": "C3",
+  "index": 1,
+  "text": "After lots of practice, they have a plan in their heads. That's their strategy.",
+  "note": ""
+ },
+ {
+  "file": "wendy_C3_02.mp3",
+  "character": "wendy",
+  "level": "C3",
+  "index": 2,
+  "text": "I know where to go every time!",
+  "note": ""
+ },
+ {
+  "file": "kai_C3_03.mp3",
+  "character": "kai",
+  "level": "C3",
+  "index": 3,
+  "text": "Um... I'm sure about the onions, but not the plates yet.",
+  "note": ""
+ },
+ {
+  "file": "dingo_C3_04.mp3",
+  "character": "dingo",
+  "level": "C3",
+  "index": 4,
+  "text": "The clearer the bubble, the surer they are.",
+  "note": ""
+ }
+]
