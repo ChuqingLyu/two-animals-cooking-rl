@@ -128,7 +128,13 @@ const Pop = {
     Pop.show(Lang.t(key + "_title"), Lang.t(key), null, then);
     const img = document.createElement("img");
     img.src = "assets/cards/knowledge_card_" + Pop.CARD_IMG[key] + "_v2.png";
-    img.alt = Lang.t(key + "_title"); img.style.cssText = "display:block;max-width:100%;margin-top:8px;border-radius:8px";
+    img.alt = Lang.t(key + "_title") + ": " + Lang.t(key);
+    img.style.cssText = "display:block;width:380px;max-width:80vw;border-radius:10px";
+    if (Lang.cur === "en") {
+      document.getElementById("popTitle").textContent = "";
+      document.getElementById("popBody").textContent = "";
+      document.getElementById("owl").style.display = "none";
+    }
     document.getElementById("popBody").appendChild(img);
   },
   CARD_IMG: {card1: 1, card2: 2, card3: 4, card4: 3},
@@ -148,6 +154,7 @@ const Pop = {
     document.getElementById("popTitle").textContent = title;
     document.getElementById("popBody").textContent = body;
     document.getElementById("owl").src = Assets.img.owl.src;
+    document.getElementById("owl").style.display = "";
     document.getElementById("overlay").classList.remove("hidden");
     document.getElementById("popClose").onclick = () => { document.getElementById("overlay").classList.add("hidden"); then && then(); };
   },
