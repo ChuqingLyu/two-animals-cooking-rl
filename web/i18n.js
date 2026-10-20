@@ -48,7 +48,7 @@ en: {
   l1_precomputed: "(Each setting was really trained for 100 episodes; you see the trained result.)",
   q1: "Why does it want to make soup?",
   q1_choices: ["It likes eating soup", "Serving soup gives lots of reward", "Someone told it the steps"],
-  q1_right: 1, q1_fb: ["The bear doesn't know what soup is. Think about points? (placeholder)", "Yes! Serving soup gives the most reward. (placeholder)", "Nobody taught it; it learned from reward. (placeholder)"],
+  q1_right: 1, q1_fb: ["The monster doesn't know what soup is. Think about points? (placeholder)", "Yes! Serving soup gives the most reward. (placeholder)", "Nobody taught it; it learned from reward. (placeholder)"],
   card2_title: "Exploring",
   card2: "Try random moves first, then keep the best path.",
   l2_slider: "Drag to train it more.", l2_trail: "Show footprints",
