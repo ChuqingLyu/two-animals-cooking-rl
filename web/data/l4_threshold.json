@@ -138,5 +138,147 @@
    "win_soups": 12,
    "rationale": "~75% of trained-pair level"
   }
+ },
+ "browser_L4": {
+  "note": "Measured in the web game (headless Chromium), 60 s = 240 ticks, Kai acts every 3rd tick (80 steps), overcooked pot rules in L4 (empty-hand interact starts cooking any 1-3 onion soup, 20 Kai-steps cook). Kai = trained soup_shaped s7 net (web/kai.js, greedy, agent 1). 10 runs = 5 Wendy start cells x 2 facings. 'rule_1_3' = rule planner Wendy at Kai's pace, 'rule_4_3' = every tick (child-like speed), 'net_1_3' = trained Wendy net (agent 0).",
+  "results": {
+   "kai_net+wendy_idle": {
+    "soups": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "mean": 0,
+    "min": 0,
+    "max": 0
+   },
+   "kai_net+wendy_net_1_3": {
+    "soups": [
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    "mean": 2,
+    "min": 2,
+    "max": 2
+   },
+   "kai_net+wendy_rule_1_3": {
+    "soups": [
+     3,
+     3,
+     3,
+     3,
+     2,
+     2,
+     2,
+     2,
+     3,
+     3
+    ],
+    "mean": 2.6,
+    "min": 2,
+    "max": 3
+   },
+   "kai_net+wendy_rule_4_3": {
+    "soups": [
+     3,
+     3,
+     3,
+     3,
+     2,
+     2,
+     2,
+     2,
+     1,
+     1
+    ],
+    "mean": 2.2,
+    "min": 1,
+    "max": 3
+   },
+   "kai_rule+wendy_idle": {
+    "soups": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     2,
+     2,
+     0,
+     0
+    ],
+    "mean": 0.6,
+    "min": 0,
+    "max": 2
+   },
+   "kai_rule+wendy_net_1_3": {
+    "soups": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ],
+    "mean": 3,
+    "min": 3,
+    "max": 3
+   },
+   "kai_rule+wendy_rule_1_3": {
+    "soups": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "mean": 0,
+    "min": 0,
+    "max": 0
+   },
+   "kai_rule+wendy_rule_4_3": {
+    "soups": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "mean": 0,
+    "min": 0,
+    "max": 0
+   }
+  },
+  "threshold_check": "Kai-net + trained Wendy in browser = 2 (identical to Python at 80 steps); Kai-net + rule Wendy mean 2.6 (min 2) at Kai pace, 2.2 (min 1) at 4 steps/s; Kai alone = 0. Win >= 2 stays sensible; 1 = partial."
  }
 }

@@ -201,14 +201,15 @@ const Kitchen = {
     if (c === "D" && !p.h) { p.h = "dish"; return ok("pick_dish"); }
     if (c === "P") {
       const pot = k.pots[Draw.cells(k.terrain, "P").findIndex(([a, b]) => a === x && b === y)];
+      if (!p.h && k.manualStart && pot.n >= 1 && !pot.cooking && !pot.ready) { pot.cooking = true; pot.t = k.cook; pot.who.add(i); return ok("start_cook"); }
       if (p.h === "onion" && pot.n < k.cap && !pot.cooking && !pot.ready) {
-        pot.n++; pot.who.add(i); p.h = null; if (pot.n === k.cap) { pot.cooking = true; pot.t = k.cook; } return ok("pot_onion");
-      } else if (p.h === "dish" && pot.ready) { p.h = "soup"; pot.who.add(i); p.soupWho = new Set(pot.who); Object.assign(pot, {n: 0, ready: false, who: new Set()}); return ok("pick_soup"); }
+        pot.n++; pot.who.add(i); p.h = null; if (pot.n === k.cap && !k.manualStart) { pot.cooking = true; pot.t = k.cook; } return ok("pot_onion");
+      } else if (p.h === "dish" && pot.ready) { p.h = "soup"; p.soupN = pot.n; pot.who.add(i); p.soupWho = new Set(pot.who); Object.assign(pot, {n: 0, ready: false, who: new Set()}); return ok("pick_soup"); }
     } else if (c === "S" && p.h === "soup") {
       p.h = null; k.soups++; p.soupWho.add(i); if (p.soupWho.size === 2) k.coop++; return ok("serve");
     } else if (c === "X") {
-      if (p.h && !k.counterObj[key]) { k.counterObj[key] = {o: p.h, who: i, soupWho: p.soupWho}; p.h = null; return ok("drop"); }
-      else if (!p.h && k.counterObj[key]) { const it = k.counterObj[key]; p.h = it.o; if (it.who !== i) k.coop++; p.soupWho = it.soupWho; delete k.counterObj[key]; return ok("pick_" + it.o); }
+      if (p.h && !k.counterObj[key]) { k.counterObj[key] = {o: p.h, who: i, soupWho: p.soupWho, soupN: p.soupN}; p.h = null; return ok("drop"); }
+      else if (!p.h && k.counterObj[key]) { const it = k.counterObj[key]; p.h = it.o; if (it.who !== i) k.coop++; p.soupWho = it.soupWho; p.soupN = it.soupN; delete k.counterObj[key]; return ok("pick_" + it.o); }
     }
     Kitchen.emit(k, "wrong", i, x, y); return false;
   },
@@ -230,12 +231,13 @@ const Partner = {
     if (held === "onion") return need ? ["pot"] : ["counter"];
     if (held === "dish") return ["soup"];
     if (held === "soup") return ["serve"];
+    if (!held && k.manualStart && k.pots.some(p => p.n >= k.cap && !p.cooking && !p.ready)) return ["start"];
     const c = []; if (coming) c.push("dish"); if (need) c.push("onion");
     // pot half full: fetching a dish early is also reasonable -> two plausible jobs
     if (!coming && k.pots.some(p => p.n >= 1 && p.n < 3) && !k.p.some(p => p.h === "dish")) c.push("dish"); return c.length ? c : ["onion"];
   },
   targetTiles(k, goal) {
-    const ch = {onion: "O", dish: "D", pot: "P", soup: "P", serve: "S", counter: "X"}[goal];
+    const ch = {onion: "O", dish: "D", pot: "P", soup: "P", start: "P", serve: "S", counter: "X"}[goal];
     let cells = Draw.cells(k.terrain, ch);
     if (goal === "counter") cells = cells.filter(([x, y]) => !k.counterObj[x + "," + y]);
     return cells;
@@ -267,7 +269,7 @@ const Partner = {
     // low confidence: more than one sensible job and the child is empty-handed (ambiguous split), or child blocks the path
     const ambiguous = c.length > 1 && !kid.h, blocked = dAvoid > dFree;
     const conf = ambiguous || blocked ? 0.35 : 0.9;
-    return {goal, icon: goal === "counter" ? "unsure" : goal, conf, style: conf >= .5 ? "solid" : "dashed", alts: c.length};
+    return {goal, icon: goal === "counter" ? "unsure" : goal === "start" ? "pot" : goal, conf, style: conf >= .5 ? "solid" : "dashed", alts: c.length};
   },
   act(k, plan) {
     const me = k.p[1], [first, , face] = Partner.bfs(k, me, Partner.targetTiles(k, plan.goal), k.p[0]);
@@ -309,7 +311,7 @@ class KitchenGame {
   reset() {
     this.stop(); const k = this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]);
     if (this.o.solo) { k.p[1].x = -9; k.p[1].y = -9; }
-    if (this.o.cap) k.cap = this.o.cap; if (this.o.cook) k.cook = this.o.cook;
+    if (this.o.cap) k.cap = this.o.cap; if (this.o.cook) k.cook = this.o.cook; k.manualStart = !!this.o.manualStart;
     this.timeLeft = this.o.seconds || null; this.ticks = 0; this.plan = null; this.path = null; Fx.live = [];
     this.loop();
   }
@@ -329,13 +331,30 @@ class KitchenGame {
     const k = this.k; this.ticks++;
     Kitchen.tick(k);
     if (!this.o.solo) {
-      this.plan = Partner.plan(k, false);
-      if (this.ticks % 3 === 0) Partner.act(k, this.plan);   // Kai moves at ~1.3 steps/s (80 steps per 60 s round)
+      this.plan = Partner.plan(k, false);                    // bubble icon (and the fallback controller)
+      if (this.ticks % 3 === 0) {                            // Kai moves at ~1.3 steps/s (80 steps per 60 s round)
+        if (this.o.useNet && this.o.useNet() && KaiNet.ready) this.netAct(); else Partner.act(k, this.plan);
+      }
+      this.o.wendyHook && this.o.wendyHook(k, this.ticks);   // test hook (scripted Wendy for measurements)
     }
     if (this.timeLeft !== null && this.ticks % 4 === 0) { this.timeLeft--; if (this.timeLeft <= 10 && this.timeLeft > 0) Sfx.play("tick", .7); }
     Sfx.setLoop(k.pots.some(p => p.cooking));
     this.feedback();
     if (this.timeLeft !== null && this.timeLeft <= 0) { this.stop(); this.o.onEnd && this.o.onEnd(k); }
+  }
+  // exact map of the web kitchen to an overcooked OvercookedState (cramped_room), see web/kai.js
+  ocState() {
+    const k = this.k, O = {up: 0, down: 1, right: 2, left: 3}, objects = [];
+    Draw.cells(k.terrain, "P").forEach(([x, y], j) => { const p = k.pots[j];
+      if (p.n) objects.push({name: "soup", x, y, n: p.n, idle: !p.cooking && !p.ready, ready: p.ready, rem: p.cooking ? Math.ceil(p.t / 3) : 0}); });
+    for (const [s, v] of Object.entries(k.counterObj)) { const [x, y] = s.split(",").map(Number);
+      objects.push(v.o === "soup" ? {name: "soup", x, y, n: v.soupN || 3, idle: false, ready: true, rem: 0} : {name: v.o, x, y}); }
+    return {p: k.p.map(p => ({x: p.x, y: p.y, o: O[p.f], h: p.h, n: p.h === "soup" ? (p.soupN || 3) : undefined})), objects};
+  }
+  netAct() {
+    const r = KaiNet.act(this.ocState(), 1); this.lastQ = r.q;
+    if (r.action === "interact") Kitchen.interact(this.k, 1);
+    else if (r.action !== "stay") Kitchen.move(this.k, 1, r.action);
   }
   feedback() {
     const k = this.k, C = (x, y) => [x * T + T / 2, y * T + TOP + T / 2];
@@ -344,6 +363,7 @@ class KitchenGame {
       const [cx, cy] = C(e.x, e.y);
       if (e.type === "pick_onion") { Fx.spawn("hud_pickup_onion", ...head, 44, 20, {rise: 20}); Sfx.play("pickup"); }
       else if (e.type === "pick_dish" || e.type === "pick_soup") { Fx.spawn("hud_pickup_dish", ...head, 44, 20, {rise: 20}); Sfx.play("clink"); }
+      else if (e.type === "start_cook") { Fx.spawn("hud_splash", cx, cy, 72, 24); Sfx.play("plop", .6); }
       else if (e.type === "pot_onion") { Fx.spawn("hud_splash", cx, cy, 72, 24); Sfx.play("plop"); }
       else if (e.type === "ready") Sfx.play("ding");
       else if (e.type === "serve") { Fx.spawn("star_coin_fly", cx, cy - 40, 200, 24); Sfx.play("serve"); }
@@ -362,7 +382,9 @@ class KitchenGame {
     k.p.forEach((p, i) => { const img = Assets.img[(i ? "partner_" : "player_") + p.f], w = Math.min(T, img.naturalWidth || T);
       p._top = p.y * T + TOP + T - (img.naturalHeight || T) * w / (img.naturalWidth || T); });
     Draw.cells(k.terrain, "P").forEach(([x, y], j) => {
-      const pot = k.pots[j]; if (!pot.cooking && !pot.ready) return;
+      const pot = k.pots[j];
+      if (k.manualStart && pot.n >= 1 && !pot.cooking && !pot.ready) { ctx.fillStyle = "#c0661a"; ctx.font = "bold 10px sans-serif"; ctx.fillText("▶ " + Lang.t("start_cook"), x * T + 2, y * T + TOP + 12); }
+      if (!pot.cooking && !pot.ready) return;
       const i = pot.ready ? 39 : Math.min(38, Math.floor((1 - pot.t / k.cook) * 39));
       ctx.drawImage(Fx.frames.hud_cook_ring[i], x * T + T - 26, y * T + TOP + 2, 24, 24);
     });
@@ -494,7 +516,8 @@ const L1 = {
     const [name, exact] = this.preset(this.sel), roll = await Assets.json("presets/" + name);
     const sum = (await Assets.json("presets/summary"));
     const seeds = Object.values(sum).filter(r => r.preset === name).map(r => r.final_eval_soups);
-    this.msg((exact ? "" : Lang.t("closest") + " ") + Lang.t("preset_" + name) + "  ·  " + Lang.t("seeds")(seeds));
+    const s7 = sum[name + "_s7"];
+    this.msg((exact ? "" : Lang.t("closest") + " ") + Lang.t("preset_" + name) + "  ·  " + Lang.t("seeds")(seeds) + "  ·  " + Lang.t("replay_note")(roll.soups, s7.final_eval_soups));
     this.lit = new Set(); this.name = name;
     if (name === "onion_only") Voice.play(["wendy_L1_02", "kai_L1_03"]);
     if (name === "soup_only") Voice.play(["kai_L1_04"]);
@@ -586,7 +609,8 @@ const L3 = {
 
 // ---------- L4: soup contest. Child plays Wendy, Kai is the AI partner. 60 s; win >= 2 bowls, 1 = partial ----------
 const L4 = {
-  WIN: 2,        // from web/data/l4_threshold.json (trained Kai+Wendy: 2 bowls in 80 partner steps = 60 s)
+  WIN: 2,
+  useNet: !/[?&]kai=rule/.test(location.search),   // trained Kai (web/kai.js); ?kai=rule -> rule planner fallback        // from web/data/l4_threshold.json (trained Kai+Wendy: 2 bowls in 80 partner steps = 60 s)
   // end-screen art: text-free frame folders; title / bowls / stars are drawn on top
   END_ART: {success: {dir: "assets/anim/end_success_bg/", n: 40, still: "assets/ui/end_success_bg.png"},
             fail: {dir: "assets/anim/end_fail_bg/", n: 40, still: "assets/ui/end_fail_bg.png"}, ext: ".jpg"},
@@ -595,11 +619,13 @@ const L4 = {
     const m = Object.entries(Voice.lines).filter(([, l]) => l.level === "L4").sort((a, b) => a[1].index - b[1].index);
     const of = tag => m.filter(([, l]) => (l.note || "").startsWith(tag)).map(([id]) => id);
     const ok = of("成功");
-    return {intro: m.filter(([, l]) => !(l.note || "").match(/^(成功|失败)/) || l.note.includes("开场")).map(([id]) => id),
+    return {failNum: n => ["fail_a", n <= 5 ? "num_" + n : {say: String(n)}, n === 1 ? "word_bowl" : "word_bowls", "fail_c"],
+            intro: m.filter(([, l]) => !(l.note || "").match(/^(成功|失败)/) || l.note.includes("开场")).map(([id]) => id),
             win: ok.filter(id => !/_[ab]$/.test(id)), a: ok.find(id => /_a$/.test(id)), b: ok.find(id => /_b$/.test(id)), fail: of("失败")};
   },
   start() {
-    this.g = this.g || new KitchenGame("c4k", {screen: "l4", seconds: 60, onEnd: k => this.end(k)});
+    this.g = this.g || new KitchenGame("c4k", {screen: "l4", seconds: 60, onEnd: k => this.end(k),
+      cap: 3, cook: 60, manualStart: true, useNet: () => this.useNet});
     document.getElementById("endScreen").classList.add("hidden"); document.getElementById("l4next").disabled = true;
     this.g.reset(); Music.play("bgm_kitchen_loop", .35);
     document.getElementById("l4start").onclick = () => this.begin();
@@ -618,7 +644,8 @@ const L4 = {
     Music.stop(); Music.jingle(win ? "jingle_success" : "jingle_fail");
     this.showEnd(win, n);
     const L = this.lines();
-    await Voice.play(win ? [...L.win, ...this.numberItems(n)] : L.fail);
+    // fail: "You made" N "bowl(s)". "Two bowls wins. You're so close!" then the manifest's fail lines (last = "Close! Want another round?")
+    await Voice.play(win ? [...L.win, ...this.numberItems(n)] : [...L.fail.slice(0, -1), ...L.failNum(n), ...L.fail.slice(-1)]);
     Music.play("bgm_story_loop", .3);
     Next("l4next", "final");
   },
@@ -688,6 +715,7 @@ const App = {
   refresh() { Progress.paint(); },
   async init() {
     await Promise.all([Assets.load(), Fx.load(), Sfx.load(), Voice.load()]);
+    KaiNet.load(await Assets.json("kai_net"));
     Assets.img.star_coin = Object.assign(new Image(), {src: "assets/ui/star_coin.png"});
     document.getElementById("muteBtn").onclick = () => Sfx.toggle(); document.getElementById("muteBtn").textContent = Sfx.muted ? "🔇" : "🔊";
     document.getElementById("musicBtn").onclick = () => Music.toggle(); Music.paint();

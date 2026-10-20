@@ -1,0 +1,9 @@
+{
+ "states": 800,
+ "agent_evals": 1600,
+ "feature_max_abs_diff": 0,
+ "feature_mismatched_vectors": 0,
+ "q_max_abs_diff": 0.0000457763671875,
+ "qmax_max_abs_diff": 0.000030517578125,
+ "argmax_agree": "1600/1600"
+}

@@ -75,6 +75,11 @@ const Voice = {
     // recorded numbers 0..5 and the singular "bowl." ending; their captions continue the previous cue
     for (let n = 0; n <= 5; n++) this.lines["num_" + n] = {file: `dingo_num_${n}.mp3`, character: "dingo", level: "num", text: String(n), cont: true};
     this.lines.single_b = {file: "dingo_L4_04_b_singular.mp3", character: "dingo", level: "num", text: "bowl. Great teamwork!", cont: true};
+    Object.assign(this.lines, {
+      fail_a: {file: "dingo_fail_a.mp3", character: "dingo", level: "num", text: "You made"},
+      word_bowl: {file: "dingo_word_bowl.mp3", character: "dingo", level: "num", text: "bowl.", cont: true},
+      word_bowls: {file: "dingo_word_bowls.mp3", character: "dingo", level: "num", text: "bowls.", cont: true},
+      fail_c: {file: "dingo_fail_c.mp3", character: "dingo", level: "num", text: "Two bowls wins. You're so close!", cont: true}});
     // captions come from subtitles/<level>.vtt ("Speaker: text" cues, in manifest order); manifest text is the fallback
     await Promise.all([...new Set(m.map(l => l.level))].map(async lv => {
       const r = await fetch("assets/voice/subtitles/" + lv + ".vtt"); if (!r.ok) return;
