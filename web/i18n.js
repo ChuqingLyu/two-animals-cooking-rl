@@ -38,7 +38,7 @@ zh: {
   step_penalty: "每走一步 -0.005",
 },
 en: {
-  title: "Two Little Chefs Learn to Cook", nav_menu: "Levels", ok: "Got it", ask: "Answer", replay: "Replay",
+  title: "Two Little Monsters Learn to Cook", nav_menu: "Levels", ok: "Got it", ask: "Answer", replay: "Replay",
   l1_name: "Reward", l2_name: "Exploration", l3_name: "Cooperation", team_name: "Team value",
   menu_note: "Demo: in levels 1-2 the AI partner replays a really-trained VDN policy; in level 3 the AI partner is a rule program (see README).",
   card1_title: "Reward",

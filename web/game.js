@@ -17,6 +17,7 @@ const Lang = {
     document.querySelectorAll("[data-t]").forEach(e => { const v = this.t(e.dataset.t); if (typeof v === "string") e.textContent = v; });
     document.getElementById("langBtn").textContent = this.cur === "zh" ? "EN" : "中文";
     document.documentElement.lang = this.cur;
+    document.title = this.t("title") + " · Demo";
     App.refresh();
   },
 };
