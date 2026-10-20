@@ -612,8 +612,9 @@ const L4 = {
   WIN: 2,
   useNet: !/[?&]kai=rule/.test(location.search),   // trained Kai (web/kai.js); ?kai=rule -> rule planner fallback        // from web/data/l4_threshold.json (trained Kai+Wendy: 2 bowls in 80 partner steps = 60 s)
   // end-screen art: text-free frame folders; title / bowls / stars are drawn on top
-  END_ART: {success: {dir: "assets/anim/end_success_bg/", n: 40, still: "assets/ui/end_success_bg.png"},
-            fail: {dir: "assets/anim/end_fail_bg/", n: 40, still: "assets/ui/end_fail_bg.png"}, ext: ".jpg"},
+  // one mp4 per end screen (one request, no burst of frame requests)
+  END_ART: {success: {video: "assets/anim/end_success_bg.mp4", loop: true, still: "assets/ui/end_success_bg.png"},
+            fail: {video: "assets/anim/end_fail_bg.mp4", loop: false, still: "assets/ui/end_fail_bg.png"}},
   // voice ids come from the manifest (level L4, by note/order), not hardcoded numbers
   lines() {
     const m = Object.entries(Voice.lines).filter(([, l]) => l.level === "L4").sort((a, b) => a[1].index - b[1].index);
@@ -652,15 +653,18 @@ const L4 = {
   showEnd(win, n) {
     const art = this.END_ART[win ? "success" : "fail"], el = document.getElementById("endScreen"), c = document.getElementById("endCanvas");
     el.classList.remove("hidden"); const ctx = c.getContext("2d");
-    const frames = Array.from({length: art.n}, (_, i) => { const im = new Image(); im.src = art.dir + String(i).padStart(2, "0") + this.END_ART.ext; return im; });
+    if (this.vid) { this.vid.pause(); this.vid.removeAttribute("src"); this.vid.load(); }
+    const vid = this.vid = document.createElement("video");
+    Object.assign(vid, {muted: true, playsInline: true, loop: art.loop, preload: "auto", src: art.video});
+    vid.play().catch(() => {});
     const still = new Image(); still.src = art.still;
     const coin = Assets.img.star_coin, t0 = performance.now();
     const title = Lang.t(win ? "end_win" : "end_fail"), sub = Lang.t(win ? "end_win_sub" : "end_fail_sub")(n);
     const draw = () => {
       if (el.classList.contains("hidden")) return;
-      const i = Math.floor((performance.now() - t0) / 1000 * 12), im = i < art.n ? frames[i] : still;
       ctx.fillStyle = "#fff8ec"; ctx.fillRect(0, 0, 1280, 720);
-      if (im.complete && im.naturalWidth) ctx.drawImage(im, 0, 0, 1280, 720);
+      if (vid.readyState >= 2) ctx.drawImage(vid, 0, 0, 1280, 720);
+      else if (still.complete && still.naturalWidth) ctx.drawImage(still, 0, 0, 1280, 720);
       ctx.textAlign = "center"; ctx.fillStyle = win ? "#c0661a" : "#56709a"; ctx.font = "bold 84px sans-serif"; ctx.fillText(title, 640, 120);
       ctx.fillStyle = "#4a3420"; ctx.font = "bold 38px sans-serif"; ctx.fillText(sub, 640, 182);
       const stars = 3, got = Math.min(n, stars);

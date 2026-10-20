@@ -90,9 +90,20 @@ const Voice = {
   ids(level) { return Object.keys(this.lines).filter(k => this.lines[k].level === level); },
   sub(line) {
     const el = document.getElementById("subtitle");
-    if (!line) { el.classList.add("hidden"); return; }
+    const ref = document.getElementById("dingoRef"), bub = ref && ref.querySelector(".bubble");
+    if (!line) { el.classList.add("hidden"); bub && bub.classList.add("hidden"); return; }
+    // L4: Dingo is the referee at the kitchen's side; his lines go into his own speech bubble
+    if (line.character === "dingo" && bub && ref.offsetParent) {
+      el.classList.add("hidden");
+      if (line.cont && !bub.classList.contains("hidden")) { bub.textContent += " " + (line.caption || line.text); return; }
+      bub.textContent = line.caption || line.text; bub.classList.remove("hidden"); return;
+    }
+    bub && bub.classList.add("hidden");
     if (line.cont && !el.classList.contains("hidden")) { el.lastChild.textContent += " " + (line.caption || line.text); return; }
-    el.innerHTML = ""; const b = document.createElement("b"); b.textContent = (line.speaker || this.NAMES[line.character] || line.character) + ": ";
+    el.innerHTML = "";
+    // anywhere else Dingo speaks, his round avatar sits in the caption box so he is always on screen
+    if (line.character === "dingo") { const a = new Image(); a.src = "assets/ui/dingo_avatar.png"; a.alt = "Dingo"; a.className = "subAvatar"; el.append(a); }
+    const b = document.createElement("b"); b.textContent = (line.speaker || this.NAMES[line.character] || line.character) + ": ";
     el.append(b, document.createTextNode(line.caption || line.text)); el.className = "sub-" + line.character;
   },
   stop() { this.token++; Music.duck(false); this.audio.pause(); speechSynthesis && speechSynthesis.cancel(); this.sub(null); },
@@ -112,7 +123,8 @@ const Voice = {
     return tok === this.token;
   },
   speak(text, tok) {
-    const el = document.getElementById("subtitle"); el.lastChild && (el.lastChild.textContent += " " + text);
+    const ref = document.getElementById("dingoRef"), bub = ref && ref.querySelector(".bubble");
+    const el = bub && !bub.classList.contains("hidden") ? bub : document.getElementById("subtitle"); el.lastChild && (el.lastChild.textContent += " " + text);
     return new Promise(res => {
       if (!window.speechSynthesis || Sfx.muted) return setTimeout(res, 600);
       const u = new SpeechSynthesisUtterance(text); u.rate = .9; u.onend = res; u.onerror = res;
