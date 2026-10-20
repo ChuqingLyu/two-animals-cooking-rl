@@ -228,62 +228,70 @@
   "character": "dingo",
   "level": "L4",
   "index": 1,
+  "text": "Here's a secret: nobody can make soup alone in this kitchen. You two have to work together!",
+  "note": "开场，文件 dingo_L4_00_teamwork"
+ },
+ {
+  "file": "dingo_L4_02.mp3",
+  "character": "dingo",
+  "level": "L4",
+  "index": 2,
   "text": "You'll play as Wendy. Kai is counting on you. Ready... cook!",
   "note": ""
  },
  {
-  "file": "kai_L4_02.mp3",
+  "file": "kai_L4_03.mp3",
   "character": "kai",
   "level": "L4",
-  "index": 2,
+  "index": 3,
   "text": "We actually did it!",
   "note": "成功"
  },
  {
-  "file": "wendy_L4_03.mp3",
+  "file": "wendy_L4_04.mp3",
   "character": "wendy",
   "level": "L4",
-  "index": 3,
+  "index": 4,
   "text": "Best team ever!",
   "note": "成功"
  },
  {
-  "file": "dingo_L4_04_a.mp3",
+  "file": "dingo_L4_05_a.mp3",
   "character": "dingo",
   "level": "L4",
-  "index": 4,
+  "index": 5,
   "text": "Your team made",
   "note": "成功 [number inserted between _a and _b]"
  },
  {
-  "file": "dingo_L4_04_b.mp3",
+  "file": "dingo_L4_05_b.mp3",
   "character": "dingo",
   "level": "L4",
-  "index": 4,
+  "index": 5,
   "text": "bowls. Great teamwork!",
   "note": "成功 [number inserted between _a and _b]"
  },
  {
-  "file": "kai_L4_05.mp3",
+  "file": "kai_L4_06.mp3",
   "character": "kai",
   "level": "L4",
-  "index": 5,
+  "index": 6,
   "text": "Um... that was hard. I'll do my best next time.",
   "note": "失败"
  },
  {
-  "file": "wendy_L4_06.mp3",
+  "file": "wendy_L4_07.mp3",
   "character": "wendy",
   "level": "L4",
-  "index": 6,
+  "index": 7,
   "text": "Let's try again! I know we can do it!",
   "note": "失败"
  },
  {
-  "file": "dingo_L4_07.mp3",
+  "file": "dingo_L4_08.mp3",
   "character": "dingo",
   "level": "L4",
-  "index": 7,
+  "index": 8,
   "text": "Close! Want another round?",
   "note": "失败"
  },

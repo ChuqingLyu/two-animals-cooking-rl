@@ -21,11 +21,26 @@ input[type=range]{width:300px}
 .choice{display:block;width:100%;text-align:left}
 
 .toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-#l3wrap{position:relative;background:#fff8ec}
-#c3{width:min(calc(100vw - 40px),calc((100vh - 150px)*16/9));min-width:640px;height:auto;aspect-ratio:16/9;image-rendering:auto;display:block;cursor:pointer}
-.l3side{position:absolute;left:12px;top:22%;width:230px;font-size:14px}
-#l3wrap:fullscreen{display:flex;align-items:center;justify-content:center}
-#l3wrap:fullscreen #c3{width:min(100vw,100vh*16/9);border:0}
+.kwrap{position:relative;background:#fff8ec;width:fit-content}
+.kcanvas{width:min(calc(100vw - 40px),calc((100vh - 230px)*16/9));min-width:640px;height:auto;aspect-ratio:16/9;image-rendering:auto;display:block;cursor:pointer}
+.kwrap:fullscreen{display:flex;align-items:center;justify-content:center;width:100%}
+.kwrap:fullscreen .kcanvas{width:min(100vw,100vh*16/9);border:0}
+#endScreen{position:absolute;inset:0}#endScreen .kcanvas{width:100%}
+#again{position:absolute;left:50%;bottom:6%;transform:translateX(-50%)}
+.steps{display:flex;gap:6px;margin:6px 0}.steps .step{display:flex;flex-direction:column;align-items:center}
+.steps img{height:64px}.steps.small img{height:56px}.steps img.starbtn{height:44px;cursor:pointer}
+.panel.wide{max-width:520px}
+button.big{font-size:20px;padding:10px 22px;background:#f2b04a}
+button.next{background:#8fd18f;border-color:#4a9a4a;font-weight:bold}button:disabled{opacity:.45;cursor:default}
+#progress{display:flex;gap:6px}.dot{width:30px;height:30px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#777}
+.dot.done{background:#f2c46a;color:#4a3420}.dot.cur{outline:3px solid #b8864b}
+.levels{grid-template-columns:repeat(3,220px)}
+.knob{display:flex;align-items:center;gap:12px}#dial{width:90px;transition:transform .2s}
+#rate button{font-size:24px;width:56px}#rate button.on{background:#e9a94b}
+.cbar{display:flex;align-items:center;gap:8px;margin:6px 0}.cbar span{width:60px}.cbar .track{display:flex;gap:4px}.cbar i{width:40px;height:22px;border-radius:6px;transition:background .4s}
+#finalTable{border-collapse:collapse;font-size:20px;margin:10px 0}#finalTable td,#finalTable th{border:2px solid #e3c79a;padding:6px 14px}
+.cards img{width:200px;border-radius:10px}
+#musicBtn.off{opacity:.4;text-decoration:line-through}
 #theatre{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:20}
 #theatre video{max-width:100vw;max-height:100vh;width:100%}
 #theatreSkip{position:absolute;right:20px;top:20px;z-index:22}

@@ -68,7 +68,7 @@ const Draw = {
       if (p.h) Draw.item(ctx, p.x * T + 50, p.y * T + TOP + 50, p.h, 7);
       p._top = sy;
     });
-    if (o.bubble !== false && fr.p[1].intent) Draw.bubble(ctx, fr.p[1], fr.p[1].intent);
+    if (o.bubble !== false && fr.p[1] && fr.p[1].intent) Draw.bubble(ctx, fr.p[1], fr.p[1].intent);
   },
   cells(terrain, ch) { const r = []; terrain.forEach((row, y) => [...row].forEach((c, x) => { if (c === ch) r.push([x, y]); })); return r; },
   item(ctx, cx, cy, name, r) {
@@ -161,44 +161,6 @@ const Pop = {
   },
 };
 
-// ---------- Level 1: reward ----------
-const L1 = {
-  async start() {
-    this.rp = this.rp || new Replay(document.getElementById("c1"), (fr, r) => this.stats(fr, r));
-    const go = () => Pop.card("card1", () => { Voice.play(["dingo_L1_01"]); this.run(); });
-    Theatre.seen.l1 ? go() : Theatre.show("l1", go);
-  },
-  async run() {
-    const soup = document.getElementById("soupReward").value;
-    const roll = await Assets.json(soup === "0" ? "nosoup_ep100" : "full_ep100");
-    this.rp.play(roll, {popups: true, ms: 90, onEnd: () => Voice.play(soup === "0" ? ["wendy_L1_02", "kai_L1_03"] : ["wendy_L1_06", "dingo_L1_07"])});
-  },
-  stats(fr, r) {
-    const ev = Lang.t("ev"), soup = document.getElementById("soupReward").value;
-    const table = Object.entries(REWARD_W).map(([k, v]) => `${ev[k]}: ${k === "soup_delivery" ? soup : v}`).join("\n");
-    document.getElementById("l1stats").textContent =
-      `${Lang.t("soups")}: ${fr.soups}   ${Lang.t("rewards")}: ${r.reward.toFixed(1)}\n\n${table}\n${Lang.t("step_penalty")}`;
-  },
-  stop() { this.rp && this.rp.stop(); },
-};
-
-// ---------- Level 2: exploration ----------
-const L2 = {
-  async start() {
-    this.rp = this.rp || new Replay(document.getElementById("c2"), fr => {
-      document.getElementById("l2stats").textContent = `${Lang.t("soups")}: ${fr.soups}`;
-    });
-    const go = () => Pop.card("card2", () => { Voice.play(["wendy_L2_01", "kai_L2_02", "dingo_L2_03"]); this.run(); });
-    Theatre.seen.l2 ? go() : Theatre.show("l2", go);
-  },
-  async run() {
-    const ep = STAGES[+document.getElementById("stage").value];
-    const roll = await Assets.json("stage_ep" + ep);
-    document.getElementById("stageLabel").textContent = Lang.t("stage")(ep, roll.eps);
-    this.rp.play(roll, {trailLen: document.getElementById("trail").checked ? 40 : 0, ms: 80});
-  },
-  stop() { this.rp && this.rp.stop(); },
-};
 
 // ---------- Team value card ----------
 const Team = {
@@ -213,13 +175,14 @@ const Team = {
   stop() { this.rp && this.rp.stop(); },
 };
 
-// ---------- Level 3: cooperation (interactive kitchen) ----------
+
+// ---------- kitchen model (used by L0 tutorial and L4 contest) ----------
 const Kitchen = {
   DIRS: {up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0]},
   new(terrain) {
     return {terrain, p: [{x: 1, y: 2, f: "up", h: null}, {x: 3, y: 1, f: "up", h: null}],
       pots: Draw.cells(terrain, "P").map(() => ({n: 0, cooking: false, ready: false, t: 0, who: new Set()})),
-      counterObj: {}, soups: 0, coop: 0, bumps: 0, ev: []};
+      counterObj: {}, soups: 0, coop: 0, bumps: 0, ev: [], cap: 3, cook: Kitchen.COOK};
   },
   COOK: 20,
   tile(k, x, y) { return (k.terrain[y] || "")[x]; },
@@ -238,8 +201,8 @@ const Kitchen = {
     if (c === "D" && !p.h) { p.h = "dish"; return ok("pick_dish"); }
     if (c === "P") {
       const pot = k.pots[Draw.cells(k.terrain, "P").findIndex(([a, b]) => a === x && b === y)];
-      if (p.h === "onion" && pot.n < 3 && !pot.cooking && !pot.ready) {
-        pot.n++; pot.who.add(i); p.h = null; if (pot.n === 3) { pot.cooking = true; pot.t = Kitchen.COOK; } return ok("pot_onion");
+      if (p.h === "onion" && pot.n < k.cap && !pot.cooking && !pot.ready) {
+        pot.n++; pot.who.add(i); p.h = null; if (pot.n === k.cap) { pot.cooking = true; pot.t = k.cook; } return ok("pot_onion");
       } else if (p.h === "dish" && pot.ready) { p.h = "soup"; pot.who.add(i); p.soupWho = new Set(pot.who); Object.assign(pot, {n: 0, ready: false, who: new Set()}); return ok("pick_soup"); }
     } else if (c === "S" && p.h === "soup") {
       p.h = null; k.soups++; p.soupWho.add(i); if (p.soupWho.size === 2) k.coop++; return ok("serve");
@@ -318,126 +281,119 @@ const Partner = {
 };
 
 // Interactive kitchen: 1280x720 logical canvas (CSS-scaled to the viewport), kitchen drawn at scale S.
-const L3 = {
-  rounds: [], questioned: 0, W: 1280, H: 720, S: 2, OX: 320, OY: 104 - TOP * 2,
-  WIN_SOUPS: 2,   // web/data/l4_threshold.json: trained Kai+Wendy make 2 soups in 80 partner steps (= this game's 60 s)
-  start() {
-    const c = document.getElementById("c3"); this.ctx = c.getContext("2d");
-    if (!this.bound) {
-      this.bound = true;
-      c.addEventListener("click", e => this.click(e));
-      document.getElementById("fsBtn").onclick = () => {
-        const w = document.getElementById("l3wrap");
-        document.fullscreenElement ? document.exitFullscreen() : (w.requestFullscreen && w.requestFullscreen());
-      };
+// ---------- recipe step bar (L0 + L1) ----------
+const Steps = {
+  render(el, on, toggles) {
+    el.innerHTML = "";
+    for (let i = 1; i <= 5; i++) {
+      const d = document.createElement("div"); d.className = "step";
+      const im = document.createElement("img"); im.src = `assets/ui/step${i}_${on.has(i) ? "on" : "off"}.png`; im.alt = Lang.t("steps")[i - 1];
+      d.appendChild(im);
+      if (toggles) {
+        const b = document.createElement("img"); b.className = "starbtn"; b.dataset.step = i;
+        b.src = toggles.has(i) ? "assets/ui/star_button_pressed.png" : "assets/ui/star_button.png";
+        b.alt = "star " + i; d.appendChild(b);
+      }
+      el.appendChild(d);
     }
-    this.idle();
-    const go = () => Pop.card("card3", () => Voice.play(Voice.ids("L3")));
-    Theatre.seen.l3 ? go() : Theatre.show("l3", go);
   },
-  idle() {
-    this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]); this.plan = null; this.timeLeft = 60; this.path = null;
-    Fx.live = []; this.loop();
-  },
-  loop() {
-    cancelAnimationFrame(this.raf);
-    const f = () => { if (App.cur !== "l3") return; this.render(); this.raf = requestAnimationFrame(f); };
-    this.raf = requestAnimationFrame(f);
-  },
+};
+
+// ---------- kitchen game (big 1280x720 canvas): L0 tutorial (solo) and L4 contest (with Kai) ----------
+class KitchenGame {
+  constructor(canvasId, opts) {
+    this.c = document.getElementById(canvasId); this.ctx = this.c.getContext("2d"); this.o = opts;
+    this.W = 1280; this.H = 720; this.S = 2; this.OX = 320; this.OY = 104 - TOP * 2;
+    this.c.addEventListener("click", e => this.click(e));
+  }
+  reset() {
+    this.stop(); const k = this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]);
+    if (this.o.solo) { k.p[1].x = -9; k.p[1].y = -9; }
+    if (this.o.cap) k.cap = this.o.cap; if (this.o.cook) k.cook = this.o.cook;
+    this.timeLeft = this.o.seconds || null; this.ticks = 0; this.plan = null; this.path = null; Fx.live = [];
+    this.loop();
+  }
   begin() {
-    this.stop(); this.k = Kitchen.new(["XXPXX", "O   O", "X   X", "XDXSX"]);
-    this.bubbleOn = document.getElementById("bubbleOn").checked;
-    this.timeLeft = 60; this.ticks = 0; this.override = false; this.prompted = null; this.questionedRound = 0; this.path = null;
-    Fx.live = [];
+    this.reset();
     this.timer = setInterval(() => this.tick(), 250);
     this.walker = setInterval(() => this.walk(), 170);
-    Voice.play(["dingo_L4_01"]);
-    this.loop();
-    document.getElementById("c3").focus();
-  },
+    this.c.focus();
+  }
+  get running() { return !!this.timer; }
+  loop() {
+    cancelAnimationFrame(this.raf);
+    const f = () => { if (App.cur !== this.o.screen) return; this.render(); this.raf = requestAnimationFrame(f); };
+    this.raf = requestAnimationFrame(f);
+  }
   tick() {
     const k = this.k; this.ticks++;
     Kitchen.tick(k);
-    const plan = Partner.plan(k, this.override);
-    if (plan.goal !== this.lastGoal) { this.override = false; this.prompted = null; }
-    this.lastGoal = plan.goal;
-    this.bubbleOn = document.getElementById("bubbleOn").checked;
-    const box = document.getElementById("unsureBox");
-    if (this.bubbleOn && plan.style === "dashed" && this.prompted !== plan.goal) { box.classList.remove("hidden"); this.prompted = plan.goal; }
-    if (plan.style !== "dashed") box.classList.add("hidden");
-    if (this.ticks % 3 === 0) Partner.act(k, plan);       // partner moves at ~1.3 steps/s
-    this.plan = plan;
-    if (this.ticks % 4 === 0) { this.timeLeft--; if (this.timeLeft <= 10 && this.timeLeft > 0) Sfx.play("tick", .7); }
+    if (!this.o.solo) {
+      this.plan = Partner.plan(k, false);
+      if (this.ticks % 3 === 0) Partner.act(k, this.plan);   // Kai moves at ~1.3 steps/s (80 steps per 60 s round)
+    }
+    if (this.timeLeft !== null && this.ticks % 4 === 0) { this.timeLeft--; if (this.timeLeft <= 10 && this.timeLeft > 0) Sfx.play("tick", .7); }
     Sfx.setLoop(k.pots.some(p => p.cooking));
     this.feedback();
-    if (this.timeLeft <= 0) this.end();
-  },
-  // turn kitchen events into animations + sounds
+    if (this.timeLeft !== null && this.timeLeft <= 0) { this.stop(); this.o.onEnd && this.o.onEnd(k); }
+  }
   feedback() {
     const k = this.k, C = (x, y) => [x * T + T / 2, y * T + TOP + T / 2];
     for (const e of k.ev.splice(0)) {
       const p = e.who >= 0 ? k.p[e.who] : null, head = p ? [p.x * T + T / 2, (p._top || p.y * T + TOP) - 6] : null;
       const [cx, cy] = C(e.x, e.y);
       if (e.type === "pick_onion") { Fx.spawn("hud_pickup_onion", ...head, 44, 20, {rise: 20}); Sfx.play("pickup"); }
-      else if (e.type === "pick_dish") { Fx.spawn("hud_pickup_dish", ...head, 44, 20, {rise: 20}); Sfx.play("clink"); }
-      else if (e.type === "pick_soup") { Fx.spawn("hud_pickup_dish", ...head, 44, 20, {rise: 20}); Sfx.play("clink"); }
+      else if (e.type === "pick_dish" || e.type === "pick_soup") { Fx.spawn("hud_pickup_dish", ...head, 44, 20, {rise: 20}); Sfx.play("clink"); }
       else if (e.type === "pot_onion") { Fx.spawn("hud_splash", cx, cy, 72, 24); Sfx.play("plop"); }
       else if (e.type === "ready") Sfx.play("ding");
       else if (e.type === "serve") { Fx.spawn("star_coin_fly", cx, cy - 40, 200, 24); Sfx.play("serve"); }
       else if (e.type === "drop") Sfx.play("pickup", .5);
-      else if (e.type === "bump") { Fx.spawn(e.who ? "kai_confused" : "wendy_confused", ...head, 48, 24); }
+      else if (e.type === "bump") Fx.spawn(e.who ? "kai_confused" : "wendy_confused", ...head, 48, 24);
       else if (e.type === "wrong" && e.who === 0) { Fx.spawn("wrong_x", cx, cy, 44); Sfx.play("wrong"); }
+      this.o.onEvent && this.o.onEvent(e, k);
     }
-  },
+  }
   render() {
     const k = this.k, ctx = this.ctx; if (!k) return;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = "#fff8ec"; ctx.fillRect(0, 0, this.W, this.H);
-    ctx.imageSmoothingEnabled = true;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = "#fff8ec"; ctx.fillRect(0, 0, this.W, this.H);
     ctx.setTransform(this.S, 0, 0, this.S, this.OX, this.OY);
-    Draw.scene(ctx, k.terrain, Kitchen.frame(k, this.plan), {bubble: this.bubbleOn && !!this.plan});
-    // copy back sprite tops (used to place overhead pops)
+    const fr = Kitchen.frame(k, this.plan); if (this.o.solo) fr.p = fr.p.slice(0, 1);
+    Draw.scene(ctx, k.terrain, fr, {bubble: !!this.plan});
     k.p.forEach((p, i) => { const img = Assets.img[(i ? "partner_" : "player_") + p.f], w = Math.min(T, img.naturalWidth || T);
       p._top = p.y * T + TOP + T - (img.naturalHeight || T) * w / (img.naturalWidth || T); });
     Draw.cells(k.terrain, "P").forEach(([x, y], j) => {
       const pot = k.pots[j]; if (!pot.cooking && !pot.ready) return;
-      const fr = Fx.frames.hud_cook_ring, i = pot.ready ? 39 : Math.min(38, Math.floor((1 - pot.t / Kitchen.COOK) * 39));
-      ctx.drawImage(fr[i], x * T + T - 26, y * T + TOP + 2, 24, 24);
+      const i = pot.ready ? 39 : Math.min(38, Math.floor((1 - pot.t / k.cook) * 39));
+      ctx.drawImage(Fx.frames.hud_cook_ring[i], x * T + T - 26, y * T + TOP + 2, 24, 24);
     });
     if (this.path && this.path.goal) { const [gx, gy] = this.path.goal; ctx.strokeStyle = "#e9b824"; ctx.lineWidth = 2; ctx.setLineDash([4, 3]);
       ctx.strokeRect(gx * T + 3, gy * T + TOP + 3, T - 6, T - 6); ctx.setLineDash([]); }
     Fx.draw(ctx);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    // HUD (logical 1280x720)
-    const tim = Fx.timer[Math.max(0, Math.min(60, this.timeLeft))];
-    if (tim) ctx.drawImage(tim, this.W - 300, 24, 270, 96);
-    ctx.fillStyle = "#4a3420"; ctx.font = "bold 34px sans-serif";
-    ctx.fillText(`${Lang.t("soups")}: ${k.soups}`, 36, 70);
-    ctx.font = "bold 20px sans-serif";
-    k.p.forEach((p, i) => { ctx.fillStyle = i ? "#2a7d72" : "#b8860b"; ctx.textAlign = "center";
+    if (this.timeLeft !== null) { const tim = Fx.timer[Math.max(0, Math.min(60, this.timeLeft))]; if (tim) ctx.drawImage(tim, this.W - 300, 24, 270, 96); }
+    ctx.fillStyle = "#4a3420"; ctx.font = "bold 34px sans-serif"; ctx.fillText(`${Lang.t("soups")}: ${k.soups}`, 36, 70);
+    ctx.font = "bold 20px sans-serif"; ctx.textAlign = "center";
+    k.p.forEach((p, i) => { if (this.o.solo && i) return; ctx.fillStyle = i ? "#2a7d72" : "#b8860b";
       ctx.fillText(i ? "Kai" : "Wendy", this.OX + (p.x * T + T / 2) * this.S, this.OY + ((p.y + 1) * T + TOP) * this.S - 4); });
     ctx.textAlign = "left";
-    document.getElementById("l3stats").textContent =
-      `${Lang.t("recap_coop")}: ${k.coop}\n${Lang.t("recap_bumps")}: ${k.bumps}\n${Lang.t("recap_questioned")}: ${this.questionedRound || 0}`;
-  },
+  }
   key(e) {
-    if (!this.timer || App.cur !== "l3") return;
+    if (!this.timer) return;
     const m = {ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right",
                W: "up", S: "down", A: "left", D: "right"}[e.key];
     if (m) { this.path = null; Kitchen.move(this.k, 0, m); e.preventDefault(); }
     else if (e.key === " ") { this.path = null; Kitchen.interact(this.k, 0); e.preventDefault(); }
     else return;
     this.feedback();
-  },
-  // click/tap a tile -> BFS walk there; if it's a station/counter, face it and interact on arrival
+  }
+  // click a tile -> BFS walk; if it's a station/counter, face it and interact on arrival
   click(e) {
     if (!this.timer) return;
-    const c = e.currentTarget, r = c.getBoundingClientRect();
+    const r = this.c.getBoundingClientRect();
     const lx = (e.clientX - r.left) * this.W / r.width, ly = (e.clientY - r.top) * this.H / r.height;
     const gx = Math.floor((lx - this.OX) / this.S / T), gy = Math.floor(((ly - this.OY) / this.S - TOP) / T);
     const t = Kitchen.tile(this.k, gx, gy); if (t === undefined) return;
-    const me = this.k.p[0], key = (x, y) => x + "," + y, prev = {[key(me.x, me.y)]: null}, q = [[me.x, me.y]];
-    const station = t !== " ";
+    const me = this.k.p[0], key = (x, y) => x + "," + y, prev = {[key(me.x, me.y)]: null}, q = [[me.x, me.y]], station = t !== " ";
     let end = null;
     while (q.length) {
       const [x, y] = q.shift();
@@ -449,78 +405,305 @@ const L3 = {
       }
     }
     if (!end) { Fx.spawn("wrong_x", gx * T + T / 2, gy * T + TOP + T / 2, 44); Sfx.play("wrong"); return; }
+    const dirOf = (a, b) => Object.keys(Kitchen.DIRS).find(d => Kitchen.DIRS[d][0] === b[0] - a[0] && Kitchen.DIRS[d][1] === b[1] - a[1]);
     const steps = []; let cur = end;
-    while (prev[key(...cur)]) { const p = prev[key(...cur)]; steps.unshift(Object.keys(Kitchen.DIRS).find(d => Kitchen.DIRS[d][0] === cur[0] - p[0] && Kitchen.DIRS[d][1] === cur[1] - p[1])); cur = p; }
-    if (station) steps.push(Object.keys(Kitchen.DIRS).find(d => Kitchen.DIRS[d][0] === gx - end[0] && Kitchen.DIRS[d][1] === gy - end[1]), "act");
+    while (prev[key(...cur)]) { const p = prev[key(...cur)]; steps.unshift(dirOf(p, cur)); cur = p; }
+    if (station) steps.push(dirOf(end, [gx, gy]), "act");
     this.path = {steps, goal: [gx, gy]};
-  },
+  }
   walk() {
     if (!this.path || !this.timer) return;
     const s = this.path.steps.shift();
     if (s === undefined) { this.path = null; return; }
     if (s === "act") { Kitchen.interact(this.k, 0); this.path = null; }
-    else if (this.path.steps[0] === "act" && this.path.steps.length === 1) this.k.p[0].f = s;   // final turn to face the station
-    else if (!Kitchen.move(this.k, 0, s)) this.path = null;                                  // blocked (e.g. Kai moved in): stop
+    else if (this.path.steps.length === 1 && this.path.steps[0] === "act") this.k.p[0].f = s;
+    else if (!Kitchen.move(this.k, 0, s)) this.path = null;
     this.feedback();
+  }
+  stop() { clearInterval(this.timer); clearInterval(this.walker); this.timer = null; this.path = null; Sfx.setLoop(false); }
+}
+
+const Next = (id, to) => { const b = document.getElementById(id); b.disabled = false; b.onclick = () => { Progress.done(to); App.go(to); }; };
+
+// ---------- L0: become a Soup Master (solo tutorial, 1 onion, short cook) ----------
+const L0 = {
+  STEP_OF: {pick_onion: 1, pot_onion: 2, ready: 3, pick_dish: 4, serve: 5},
+  start() {
+    this.g = this.g || new KitchenGame("c0", {screen: "l0", solo: true, cap: 1, cook: 12, onEvent: e => this.ev(e)});
+    this.on = new Set(); Steps.render(document.getElementById("l0steps"), this.on);
+    document.getElementById("l0next").disabled = true; document.getElementById("l0teach").classList.add("hidden");
+    Music.play("bgm_kitchen_loop", .35);
+    this.g.begin();
+    Voice.play(["dingo_L0_01", "dingo_L0_02"]);
   },
-  agree() { document.getElementById("unsureBox").classList.add("hidden"); },
-  disagree() { this.override = true; this.questioned++; this.questionedRound++; document.getElementById("unsureBox").classList.add("hidden"); },
-  async end() {
-    this.stop(); Sfx.setLoop(false);
-    const k = this.k;
-    this.rounds.push({bubble: this.bubbleOn, soups: k.soups, coop: k.coop, bumps: k.bumps, q: this.questionedRound});
-    const win = k.soups >= this.WIN_SOUPS;
-    await Voice.play(win ? ["kai_L4_02", "wendy_L4_03", "dingo_L4_04_a", {say: String(k.soups)}, "dingo_L4_04_b"]
-                         : ["kai_L4_05", "wendy_L4_06", "dingo_L4_07"]);
-    if (App.cur === "l3") Recap.show(this.rounds);
+  ev(e) {
+    const s = this.STEP_OF[e.type]; if (!s || e.who === 0 && this.on.has(s) || (e.type !== "ready" && e.who !== 0)) return;
+    if (s !== this.on.size + 1) return;                    // only the next step in order lights up
+    this.on.add(s); Steps.render(document.getElementById("l0steps"), this.on);
+    const say = {1: "dingo_L0_03", 2: "dingo_L0_04", 3: "dingo_L0_05", 4: "dingo_L0_06"}[s];
+    if (say) Voice.play([say]);
+    if (s === 5) this.finish();
   },
-  stop() { clearInterval(this.timer); clearInterval(this.walker); this.timer = null; this.path = null; Sfx.setLoop(false);
-    document.getElementById("unsureBox").classList.add("hidden"); },
+  async finish() {
+    this.g.stop(); Music.jingle("jingle_success");
+    for (let i = 0; i < 6; i++) Fx.spawn("star_coin_fly", 60 + i * 40, 60 + (i % 2) * 120, 160, 24);
+    await Voice.play(["dingo_L0_07"]);
+    if (App.cur !== "l0") return;
+    Theatre.show("intro", () => {
+      Voice.play(["dingo_L0_10"]);
+      const b = document.getElementById("l0teach"); b.classList.remove("hidden");
+      b.onclick = () => { Progress.done("l1"); App.go("l1"); };
+      Next("l0next", "l1");
+    });
+  },
+  stop() { this.g && this.g.stop(); },
+  key(e) { this.g && this.g.key(e); },
 };
 
-// ---------- recap (real counts from the rounds played in L3) ----------
-const Recap = {
-  show(rounds) {
-    const sum = f => rounds.reduce((a, r) => a + r[f], 0);
-    document.getElementById("r_soups").textContent = sum("soups");
-    document.getElementById("r_coop").textContent = sum("coop");
-    document.getElementById("r_bumps").textContent = sum("bumps");
-    document.getElementById("r_q").textContent = sum("q");
-    const avg = on => { const rs = rounds.filter(r => r.bubble === on); return rs.length ? rs.reduce((a, r) => a + r.soups, 0) / rs.length : null; };
-    const bar = (lab, v, col) => `<div class="bar"><div>${v === null ? "–" : v.toFixed(1)}</div><div style="height:${(v || 0) * 20 + 2}px;background:${col}"></div><div>${lab}</div></div>`;
-    document.getElementById("bars").innerHTML = bar(Lang.t("bubble_on"), avg(true), "#e9a94b") + bar(Lang.t("bubble_off"), avg(false), "#8aa7d6");
-    App.go("recap");
+// ---------- L1: you give the stars (reward presets, really trained, seed 7) ----------
+const L1 = {
+  PRESET_TXT: {soup_shaped: "all", soup_only: "serve", pot_only: "pot", onion_only: "onion"},
+  start() {
+    this.sel = new Set(); this.tries = 0; this.rp = this.rp || new Replay(document.getElementById("c1"), (fr, r) => this.frame(fr));
+    document.getElementById("l1next").disabled = true; this.draw(); this.msg("");
+    Music.play("bgm_kitchen_loop", .3);
+    const go = () => Pop.card("card1", () => Voice.play(["dingo_L1_01"]));
+    Theatre.seen.l1 ? go() : Theatre.show("l1", go);
+  },
+  draw() {
+    const el = document.getElementById("l1steps"); Steps.render(el, this.lit || new Set(), this.sel);
+    el.querySelectorAll(".starbtn").forEach(b => b.onclick = () => {
+      const s = +b.dataset.step; this.sel.has(s) ? this.sel.delete(s) : this.sel.add(s); Sfx.play("pickup", .6); this.draw(); });
+    document.getElementById("l1tries").textContent = Lang.t("tries")(this.tries, 3);
+  },
+  msg(t) { document.getElementById("l1msg").textContent = t; },
+  // which really-trained preset matches the chosen stars (untrained combos map to the closest one, and we say so)
+  preset(sel) {
+    const has = s => sel.has(s), only = s => sel.size === 1 && has(s);
+    if (only(5)) return ["soup_only", true];
+    if (has(5)) return ["soup_shaped", sel.size >= 4];
+    if (only(1)) return ["onion_only", true];
+    if (only(2)) return ["pot_only", true];
+    return [has(2) ? "pot_only" : "onion_only", false];
+  },
+  async train() {
+    if (!this.sel.size) return this.msg(Lang.t("pick_one"));
+    if (this.tries === 0 && this.sel.size > 1) return this.msg(Lang.t("first_one"));
+    if (this.tries >= 3) return;
+    this.tries++; this.draw();
+    const [name, exact] = this.preset(this.sel), roll = await Assets.json("presets/" + name);
+    const sum = (await Assets.json("presets/summary"));
+    const seeds = Object.values(sum).filter(r => r.preset === name).map(r => r.final_eval_soups);
+    this.msg((exact ? "" : Lang.t("closest") + " ") + Lang.t("preset_" + name) + "  ·  " + Lang.t("seeds")(seeds));
+    this.lit = new Set(); this.name = name;
+    if (name === "onion_only") Voice.play(["wendy_L1_02", "kai_L1_03"]);
+    if (name === "soup_only") Voice.play(["kai_L1_04"]);
+    this.rp.play(roll, {popups: true, ms: this.ms || 45, onEnd: () => this.end(roll)});
+  },
+  frame(fr) {
+    const K = {useful_onion_pickup: 1, onion_pickup: 1, potting_onion: 2, useful_dish_pickup: 4, dish_pickup: 4, soup_delivery: 5};
+    let ch = false;
+    for (const e of fr.ev || []) if (K[e.kind] && !this.lit.has(K[e.kind])) { this.lit.add(K[e.kind]); ch = true; }
+    if (fr.pots.some(p => p.cooking || p.ready) && !this.lit.has(3)) { this.lit.add(3); ch = true; }
+    if (ch) this.draw();
+    document.getElementById("l1stats").textContent = Lang.t("bowls_400")(fr.soups);
+  },
+  end(roll) {
+    const v = {soup_only: ["dingo_L1_05"], soup_shaped: ["wendy_L1_06", "dingo_L1_07"], pot_only: ["dingo_L1_07"]}[this.name];
+    if (v) Voice.play(v);
+    Next("l1next", "l2");
+  },
+  stop() { this.rp && this.rp.stop(); },
+};
+
+// ---------- L2: curiosity (epsilon presets) ----------
+const L2 = {
+  band(eps) { return eps < .1 ? "eps_low" : eps <= .6 ? "eps_default" : "eps_high"; },
+  start() {
+    this.rp = this.rp || new Replay(document.getElementById("c2"), fr => {
+      document.getElementById("l2stats").textContent = Lang.t("bowls_400")(fr.soups); });
+    document.getElementById("l2next").disabled = true;
+    Music.play("bgm_kitchen_loop", .3); this.knob();
+    const go = () => Pop.card("card2", () => Voice.play(["wendy_L2_01", "kai_L2_02", "dingo_L2_03"]));
+    Theatre.seen.l2 ? go() : Theatre.show("l2", go);
+  },
+  knob() {
+    const v = +document.getElementById("eps").value / 100;
+    document.getElementById("dial").style.transform = `rotate(${-120 + 240 * v}deg)`;
+    document.getElementById("epsLabel").textContent = Lang.t("band_" + this.band(v))(v);
+  },
+  async train() {
+    const b = this.band(+document.getElementById("eps").value / 100);
+    // high curiosity shows the wandering DURING training (eps 0.8 rollout of the eps_high model)
+    const roll = await Assets.json("presets/" + (b === "eps_high" ? "eps_high_train" : b));
+    Voice.play({eps_low: ["kai_L2_05", "dingo_L2_06"], eps_default: ["dingo_L2_07"], eps_high: ["wendy_L2_04"]}[b]);
+    this.rp.play(roll, {ms: this.ms || 45, trailLen: document.getElementById("trail").checked ? 12 : 0, onEnd: () => Next("l2next", "l3")});
+  },
+  stop() { this.rp && this.rp.stop(); },
+};
+
+// ---------- L3: confidence (child rates 1-5, then Wendy and Kai's real confidence from the trained net) ----------
+const L3 = {
+  start() {
+    this.rp = this.rp || new Replay(document.getElementById("c3"), fr => {
+      document.getElementById("l3stats").textContent = `${Lang.t("soups")}: ${fr.soups}`; });
+    this.child = null; document.getElementById("l3next").disabled = true;
+    document.getElementById("l3result").textContent = ""; this.bars({});
+    document.querySelectorAll("#rate button").forEach(b => { b.disabled = false; b.classList.remove("on"); b.onclick = () => this.rate(+b.dataset.v, b); });
+    Music.play("bgm_kitchen_loop", .3);
+    const go = () => Pop.card("card3", () => Voice.play(["dingo_L3_01"]));
+    Theatre.seen.l3 ? go() : Theatre.show("l3", go);
+  },
+  // softmax-max probability per step, averaged over the round, mapped from [1/6, 1] onto 1..5
+  score(roll, i) {
+    const cs = roll.frames.map(f => f.p[i].intent && f.p[i].intent.conf).filter(c => c != null);
+    const m = cs.reduce((a, b) => a + b, 0) / cs.length;
+    return {raw: m, s: Math.max(1, Math.min(5, Math.round(1 + 4 * (m - 1 / 6) / (5 / 6))))};
+  },
+  bars(v) {
+    const row = (who, val, col) => `<div class="cbar"><span>${who}</span><div class="track">${[1, 2, 3, 4, 5].map(n =>
+      `<i style="background:${val && n <= val ? col : "#eee"}"></i>`).join("")}</div><b>${val || "–"}</b></div>`;
+    document.getElementById("confBars").innerHTML = row(Lang.t("you"), v.you, "#e9a94b") + row("Wendy", v.wendy, "#e9c84b") + row("Kai", v.kai, "#2a9d8f");
+  },
+  async rate(v, btn) {
+    this.child = v; btn.classList.add("on"); document.querySelectorAll("#rate button").forEach(b => b.disabled = true);
+    const roll = await Assets.json("presets/soup_shaped");
+    const w = this.score(roll, 0), k = this.score(roll, 1);
+    this.result = {you: v, wendy: w.s, kai: k.s, wendyRaw: w.raw, kaiRaw: k.raw};
+    const shown = {you: v}; this.bars(shown);
+    await Voice.play(["dingo_L3_02"]);
+    shown.wendy = w.s; this.bars(shown); await Voice.play(["wendy_L3_03"]);
+    shown.kai = k.s; this.bars(shown); await Voice.play(["kai_L3_04"]);
+    // a 60 s round: the 400-step trained rollout played at 150 ms/step
+    this.rp.play(roll, {ms: this.ms || 150, onEnd: () => {
+      this.result.soups = roll.soups; App.state.l3 = this.result;
+      document.getElementById("l3result").textContent = Lang.t("l3_reveal")(roll.soups);
+      Pop.question("q3"); Next("l3next", "l4");
+    }});
+  },
+  stop() { this.rp && this.rp.stop(); },
+};
+
+// ---------- L4: soup contest. Child plays Wendy, Kai is the AI partner. 60 s; win >= 2 bowls, 1 = partial ----------
+const L4 = {
+  WIN: 2,        // from web/data/l4_threshold.json (trained Kai+Wendy: 2 bowls in 80 partner steps = 60 s)
+  // end-screen art: text-free frame folders; title / bowls / stars are drawn on top
+  END_ART: {success: {dir: "assets/anim/end_success_bg/", n: 40, still: "assets/ui/end_success_bg.png"},
+            fail: {dir: "assets/anim/end_fail_bg/", n: 40, still: "assets/ui/end_fail_bg.png"}, ext: ".jpg"},
+  // voice ids come from the manifest (level L4, by note/order), not hardcoded numbers
+  lines() {
+    const m = Object.entries(Voice.lines).filter(([, l]) => l.level === "L4").sort((a, b) => a[1].index - b[1].index);
+    const of = tag => m.filter(([, l]) => (l.note || "").startsWith(tag)).map(([id]) => id);
+    const ok = of("成功");
+    return {intro: m.filter(([, l]) => !(l.note || "").match(/^(成功|失败)/) || l.note.includes("开场")).map(([id]) => id),
+            win: ok.filter(id => !/_[ab]$/.test(id)), a: ok.find(id => /_a$/.test(id)), b: ok.find(id => /_b$/.test(id)), fail: of("失败")};
+  },
+  start() {
+    this.g = this.g || new KitchenGame("c4k", {screen: "l4", seconds: 60, onEnd: k => this.end(k)});
+    document.getElementById("endScreen").classList.add("hidden"); document.getElementById("l4next").disabled = true;
+    this.g.reset(); Music.play("bgm_kitchen_loop", .35);
+    document.getElementById("l4start").onclick = () => this.begin();
+    Voice.play(this.lines().intro.slice(0, 1));
+  },
+  begin() {
+    document.getElementById("endScreen").classList.add("hidden");
+    this.g.begin(); const L = this.lines(); Voice.play(L.intro.slice(1));
+  },
+  numberItems(n) {
+    const L = this.lines();
+    return [L.a, n <= 5 ? "num_" + n : {say: String(n)}, n === 1 ? "single_b" : L.b];
+  },
+  async end(k) {
+    const n = k.soups, win = n >= this.WIN; App.state.l4 = {soups: n, win};
+    Music.stop(); Music.jingle(win ? "jingle_success" : "jingle_fail");
+    this.showEnd(win, n);
+    const L = this.lines();
+    await Voice.play(win ? [...L.win, ...this.numberItems(n)] : L.fail);
+    Music.play("bgm_story_loop", .3);
+    Next("l4next", "final");
+  },
+  showEnd(win, n) {
+    const art = this.END_ART[win ? "success" : "fail"], el = document.getElementById("endScreen"), c = document.getElementById("endCanvas");
+    el.classList.remove("hidden"); const ctx = c.getContext("2d");
+    const frames = Array.from({length: art.n}, (_, i) => { const im = new Image(); im.src = art.dir + String(i).padStart(2, "0") + this.END_ART.ext; return im; });
+    const still = new Image(); still.src = art.still;
+    const coin = Assets.img.star_coin, t0 = performance.now();
+    const title = Lang.t(win ? "end_win" : "end_fail"), sub = Lang.t(win ? "end_win_sub" : "end_fail_sub")(n);
+    const draw = () => {
+      if (el.classList.contains("hidden")) return;
+      const i = Math.floor((performance.now() - t0) / 1000 * 12), im = i < art.n ? frames[i] : still;
+      ctx.fillStyle = "#fff8ec"; ctx.fillRect(0, 0, 1280, 720);
+      if (im.complete && im.naturalWidth) ctx.drawImage(im, 0, 0, 1280, 720);
+      ctx.textAlign = "center"; ctx.fillStyle = win ? "#c0661a" : "#56709a"; ctx.font = "bold 84px sans-serif"; ctx.fillText(title, 640, 120);
+      ctx.fillStyle = "#4a3420"; ctx.font = "bold 38px sans-serif"; ctx.fillText(sub, 640, 182);
+      const stars = 3, got = Math.min(n, stars);
+      for (let s = 0; s < stars; s++) { ctx.globalAlpha = s < got ? 1 : .25; ctx.drawImage(coin, 640 + (s - 1) * 150 - 45, 210, 90, 90); }
+      ctx.globalAlpha = 1; ctx.textAlign = "left";
+      requestAnimationFrame(draw);
+    };
+    draw();
+    document.getElementById("again").onclick = () => this.begin();
+  },
+  stop() { this.g && this.g.stop(); },
+  key(e) { this.g && this.g.key(e); },
+};
+
+// ---------- final recap: confidence vs. reality, 4 knowledge cards ----------
+const Final = {
+  start() {
+    Music.play("bgm_story_loop", .3);
+    const s = App.state, l3 = s.l3 || {}, l4 = s.l4 || {};
+    const v = x => x == null ? "–" : x;
+    document.getElementById("finalTable").innerHTML = `<tr><th></th><th>${Lang.t("confidence")}</th><th>${Lang.t("actual")}</th></tr>
+      <tr><td>${Lang.t("you")}</td><td>${v(l3.you)}/5</td><td rowspan="3">L3: ${v(l3.soups)} ${Lang.t("bowls")} / 400<br>L4: ${v(l4.soups)} ${Lang.t("bowls")} / 60 s</td></tr>
+      <tr><td>Wendy</td><td>${v(l3.wendy)}/5</td></tr><tr><td>Kai</td><td>${v(l3.kai)}/5</td></tr>`;
+    Pop.card("card4");
+  },
+};
+
+// ---------- progress (linear) ----------
+const Progress = {
+  ORDER: ["l0", "l1", "l2", "l3", "l4", "final"],
+  max() { return +(localStorage.getItem("progress") || 0); },
+  done(id) { const i = this.ORDER.indexOf(id); if (i > this.max()) localStorage.setItem("progress", i); this.paint(); },
+  paint() {
+    const m = this.max(), cur = this.ORDER.indexOf(App.cur);
+    document.querySelectorAll("[data-go]").forEach(b => { const i = this.ORDER.indexOf(b.dataset.go); if (i > 0 && b.closest(".levels")) b.disabled = i > m; });
+    document.getElementById("progress").innerHTML = this.ORDER.map((id, i) =>
+      `<span class="dot ${i <= m ? "done" : ""} ${i === cur ? "cur" : ""}">${id === "final" ? "★" : i}</span>`).join("");
   },
 };
 
 // ---------- app shell ----------
 const App = {
-  cur: "menu",
+  cur: "menu", state: {},
+  LEVELS: {l0: L0, l1: L1, l2: L2, l3: L3, l4: L4, team: Team, final: Final},
   go(id) {
-    [L1, L2, L3, Team].forEach(l => l.stop && l.stop()); Voice.stop();
+    Object.values(this.LEVELS).forEach(l => l.stop && l.stop()); Voice.stop();
     document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
-    this.cur = id;
-    ({l1: L1, l2: L2, l3: L3, team: Team}[id] || {start() {}}).start();
+    this.cur = id; Progress.paint();
+    if (id === "menu") Music.play("bgm_story_loop", .3);
+    (this.LEVELS[id] || {start() {}}).start();
   },
-  refresh() { if (this.cur === "recap" && L3.rounds.length) Recap.show(L3.rounds); },
+  refresh() { Progress.paint(); },
   async init() {
     await Promise.all([Assets.load(), Fx.load(), Sfx.load(), Voice.load()]);
+    Assets.img.star_coin = Object.assign(new Image(), {src: "assets/ui/star_coin.png"});
     document.getElementById("muteBtn").onclick = () => Sfx.toggle(); document.getElementById("muteBtn").textContent = Sfx.muted ? "🔇" : "🔊";
+    document.getElementById("musicBtn").onclick = () => Music.toggle(); Music.paint();
     document.querySelectorAll("[data-theatre]").forEach(b => b.onclick = () => Theatre.show(b.dataset.theatre));
     document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => this.go(b.dataset.go));
     document.querySelectorAll("[data-q]").forEach(b => b.onclick = () => Pop.question(b.dataset.q));
+    document.querySelectorAll("[data-fs]").forEach(b => b.onclick = () => {
+      const w = document.getElementById(b.dataset.fs); document.fullscreenElement ? document.exitFullscreen() : (w.requestFullscreen && w.requestFullscreen()); });
     document.getElementById("langBtn").onclick = () => { Lang.cur = Lang.cur === "zh" ? "en" : "zh"; Lang.apply(); };
-    document.getElementById("soupReward").onchange = () => L1.run();
-    document.getElementById("l1play").onclick = () => L1.run();
-    document.getElementById("stage").oninput = () => L2.run();
-    document.getElementById("trail").onchange = () => L2.run();
-    document.getElementById("l3start").onclick = () => L3.begin();
-    document.getElementById("agree").onclick = () => L3.agree();
-    document.getElementById("disagree").onclick = () => L3.disagree();
-    window.addEventListener("keydown", e => L3.key(e));
+    document.getElementById("l1train").onclick = () => L1.train();
+    document.getElementById("eps").oninput = () => L2.knob();
+    document.getElementById("l2train").onclick = () => L2.train();
+    window.addEventListener("keydown", e => { if (App.cur === "l0") L0.key(e); if (App.cur === "l4") L4.key(e); });
     Lang.apply(); this.go("menu");
     // opening plays on the first click on the menu (audio needs a user gesture)
-    window.addEventListener("pointerdown", e => { if (!Theatre.seen.intro && this.cur === "menu" && !e.target.closest("[data-go],[data-theatre],#langBtn,#muteBtn")) Theatre.show("intro"); }, {once: true});
+    window.addEventListener("pointerdown", e => { if (!Theatre.seen.intro && this.cur === "menu" && !e.target.closest("button")) Theatre.show("intro"); }, {once: true});
   },
 };
 App.init();

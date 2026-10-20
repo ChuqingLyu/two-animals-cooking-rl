@@ -8,8 +8,10 @@
 <body>
 <header>
   <h1 data-t="title"></h1>
+  <div id="progress"></div>
   <nav>
     <button data-go="menu" data-t="nav_menu"></button>
+    <button id="musicBtn" title="Music on/off">♪</button>
     <button id="muteBtn" title="Sound on/off">🔊</button>
     <button id="langBtn">EN</button>
   </nav>
@@ -17,28 +19,40 @@
 <main>
   <section id="menu" class="screen">
     <div class="levels">
+      <button data-go="l0"><b>0</b> <span data-t="l0_name"></span></button>
       <button data-go="l1"><b>1</b> <span data-t="l1_name"></span></button>
       <button data-go="l2"><b>2</b> <span data-t="l2_name"></span></button>
       <button data-go="l3"><b>3</b> <span data-t="l3_name"></span></button>
-      <button data-go="team"><b>+</b> <span data-t="team_name"></span></button>
+      <button data-go="l4"><b>4</b> <span data-t="l4_name"></span></button>
+      <button data-go="final"><b>★</b> <span data-t="final_name"></span></button>
     </div>
     <button data-theatre="intro" data-t="watch_opening"></button>
     <p class="note" data-t="menu_note"></p>
   </section>
 
+  <section id="l0" class="screen">
+    <div class="toolbar">
+      <span class="hint" data-t="keys"></span>
+      <button data-fs="l0wrap">⛶</button>
+      <button id="l0teach" class="big hidden" data-t="l0_teach"></button>
+      <button id="l0next" class="next" data-t="next" disabled></button>
+    </div>
+    <div id="l0steps" class="steps"></div>
+    <div id="l0wrap" class="kwrap"><canvas id="c0" class="kcanvas" width="1280" height="720" tabindex="0"></canvas></div>
+  </section>
+
   <section id="l1" class="screen">
     <div class="row">
       <canvas id="c1" width="320" height="320"></canvas>
-      <div class="panel">
-        <h3 data-t="l1_reward_table"></h3>
-        <label><span data-t="l1_soup_reward"></span>
-          <select id="soupReward"><option value="50">50</option><option value="0">0</option></select></label>
+      <div class="panel wide">
         <p class="hint" data-t="l1_hint"></p>
-        <p class="small" data-t="l1_precomputed"></p>
+        <div id="l1steps" class="steps small"></div>
+        <button id="l1train" class="big" data-t="train"></button> <span id="l1tries" class="small"></span>
+        <div id="l1msg" class="hint"></div>
         <div id="l1stats" class="stats"></div>
-        <button id="l1play" data-t="replay"></button>
-        <button data-theatre="l1" data-t="watch_again"></button>
         <button class="ask" data-q="q1" data-t="ask"></button>
+        <button data-theatre="l1" data-t="watch_again"></button>
+        <button id="l1next" class="next" data-t="next" disabled></button>
       </div>
     </div>
   </section>
@@ -46,51 +60,62 @@
   <section id="l2" class="screen">
     <div class="row">
       <canvas id="c2" width="320" height="320"></canvas>
-      <div class="panel">
-        <p class="hint" data-t="l2_slider"></p>
-        <input id="stage" type="range" min="0" max="4" step="1" value="0">
-        <div id="stageLabel" class="stats"></div>
+      <div class="panel wide">
+        <p class="hint" data-t="l2_hint"></p>
+        <div class="knob"><img id="dial" src="assets/ui/curiosity_dial.png" alt="curiosity dial">
+          <input id="eps" type="range" min="0" max="100" value="30"></div>
+        <div id="epsLabel" class="stats"></div>
         <label><input type="checkbox" id="trail" checked> <span data-t="l2_trail"></span></label>
+        <button id="l2train" class="big" data-t="train"></button>
         <div id="l2stats" class="stats"></div>
-        <button data-theatre="l2" data-t="watch_again"></button>
         <button class="ask" data-q="q2" data-t="ask"></button>
+        <button data-theatre="l2" data-t="watch_again"></button>
+        <button id="l2next" class="next" data-t="next" disabled></button>
       </div>
     </div>
   </section>
 
   <section id="l3" class="screen">
-    <div class="toolbar">
-      <button id="l3start" data-t="l3_start"></button>
-      <label><input type="checkbox" id="bubbleOn" checked> <span data-t="l3_bubble"></span></label>
-      <span class="hint" data-t="l3_keys"></span>
-      <button data-theatre="l3" data-t="watch_again"></button>
-      <button id="fsBtn" title="Fullscreen">⛶</button>
-    </div>
-    <div id="l3wrap">
-      <canvas id="c3" width="1280" height="720" tabindex="0"></canvas>
-      <div class="l3side">
+    <div class="row">
+      <canvas id="c3" width="320" height="320"></canvas>
+      <div class="panel wide">
+        <p class="hint" data-t="l3_rate"></p>
+        <div id="rate"><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5">5</button></div>
+        <div id="confBars"></div>
         <div id="l3stats" class="stats"></div>
-        <div id="unsureBox" class="unsure hidden">
-          <p data-t="l3_unsure"></p>
-          <button id="agree" data-t="l3_follow"></button>
-          <button id="disagree" data-t="l3_ignore"></button>
-        </div>
+        <div id="l3result" class="hint big"></div>
+        <p class="small" data-t="l3_note"></p>
+        <button class="ask" data-q="q3" data-t="ask"></button>
+        <button data-theatre="l3" data-t="watch_again"></button>
+        <button id="l3next" class="next" data-t="next" disabled></button>
       </div>
     </div>
-    <p class="small" data-t="l3_note"></p>
   </section>
 
-  <section id="recap" class="screen">
-    <h2 data-t="recap_title"></h2>
-    <div class="cards">
-      <div class="card c1"><span data-t="recap_soups"></span><b id="r_soups"></b></div>
-      <div class="card c2"><span data-t="recap_coop"></span><b id="r_coop"></b></div>
-      <div class="card c3"><span data-t="recap_bumps"></span><b id="r_bumps"></b></div>
-      <div class="card c4"><span data-t="recap_questioned"></span><b id="r_q"></b></div>
+  <section id="l4" class="screen">
+    <div class="toolbar">
+      <button id="l4start" class="big" data-t="l4_start"></button>
+      <span class="hint" data-t="keys"></span>
+      <button data-fs="l4wrap">⛶</button>
+      <button id="l4next" class="next" data-t="next" disabled></button>
     </div>
-    <h3 data-t="recap_bars"></h3>
-    <div id="bars"></div>
-    <button class="ask" data-q="q3" data-t="ask"></button>
+    <div id="l4wrap" class="kwrap">
+      <canvas id="c4k" class="kcanvas" width="1280" height="720" tabindex="0"></canvas>
+      <div id="endScreen" class="hidden">
+        <canvas id="endCanvas" class="kcanvas" width="1280" height="720"></canvas>
+        <button id="again" class="big" data-t="again"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="final" class="screen">
+    <h2 data-t="final_title"></h2>
+    <table id="finalTable"></table>
+    <div class="cards">
+      <img src="assets/cards/knowledge_card_1_v2.png" alt="Reward"><img src="assets/cards/knowledge_card_2_v2.png" alt="Exploring">
+      <img src="assets/cards/knowledge_card_4_v2.png" alt="Is it sure?"><img src="assets/cards/knowledge_card_3_v2.png" alt="Team value">
+    </div>
+    <button data-go="team" data-t="team_name"></button>
     <button data-go="menu" data-t="nav_menu"></button>
   </section>
 
