@@ -147,7 +147,7 @@ const Pop = {
       b.onclick = () => { fb.textContent = Lang.t(q + "_fb")[i]; };
       box.appendChild(b);
     });
-    Pop.show("🦉", Lang.t(q), true);
+    Pop.show("", Lang.t(q), true);
   },
   show(title, body, keepChoices, then) {
     if (!keepChoices) document.getElementById("popChoices").innerHTML = "";
