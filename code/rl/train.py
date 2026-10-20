@@ -7,7 +7,7 @@ from . import config as C
 from .envtools import Env, Reward
 from .vdn import VDN, Target, Checkpoint
 
-OUT = Path(__file__).resolve().parent.parent / ("results" + ("_" + C.VARIANT if C.VARIANT else ""))
+OUT = Path(__file__).resolve().parent.parent / (C.OUT_NAME or ("results" + ("_" + C.VARIANT if C.VARIANT else "")))
 
 
 class Seeds:
@@ -36,7 +36,7 @@ class Evaluate:
 class Trainer:
     @staticmethod
     def run(episodes=C.EPISODES):
-        Seeds.fix(C.SEED); torch.set_num_threads(4)
+        Seeds.fix(C.SEED); torch.set_num_threads(int(__import__("os").environ.get("VDN_THREADS", 4)))
         OUT.mkdir(exist_ok=True); (OUT / "ckpt").mkdir(exist_ok=True)
         env = Env.make(); env.reset()
         obs_dim = len(Env.obs(env)[0])
@@ -64,11 +64,14 @@ class Trainer:
                 log[k].append(v)
             print(f"ep {ep} soups={log['soups'][-1]} shaped={tot:.2f} eps={eps:.3f} {log['secs'][-1]:.1f}s", flush=True)
             eps = max(C.EPS_MIN, eps * C.EPS_DECAY)
-            if ep in C.CHECKPOINT_EPISODES or ep == episodes:
+            if ep in C.CHECKPOINT_EPISODES or ep == episodes or (C.EVAL_EVERY and ep % C.EVAL_EVERY == 0):
                 Trainer._ckpt(agent, ep, obs_dim, evals)
                 np.savez(OUT / "train_log.npz", **{k: np.array(v) for k, v in log.items()})
                 json.dump({"episodes_done": ep, "greedy_eval_soups": evals, "seed": C.SEED,
-                           "soups_per_episode": log["soups"]}, open(OUT / "summary.json", "w"), indent=1)
+                           "soups_per_episode": log["soups"],
+                           "shaped_return_per_episode": [round(x, 3) for x in log["shaped"]],
+                           "eps_per_episode": [round(x, 4) for x in log["eps"]],
+                           "reward_weights": C.REWARD_WEIGHTS, "eps_schedule": [C.EPS_START, C.EPS_MIN, C.EPS_DECAY]}, open(OUT / "summary.json", "w"), indent=1)
         Plot.curve(log)
 
     @staticmethod
