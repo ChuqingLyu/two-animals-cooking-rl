@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>两只小动物学做饭 · Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1 data-t="title"></h1>
+  <nav>
+    <button data-go="menu" data-t="nav_menu"></button>
+    <button id="langBtn">EN</button>
+  </nav>
+</header>
+<main>
+  <section id="menu" class="screen">
+    <div class="levels">
+      <button data-go="l1"><b>1</b> <span data-t="l1_name"></span></button>
+      <button data-go="l2"><b>2</b> <span data-t="l2_name"></span></button>
+      <button data-go="l3"><b>3</b> <span data-t="l3_name"></span></button>
+      <button data-go="team"><b>+</b> <span data-t="team_name"></span></button>
+    </div>
+    <p class="note" data-t="menu_note"></p>
+  </section>
+
+  <section id="l1" class="screen">
+    <div class="row">
+      <canvas id="c1" width="320" height="320"></canvas>
+      <div class="panel">
+        <h3 data-t="l1_reward_table"></h3>
+        <label><span data-t="l1_soup_reward"></span>
+          <select id="soupReward"><option value="50">50</option><option value="0">0</option></select></label>
+        <p class="hint" data-t="l1_hint"></p>
+        <p class="small" data-t="l1_precomputed"></p>
+        <div id="l1stats" class="stats"></div>
+        <button id="l1play" data-t="replay"></button>
+        <button class="ask" data-q="q1" data-t="ask"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="l2" class="screen">
+    <div class="row">
+      <canvas id="c2" width="320" height="320"></canvas>
+      <div class="panel">
+        <p class="hint" data-t="l2_slider"></p>
+        <input id="stage" type="range" min="0" max="4" step="1" value="0">
+        <div id="stageLabel" class="stats"></div>
+        <label><input type="checkbox" id="trail" checked> <span data-t="l2_trail"></span></label>
+        <div id="l2stats" class="stats"></div>
+        <button class="ask" data-q="q2" data-t="ask"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="l3" class="screen">
+    <div class="row">
+      <canvas id="c3" width="320" height="320" tabindex="0"></canvas>
+      <div class="panel">
+        <p class="hint" data-t="l3_keys"></p>
+        <label><input type="checkbox" id="bubbleOn" checked> <span data-t="l3_bubble"></span></label>
+        <div id="l3stats" class="stats"></div>
+        <div id="unsureBox" class="unsure hidden">
+          <p data-t="l3_unsure"></p>
+          <button id="agree" data-t="l3_follow"></button>
+          <button id="disagree" data-t="l3_ignore"></button>
+        </div>
+        <button id="l3start" data-t="l3_start"></button>
+        <p class="small" data-t="l3_note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="recap" class="screen">
+    <h2 data-t="recap_title"></h2>
+    <div class="cards">
+      <div class="card c1"><span data-t="recap_soups"></span><b id="r_soups"></b></div>
+      <div class="card c2"><span data-t="recap_coop"></span><b id="r_coop"></b></div>
+      <div class="card c3"><span data-t="recap_bumps"></span><b id="r_bumps"></b></div>
+      <div class="card c4"><span data-t="recap_questioned"></span><b id="r_q"></b></div>
+    </div>
+    <h3 data-t="recap_bars"></h3>
+    <div id="bars"></div>
+    <button class="ask" data-q="q3" data-t="ask"></button>
+    <button data-go="menu" data-t="nav_menu"></button>
+  </section>
+
+  <section id="team" class="screen">
+    <div class="row">
+      <canvas id="c4" width="320" height="320"></canvas>
+      <div class="panel" id="teamPanel"></div>
+    </div>
+  </section>
+</main>
+
+<div id="overlay" class="hidden">
+  <div class="popup">
+    <img id="owl" alt="owl">
+    <div>
+      <h3 id="popTitle"></h3>
+      <p id="popBody"></p>
+      <div id="popChoices"></div>
+      <p id="popFeedback" class="hint"></p>
+      <button id="popClose" data-t="ok"></button>
+    </div>
+  </div>
+</div>
+<script src="i18n.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

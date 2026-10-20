@@ -1,0 +1,21 @@
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff8ec;color:#4a3420}
+header{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:#f3e3c7}
+h1{font-size:22px;margin:0}
+button{font:inherit;background:#f0c98f;border:2px solid #b8864b;border-radius:10px;padding:6px 14px;margin:4px;cursor:pointer}
+button:hover{background:#f6d9ad}
+.screen{display:none;padding:16px}.screen.on{display:block}
+.levels{display:grid;grid-template-columns:repeat(2,240px);gap:14px}
+.levels button{height:90px;font-size:18px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+canvas{background:#fff;border:3px solid #b8864b;border-radius:8px;image-rendering:pixelated;width:480px;height:480px}
+.panel{max-width:380px}.hint{color:#8a5a20}.small,.note{font-size:12px;color:#8a7a6a}
+.stats{background:#fff;border-radius:8px;padding:8px;margin:8px 0;white-space:pre-line}
+input[type=range]{width:300px}
+.unsure{background:#fff;border:2px dashed #888;border-radius:10px;padding:8px}.hidden{display:none!important}
+#overlay{position:fixed;inset:0;background:#0006;display:flex;align-items:center;justify-content:center}
+.popup{background:#fffaf0;border:3px solid #b8864b;border-radius:16px;padding:16px;display:flex;gap:16px;max-width:640px}
+.popup img{width:150px;align-self:flex-end}
+.cards{display:flex;gap:12px}.card{background:#fff;border:3px solid;border-radius:14px;width:150px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.card b{font-size:36px}.c1{border-color:#e9a94b}.c2{border-color:#e98f9a}.c3{border-color:#a7c56b}.c4{border-color:#8aa7d6}
+.bar{display:inline-block;width:40px;margin:0 20px;vertical-align:bottom;text-align:center}
+.choice{display:block;width:100%;text-align:left}

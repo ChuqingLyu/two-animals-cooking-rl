@@ -1,0 +1,213 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Computing MediumLevelActionManager
+Computing MediumLevelActionManager
+Computing MediumLevelActionManager
+Computing MediumLevelActionManager
+[ckpt] ep 0 greedy-eval soups/ep = 0.00
+Computing MediumLevelActionManager
+ep 1 soups=0 shaped=3.05 eps=0.850 1.1s
+Computing MediumLevelActionManager
+ep 2 soups=0 shaped=4.10 eps=0.847 1.3s
+Computing MediumLevelActionManager
+ep 3 soups=0 shaped=3.40 eps=0.843 1.3s
+Computing MediumLevelActionManager
+ep 4 soups=0 shaped=3.60 eps=0.840 1.3s
+Computing MediumLevelActionManager
+ep 5 soups=0 shaped=2.35 eps=0.836 1.3s
+Computing MediumLevelActionManager
+ep 6 soups=1 shaped=9.05 eps=0.833 1.4s
+Computing MediumLevelActionManager
+ep 7 soups=0 shaped=2.40 eps=0.830 1.3s
+Computing MediumLevelActionManager
+ep 8 soups=0 shaped=2.60 eps=0.826 1.7s
+Computing MediumLevelActionManager
+ep 9 soups=1 shaped=3.60 eps=0.823 1.4s
+Computing MediumLevelActionManager
+ep 10 soups=0 shaped=0.50 eps=0.820 1.5s
+Computing MediumLevelActionManager
+ep 11 soups=0 shaped=7.30 eps=0.817 1.7s
+Computing MediumLevelActionManager
+ep 12 soups=0 shaped=6.15 eps=0.813 1.4s
+Computing MediumLevelActionManager
+ep 13 soups=1 shaped=17.25 eps=0.810 1.4s
+Computing MediumLevelActionManager
+ep 14 soups=0 shaped=14.05 eps=0.807 1.4s
+Computing MediumLevelActionManager
+ep 15 soups=0 shaped=7.75 eps=0.804 1.3s
+Computing MediumLevelActionManager
+ep 16 soups=1 shaped=5.70 eps=0.800 1.6s
+Computing MediumLevelActionManager
+ep 17 soups=0 shaped=2.00 eps=0.797 1.4s
+Computing MediumLevelActionManager
+ep 18 soups=0 shaped=2.35 eps=0.794 1.3s
+Computing MediumLevelActionManager
+ep 19 soups=1 shaped=16.70 eps=0.791 1.3s
+Computing MediumLevelActionManager
+ep 20 soups=1 shaped=14.30 eps=0.788 1.3s
+Computing MediumLevelActionManager
+ep 21 soups=0 shaped=3.30 eps=0.785 1.3s
+Computing MediumLevelActionManager
+ep 22 soups=0 shaped=1.30 eps=0.781 1.4s
+Computing MediumLevelActionManager
+ep 23 soups=0 shaped=3.45 eps=0.778 1.3s
+Computing MediumLevelActionManager
+ep 24 soups=0 shaped=6.35 eps=0.775 1.1s
+Computing MediumLevelActionManager
+ep 25 soups=0 shaped=6.10 eps=0.772 1.1s
+Computing MediumLevelActionManager
+ep 26 soups=0 shaped=1.90 eps=0.769 1.0s
+Computing MediumLevelActionManager
+ep 27 soups=0 shaped=5.55 eps=0.766 1.3s
+Computing MediumLevelActionManager
+ep 28 soups=1 shaped=7.60 eps=0.763 1.5s
+Computing MediumLevelActionManager
+ep 29 soups=2 shaped=8.90 eps=0.760 1.3s
+Computing MediumLevelActionManager
+ep 30 soups=0 shaped=5.00 eps=0.757 1.0s
+Computing MediumLevelActionManager
+ep 31 soups=2 shaped=30.30 eps=0.754 1.0s
+Computing MediumLevelActionManager
+ep 32 soups=1 shaped=11.95 eps=0.751 1.0s
+Computing MediumLevelActionManager
+ep 33 soups=2 shaped=35.15 eps=0.748 1.0s
+Computing MediumLevelActionManager
+ep 34 soups=1 shaped=6.75 eps=0.745 1.1s
+Computing MediumLevelActionManager
+ep 35 soups=0 shaped=2.35 eps=0.742 1.1s
+Computing MediumLevelActionManager
+ep 36 soups=0 shaped=2.95 eps=0.739 1.1s
+Computing MediumLevelActionManager
+ep 37 soups=0 shaped=2.30 eps=0.736 1.3s
+Computing MediumLevelActionManager
+ep 38 soups=1 shaped=14.15 eps=0.733 1.4s
+Computing MediumLevelActionManager
+ep 39 soups=1 shaped=14.30 eps=0.730 1.4s
+Computing MediumLevelActionManager
+ep 40 soups=0 shaped=9.90 eps=0.727 1.4s
+Computing MediumLevelActionManager
+ep 41 soups=0 shaped=3.20 eps=0.724 1.4s
+Computing MediumLevelActionManager
+ep 42 soups=2 shaped=17.65 eps=0.721 1.4s
+Computing MediumLevelActionManager
+ep 43 soups=1 shaped=10.30 eps=0.718 1.7s
+Computing MediumLevelActionManager
+ep 44 soups=3 shaped=23.35 eps=0.715 1.6s
+Computing MediumLevelActionManager
+ep 45 soups=2 shaped=12.20 eps=0.713 2.3s
+Computing MediumLevelActionManager
+ep 46 soups=0 shaped=3.60 eps=0.710 1.1s
+Computing MediumLevelActionManager
+ep 47 soups=0 shaped=18.25 eps=0.707 1.1s
+Computing MediumLevelActionManager
+ep 48 soups=1 shaped=13.50 eps=0.704 1.1s
+Computing MediumLevelActionManager
+ep 49 soups=3 shaped=16.95 eps=0.701 1.2s
+Computing MediumLevelActionManager
+ep 50 soups=3 shaped=35.85 eps=0.698 1.1s
+Computing MediumLevelActionManager
+ep 51 soups=2 shaped=24.55 eps=0.696 1.1s
+Computing MediumLevelActionManager
+ep 52 soups=0 shaped=1.55 eps=0.693 1.1s
+Computing MediumLevelActionManager
+ep 53 soups=3 shaped=22.70 eps=0.690 1.1s
+Computing MediumLevelActionManager
+ep 54 soups=1 shaped=30.55 eps=0.687 1.1s
+Computing MediumLevelActionManager
+ep 55 soups=1 shaped=13.40 eps=0.685 1.1s
+Computing MediumLevelActionManager
+ep 56 soups=3 shaped=22.10 eps=0.682 1.0s
+Computing MediumLevelActionManager
+ep 57 soups=2 shaped=13.10 eps=0.679 1.1s
+Computing MediumLevelActionManager
+ep 58 soups=0 shaped=1.75 eps=0.676 1.1s
+Computing MediumLevelActionManager
+ep 59 soups=2 shaped=15.60 eps=0.674 1.1s
+Computing MediumLevelActionManager
+ep 60 soups=2 shaped=11.65 eps=0.671 1.1s
+Computing MediumLevelActionManager
+ep 61 soups=1 shaped=20.10 eps=0.668 1.1s
+Computing MediumLevelActionManager
+ep 62 soups=2 shaped=13.15 eps=0.666 1.1s
+Computing MediumLevelActionManager
+ep 63 soups=1 shaped=19.65 eps=0.663 1.1s
+Computing MediumLevelActionManager
+ep 64 soups=0 shaped=2.00 eps=0.660 1.2s
+Computing MediumLevelActionManager
+ep 65 soups=0 shaped=0.30 eps=0.658 1.1s
+Computing MediumLevelActionManager
+ep 66 soups=0 shaped=3.05 eps=0.655 1.1s
+Computing MediumLevelActionManager
+ep 67 soups=0 shaped=-0.10 eps=0.652 1.1s
+Computing MediumLevelActionManager
+ep 68 soups=0 shaped=3.85 eps=0.650 1.2s
+Computing MediumLevelActionManager
+ep 69 soups=2 shaped=19.80 eps=0.647 1.1s
+Computing MediumLevelActionManager
+ep 70 soups=1 shaped=4.85 eps=0.645 1.1s
+Computing MediumLevelActionManager
+ep 71 soups=0 shaped=14.20 eps=0.642 1.1s
+Computing MediumLevelActionManager
+ep 72 soups=0 shaped=7.75 eps=0.639 1.1s
+Computing MediumLevelActionManager
+ep 73 soups=1 shaped=11.55 eps=0.637 1.2s
+Computing MediumLevelActionManager
+ep 74 soups=0 shaped=6.80 eps=0.634 1.2s
+Computing MediumLevelActionManager
+ep 75 soups=3 shaped=21.20 eps=0.632 1.1s
+Computing MediumLevelActionManager
+ep 76 soups=1 shaped=12.25 eps=0.629 1.1s
+Computing MediumLevelActionManager
+ep 77 soups=2 shaped=12.75 eps=0.627 1.1s
+Computing MediumLevelActionManager
+ep 78 soups=1 shaped=11.75 eps=0.624 1.1s
+Computing MediumLevelActionManager
+ep 79 soups=0 shaped=18.50 eps=0.622 1.1s
+Computing MediumLevelActionManager
+ep 80 soups=1 shaped=8.35 eps=0.619 1.1s
+Computing MediumLevelActionManager
+ep 81 soups=1 shaped=9.50 eps=0.617 1.2s
+Computing MediumLevelActionManager
+ep 82 soups=0 shaped=13.40 eps=0.614 1.1s
+Computing MediumLevelActionManager
+ep 83 soups=1 shaped=21.40 eps=0.612 1.1s
+Computing MediumLevelActionManager
+ep 84 soups=0 shaped=8.55 eps=0.609 1.1s
+Computing MediumLevelActionManager
+ep 85 soups=1 shaped=24.35 eps=0.607 1.1s
+Computing MediumLevelActionManager
+ep 86 soups=0 shaped=34.60 eps=0.605 1.1s
+Computing MediumLevelActionManager
+ep 87 soups=1 shaped=34.70 eps=0.602 1.1s
+Computing MediumLevelActionManager
+ep 88 soups=3 shaped=29.70 eps=0.600 1.1s
+Computing MediumLevelActionManager
+ep 89 soups=0 shaped=31.60 eps=0.597 1.1s
+Computing MediumLevelActionManager
+ep 90 soups=2 shaped=21.60 eps=0.595 1.1s
+Computing MediumLevelActionManager
+ep 91 soups=0 shaped=17.50 eps=0.593 1.9s
+Computing MediumLevelActionManager
+ep 92 soups=1 shaped=19.35 eps=0.590 1.8s
+Computing MediumLevelActionManager
+ep 93 soups=2 shaped=16.00 eps=0.588 2.9s
+Computing MediumLevelActionManager
+ep 94 soups=1 shaped=26.45 eps=0.586 1.4s
+Computing MediumLevelActionManager
+ep 95 soups=3 shaped=32.75 eps=0.583 1.1s
+Computing MediumLevelActionManager
+ep 96 soups=1 shaped=29.20 eps=0.581 1.1s
+Computing MediumLevelActionManager
+ep 97 soups=2 shaped=25.70 eps=0.579 1.4s
+Computing MediumLevelActionManager
+ep 98 soups=1 shaped=29.55 eps=0.576 1.3s
+Computing MediumLevelActionManager
+ep 99 soups=3 shaped=33.55 eps=0.574 1.4s
+Computing MediumLevelActionManager
+ep 100 soups=3 shaped=43.30 eps=0.572 1.4s
+Computing MediumLevelActionManager
+Computing MediumLevelActionManager
+Computing MediumLevelActionManager
+[ckpt] ep 100 greedy-eval soups/ep = 0.00

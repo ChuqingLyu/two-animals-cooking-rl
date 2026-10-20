@@ -1,0 +1,10 @@
+{
+  "_note": "Swap art by replacing files or editing filenames here. Paths are relative to web/assets/. Characters: \"player\" (child-controlled) and \"partner\" (AI); 4 facings each, any size up to 64x96, drawn bottom-anchored to the tile. Bubbles are drawn ~40px wide.",
+  "tiles": {"floor": "tile_floor.png", "counter": "tile_counter.png", "pot": "tile_pot.png",
+            "onion": "tile_onion.png", "dish": "tile_dish.png", "serve": "tile_serve.png"},
+  "player": {"up": "bunny_up.png", "down": "bunny_down.png", "left": "bunny_left.png", "right": "bunny_right.png"},
+  "partner": {"up": "bear_up.png",  "down": "bear_down.png",  "left": "bear_left.png",  "right": "bear_right.png"},
+  "bubbles": {"onion": "bubble_onion.png", "pot": "bubble_pot.png", "dish": "bubble_dish.png",
+              "soup": "bubble_soup.png", "serve": "bubble_serve.png", "unsure": "bubble_unsure.png"},
+  "owl": "owl_teacher.png"
+}

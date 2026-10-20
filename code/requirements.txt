@@ -1,0 +1,7 @@
+overcooked-ai==1.1.0
+torch
+numpy
+scipy
+pillow
+imageio
+matplotlib

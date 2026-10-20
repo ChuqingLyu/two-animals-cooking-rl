@@ -1,0 +1,38 @@
+{
+ "stage_ep0": {
+  "soups": 0,
+  "eps": 0.85
+ },
+ "stage_ep25": {
+  "soups": 0,
+  "eps": 0.769
+ },
+ "stage_ep50": {
+  "soups": 3,
+  "eps": 0.696
+ },
+ "stage_ep100": {
+  "soups": 6,
+  "eps": 0.569
+ },
+ "stage_ep200": {
+  "soups": 13,
+  "eps": 0.381
+ },
+ "greedy_ep0": {
+  "soups": 0,
+  "eps": 0.05
+ },
+ "greedy_ep200": {
+  "soups": 16,
+  "eps": 0.05
+ },
+ "nosoup_ep100": {
+  "soups": 0,
+  "eps": 0.05
+ },
+ "full_ep100": {
+  "soups": 15,
+  "eps": 0.05
+ }
+}
