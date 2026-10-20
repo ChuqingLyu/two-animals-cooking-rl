@@ -11,7 +11,7 @@ const TILE = {X: "counter", P: "pot", O: "onion", D: "dish", S: "serve", " ": "f
 
 // ---------- i18n ----------
 const Lang = {
-  cur: "zh",
+  cur: "en",
   t(k) { return I18N[this.cur][k]; },
   apply() {
     document.querySelectorAll("[data-t]").forEach(e => { const v = this.t(e.dataset.t); if (typeof v === "string") e.textContent = v; });
