@@ -1,6 +1,7 @@
 {
  "C1_s01": {
-  "video": "assets/lines/C1_s01_clean.mp4",
+  "video": "assets/lines/C1_s01.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -21,7 +22,8 @@
   ]
  },
  "C1_s02": {
-  "video": "assets/lines/C1_s02_clean.mp4",
+  "video": "assets/lines/C1_s02.mp4",
+  "subtitled": true,
   "duration": 9.04,
   "source": "scenes.json",
   "lines": [
@@ -42,7 +44,8 @@
   ]
  },
  "C2_s01": {
-  "video": "assets/lines/C2_s01_clean.mp4",
+  "video": "assets/lines/C2_s01.mp4",
+  "subtitled": true,
   "duration": 11.04,
   "source": "scenes.json",
   "lines": [
@@ -63,7 +66,8 @@
   ]
  },
  "C2_s02": {
-  "video": "assets/lines/C2_s02_clean.mp4",
+  "video": "assets/lines/C2_s02.mp4",
+  "subtitled": true,
   "duration": 8.04,
   "source": "scenes.json",
   "lines": [
@@ -77,7 +81,8 @@
   ]
  },
  "C3_s01": {
-  "video": "assets/lines/C3_s01_clean.mp4",
+  "video": "assets/lines/C3_s01.mp4",
+  "subtitled": true,
   "duration": 11.04,
   "source": "scenes.json",
   "lines": [
@@ -98,7 +103,8 @@
   ]
  },
  "C3_s02": {
-  "video": "assets/lines/C3_s02_clean.mp4",
+  "video": "assets/lines/C3_s02.mp4",
+  "subtitled": true,
   "duration": 10.04,
   "source": "scenes.json",
   "lines": [
@@ -119,7 +125,8 @@
   ]
  },
  "L0_s01": {
-  "video": "assets/lines/L0_s01_clean.mp4",
+  "video": "assets/lines/L0_s01.mp4",
+  "subtitled": true,
   "duration": 7.04,
   "source": "scenes.json",
   "lines": [
@@ -133,7 +140,8 @@
   ]
  },
  "L0_s02": {
-  "video": "assets/lines/L0_s02_clean.mp4",
+  "video": "assets/lines/L0_s02.mp4",
+  "subtitled": true,
   "duration": 4.04,
   "source": "scenes.json",
   "lines": [
@@ -147,7 +155,8 @@
   ]
  },
  "L0_s03": {
-  "video": "assets/lines/L0_s03_clean.mp4",
+  "video": "assets/lines/L0_s03.mp4",
+  "subtitled": true,
   "duration": 4.04,
   "source": "scenes.json",
   "lines": [
@@ -161,7 +170,8 @@
   ]
  },
  "L0_s04": {
-  "video": "assets/lines/L0_s04_clean.mp4",
+  "video": "assets/lines/L0_s04.mp4",
+  "subtitled": true,
   "duration": 4.04,
   "source": "scenes.json",
   "lines": [
@@ -175,7 +185,8 @@
   ]
  },
  "L0_s05": {
-  "video": "assets/lines/L0_s05_clean.mp4",
+  "video": "assets/lines/L0_s05.mp4",
+  "subtitled": true,
   "duration": 4.04,
   "source": "scenes.json",
   "lines": [
@@ -189,7 +200,8 @@
   ]
  },
  "L0_s06": {
-  "video": "assets/lines/L0_s06_clean.mp4",
+  "video": "assets/lines/L0_s06.mp4",
+  "subtitled": true,
   "duration": 4.04,
   "source": "scenes.json",
   "lines": [
@@ -203,7 +215,8 @@
   ]
  },
  "L0_s07": {
-  "video": "assets/lines/L0_s07_clean.mp4",
+  "video": "assets/lines/L0_s07.mp4",
+  "subtitled": true,
   "duration": 7.04,
   "source": "scenes.json",
   "lines": [
@@ -217,7 +230,8 @@
   ]
  },
  "L0_s08": {
-  "video": "assets/lines/L0_s08_clean.mp4",
+  "video": "assets/lines/L0_s08.mp4",
+  "subtitled": true,
   "duration": 15.04,
   "source": "scenes.json",
   "lines": [
@@ -238,7 +252,8 @@
   ]
  },
  "L0_s09": {
-  "video": "assets/lines/L0_s09_clean.mp4",
+  "video": "assets/lines/L0_s09.mp4",
+  "subtitled": true,
   "duration": 15.04,
   "source": "scenes.json",
   "lines": [
@@ -252,7 +267,8 @@
   ]
  },
  "L1_s01": {
-  "video": "assets/lines/L1_s01_clean.mp4",
+  "video": "assets/lines/L1_s01.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -266,7 +282,8 @@
   ]
  },
  "L1_s02": {
-  "video": "assets/lines/L1_s02_clean.mp4",
+  "video": "assets/lines/L1_s02.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -294,7 +311,8 @@
   ]
  },
  "L1_s03": {
-  "video": "assets/lines/L1_s03_clean.mp4",
+  "video": "assets/lines/L1_s03.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -308,7 +326,8 @@
   ]
  },
  "L1_s04": {
-  "video": "assets/lines/L1_s04_clean.mp4",
+  "video": "assets/lines/L1_s04.mp4",
+  "subtitled": true,
   "duration": 8.04,
   "source": "scenes.json",
   "lines": [
@@ -329,7 +348,8 @@
   ]
  },
  "L2_s01": {
-  "video": "assets/lines/L2_s01_clean.mp4",
+  "video": "assets/lines/L2_s01.mp4",
+  "subtitled": true,
   "duration": 11.04,
   "source": "scenes.json",
   "lines": [
@@ -350,7 +370,8 @@
   ]
  },
  "L2_s02": {
-  "video": "assets/lines/L2_s02_clean.mp4",
+  "video": "assets/lines/L2_s02.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -364,7 +385,8 @@
   ]
  },
  "L2_s03": {
-  "video": "assets/lines/L2_s03_clean.mp4",
+  "video": "assets/lines/L2_s03.mp4",
+  "subtitled": true,
   "duration": 9.04,
   "source": "scenes.json",
   "lines": [
@@ -385,7 +407,8 @@
   ]
  },
  "L2_s04": {
-  "video": "assets/lines/L2_s04_clean.mp4",
+  "video": "assets/lines/L2_s04.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -399,7 +422,8 @@
   ]
  },
  "L2_s05": {
-  "video": "assets/lines/L2_s05_clean.mp4",
+  "video": "assets/lines/L2_s05.mp4",
+  "subtitled": true,
   "duration": 12.04,
   "source": "scenes.json",
   "lines": [
@@ -413,7 +437,8 @@
   ]
  },
  "L3_s01": {
-  "video": "assets/lines/L3_s01_clean.mp4",
+  "video": "assets/lines/L3_s01.mp4",
+  "subtitled": true,
   "duration": 9.04,
   "source": "scenes.json",
   "lines": [
@@ -427,7 +452,8 @@
   ]
  },
  "L3_s02": {
-  "video": "assets/lines/L3_s02_clean.mp4",
+  "video": "assets/lines/L3_s02.mp4",
+  "subtitled": true,
   "duration": 12.04,
   "source": "scenes.json",
   "lines": [
@@ -455,7 +481,8 @@
   ]
  },
  "L4_s01": {
-  "video": "assets/lines/L4_s01_clean.mp4",
+  "video": "assets/lines/L4_s01.mp4",
+  "subtitled": true,
   "duration": 14.04,
   "source": "scenes.json",
   "lines": [
@@ -476,7 +503,8 @@
   ]
  },
  "L4_s02": {
-  "video": "assets/lines/L4_s02_clean.mp4",
+  "video": "assets/lines/L4_s02.mp4",
+  "subtitled": true,
   "duration": 5.04,
   "source": "scenes.json",
   "lines": [
@@ -497,7 +525,8 @@
   ]
  },
  "L4_s03": {
-  "video": "assets/lines/L4_s03_clean.mp4",
+  "video": "assets/lines/L4_s03.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -525,7 +554,8 @@
   ]
  },
  "L4_s04": {
-  "video": "assets/lines/L4_s04_clean.mp4",
+  "video": "assets/lines/L4_s04.mp4",
+  "subtitled": true,
   "duration": 4.04,
   "source": "scenes.json",
   "lines": [
@@ -539,7 +569,8 @@
   ]
  },
  "recap_L0_s01": {
-  "video": "assets/lines/recap_L0_s01_clean.mp4",
+  "video": "assets/lines/recap_L0_s01.mp4",
+  "subtitled": true,
   "duration": 12.04,
   "source": "scenes.json",
   "lines": [
@@ -560,7 +591,8 @@
   ]
  },
  "recap_L0_s02": {
-  "video": "assets/lines/recap_L0_s02_clean.mp4",
+  "video": "assets/lines/recap_L0_s02.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -581,7 +613,8 @@
   ]
  },
  "recap_L1_s01": {
-  "video": "assets/lines/recap_L1_s01_clean.mp4",
+  "video": "assets/lines/recap_L1_s01.mp4",
+  "subtitled": true,
   "duration": 14.04,
   "source": "scenes.json",
   "lines": [
@@ -602,7 +635,8 @@
   ]
  },
  "recap_L1_s02": {
-  "video": "assets/lines/recap_L1_s02_clean.mp4",
+  "video": "assets/lines/recap_L1_s02.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -623,7 +657,8 @@
   ]
  },
  "recap_L2_s01": {
-  "video": "assets/lines/recap_L2_s01_clean.mp4",
+  "video": "assets/lines/recap_L2_s01.mp4",
+  "subtitled": true,
   "duration": 12.04,
   "source": "scenes.json",
   "lines": [
@@ -644,7 +679,8 @@
   ]
  },
  "recap_L2_s02": {
-  "video": "assets/lines/recap_L2_s02_clean.mp4",
+  "video": "assets/lines/recap_L2_s02.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -665,7 +701,8 @@
   ]
  },
  "recap_L3_s01": {
-  "video": "assets/lines/recap_L3_s01_clean.mp4",
+  "video": "assets/lines/recap_L3_s01.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -686,7 +723,8 @@
   ]
  },
  "recap_L3_s02": {
-  "video": "assets/lines/recap_L3_s02_clean.mp4",
+  "video": "assets/lines/recap_L3_s02.mp4",
+  "subtitled": true,
   "duration": 13.04,
   "source": "scenes.json",
   "lines": [
@@ -707,7 +745,8 @@
   ]
  },
  "recap_L4_s01": {
-  "video": "assets/lines/recap_L4_s01_clean.mp4",
+  "video": "assets/lines/recap_L4_s01.mp4",
+  "subtitled": true,
   "duration": 12.04,
   "source": "scenes.json",
   "lines": [
@@ -728,7 +767,8 @@
   ]
  },
  "recap_L4_s02": {
-  "video": "assets/lines/recap_L4_s02_clean.mp4",
+  "video": "assets/lines/recap_L4_s02.mp4",
+  "subtitled": true,
   "duration": 12.04,
   "source": "scenes.json",
   "lines": [
@@ -749,7 +789,8 @@
   ]
  },
  "recap_L4_s03": {
-  "video": "assets/lines/recap_L4_s03_clean.mp4",
+  "video": "assets/lines/recap_L4_s03.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -763,7 +804,8 @@
   ]
  },
  "story_s01": {
-  "video": "assets/lines/story_s01_clean.mp4",
+  "video": "assets/lines/story_s01.mp4",
+  "subtitled": true,
   "duration": 9.04,
   "source": "scenes.json",
   "lines": [
@@ -784,7 +826,8 @@
   ]
  },
  "story_s02": {
-  "video": "assets/lines/story_s02_clean.mp4",
+  "video": "assets/lines/story_s02.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -798,7 +841,8 @@
   ]
  },
  "story_s03": {
-  "video": "assets/lines/story_s03_clean.mp4",
+  "video": "assets/lines/story_s03.mp4",
+  "subtitled": true,
   "duration": 10.04,
   "source": "scenes.json",
   "lines": [
@@ -812,7 +856,8 @@
   ]
  },
  "story_s04": {
-  "video": "assets/lines/story_s04_clean.mp4",
+  "video": "assets/lines/story_s04.mp4",
+  "subtitled": true,
   "duration": 6.04,
   "source": "scenes.json",
   "lines": [
@@ -826,7 +871,8 @@
   ]
  },
  "trans_s01": {
-  "video": "assets/lines/trans_s01_clean.mp4",
+  "video": "assets/lines/trans_s01.mp4",
+  "subtitled": true,
   "duration": 7.04,
   "source": "scenes.json",
   "lines": [
@@ -840,7 +886,8 @@
   ]
  },
  "trans_s02": {
-  "video": "assets/lines/trans_s02_clean.mp4",
+  "video": "assets/lines/trans_s02.mp4",
+  "subtitled": true,
   "duration": 8.04,
   "source": "scenes.json",
   "lines": [
@@ -854,7 +901,8 @@
   ]
  },
  "trans_s03": {
-  "video": "assets/lines/trans_s03_clean.mp4",
+  "video": "assets/lines/trans_s03.mp4",
+  "subtitled": true,
   "duration": 7.04,
   "source": "scenes.json",
   "lines": [
@@ -868,7 +916,8 @@
   ]
  },
  "trans_s04": {
-  "video": "assets/lines/trans_s04_clean.mp4",
+  "video": "assets/lines/trans_s04.mp4",
+  "subtitled": true,
   "duration": 7.04,
   "source": "scenes.json",
   "lines": [

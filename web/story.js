@@ -52,7 +52,7 @@ class Story {
       if (line.voice) Voice.play([line.voice]);
       await Story.type(txt, Story.text(line));
       if (line.after === "name_input") {
-        await Story.voiceDone();
+        await Story.voiceDone(); Voice.stop();   // name entry needs the dialogue box back
         const row = document.getElementById("dlgNameRow"); row.classList.remove("hidden");
         inp.value = localStorage.getItem("playerName") || ""; inp.placeholder = Story.defaultName(); inp.focus(); Story.inputOpen = true;
         await new Promise(res => { const ok = () => { Story.inputOpen = false; row.classList.add("hidden");

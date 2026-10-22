@@ -187,7 +187,7 @@
   <button id="theatreSkip" data-t="skip"></button>
 </div>
 <div id="subtitle" class="hidden"></div>
-<div id="sceneVideo" class="hidden"><video id="sceneVid" playsinline preload="auto"></video><div id="sceneSub"></div></div>
+<div id="sceneVideo" class="hidden"><video id="sceneVid" playsinline preload="auto"></video><div id="sceneSub"></div><button id="vidNext" class="next big" data-t="next" onclick="event.stopPropagation(); Voice.vidNext()"></button></div>
 <!-- Dingo's welcome dialogue (RPG box, typewriter, name entry) -->
 <div id="dialog" class="hidden home-bg" onclick="Story.click()">
   <div class="dlgStage"><canvas id="dlgDingo" width="358" height="410" aria-label="Dingo"></canvas></div>

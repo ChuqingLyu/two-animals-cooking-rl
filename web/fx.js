@@ -131,11 +131,8 @@ const Voice = {
   fill(t) { return String(t).replace(/\{name\}/g, this.name()); },
   sub(line) {
     this.speaking = line ? line.character : null;
-    if (this.inVideo) {     // scene video: our own speaker-prefixed caption over the clean video
-      const c = document.getElementById("sceneSub"); c.innerHTML = ""; if (!line) return;
-      const b = document.createElement("b"); b.textContent = (this.NAMES[line.character] || line.character) + ": ";
-      c.className = "sub-" + line.character; c.append(b, document.createTextNode(this.fill(line.caption || line.text)));
-      document.getElementById("subtitle").classList.add("hidden"); return;
+    if (this.inVideo) {     // scene video: speaker + line are burned into the video -> no caption box at all
+      document.getElementById("sceneSub").innerHTML = ""; document.getElementById("subtitle").classList.add("hidden"); return;
     }
     if (line && typeof Story !== "undefined" && Story.captures(line)) return;      // story dialogue / bridge show the line in their own box
     const el = document.getElementById("subtitle");
@@ -177,7 +174,7 @@ const Voice = {
         this.audio.play().catch(() => setTimeout(res, 1500 + line.text.length * 45)); });
       await new Promise(r => setTimeout(r, 250));
     }
-    if (tok === this.token) { this.endVideo(); this.sub(null); Music.duck(false); }
+    if (tok === this.token) { this.endVideo(true); this.sub(null); Music.duck(false); }
     return tok === this.token;
   },
   playScene(S, sid, run, tok) {
@@ -192,6 +189,8 @@ const Voice = {
     const hid = id => { const e = document.getElementById(id); return !e || e.classList.contains("hidden"); };
     box.classList.toggle("corner", typeof App !== "undefined" && /^l\d$/.test(App.cur) && hid("dialog") && hid("bridge") && hid("theatre"));
     box.classList.toggle("left", run[0].speaker === "wendy");
+    // story / bridge / recap: just the video + one Continue button (no text box); gameplay corner panel: no button, flow goes on by itself
+    document.body.classList.toggle("vidStage", !box.classList.contains("corner") && hid("theatre"));
     if (!v.src.endsWith(S.video)) v.src = S.video;
     v.muted = Sfx.muted; v.currentTime = t0; this.video = v;
     return new Promise(res => {
@@ -208,9 +207,21 @@ const Voice = {
       v.play().catch(() => { v.muted = true; v.play().catch(() => done(false)); });
     });
   },
-  endVideo() {
+  // hold=true (sequence finished): a centred video stays on its last frame until Continue; the corner panel always closes
+  endVideo(hold) {
     if (this._vres) this._vres();
-    this.inVideo = false; const b = document.getElementById("sceneVideo"); b && b.classList.add("hidden");
+    this.inVideo = false; const b = document.getElementById("sceneVideo");
+    if (hold && b && !b.classList.contains("hidden") && document.body.classList.contains("vidStage")) return;
+    b && b.classList.add("hidden"); document.body.classList.remove("vidStage");
+  },
+  // Continue under a centred scene video: advances whatever flow owns it
+  vidNext() {
+    const $ = id => document.getElementById(id), vis = id => $(id) && !$(id).classList.contains("hidden");
+    if (typeof App !== "undefined" && App.cur === "final" && vis("recap")) return $("recapNext").click();
+    const typing = typeof Story !== "undefined" && Story.typing; if (typing) Story.finish();   // the box's handlers attach once its typewriter is done
+    if (vis("bridge")) return setTimeout(() => $("bridgeNext").click(), 0);
+    if (vis("dialog")) return setTimeout(() => Story.click(), 0);
+    this.stop();
   },
   speak(text, tok) {
     const ref = document.getElementById("dingoRef"), bub = ref && ref.querySelector(".bubble");

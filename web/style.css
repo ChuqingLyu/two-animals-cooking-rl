@@ -354,3 +354,10 @@ mark,mark.term{background:var(--hl);color:var(--ink);padding:0 .25em;border-radi
 @media print{@page{size:landscape;margin:0}
   body *{visibility:hidden!important}#certBox,#certBox *{visibility:visible!important}
   #certBox{position:fixed;left:0;top:0;width:100vw;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* scene videos carry burned-in speaker + line: no caption box; story/bridge/recap show just the video + one Continue */
+#sceneSub{display:none!important}
+body.vidStage #sceneVideo:not(.corner){overflow:visible;background:none;box-shadow:none}body.vidStage #sceneVideo:not(.corner) #sceneVid{border-radius:16px;box-shadow:0 10px 40px #0006;background:#000}
+#vidNext{display:none;pointer-events:auto;position:absolute;right:0;top:calc(100% + 12px);font-family:"Nunito","ZCOOL KuaiLe",sans-serif;color:var(--ink)}
+body.vidStage #sceneVideo:not(.corner):not(.hidden) #vidNext{display:inline-flex}
+body.vidStage #subtitle,body.vidStage #dialog .dlgBox,body.vidStage #dialog .dlgStage,body.vidStage #bridge .bridgeCard,body.vidStage .recapSay{visibility:hidden}

@@ -23,7 +23,7 @@ big = load(f"{SRC}/scenes.json") or {}
 if isinstance(big, dict) and "scenes" in big: big = big["scenes"]
 big = {m["scene_id"]: m for m in big} if isinstance(big, list) else {k: dict(v, scene_id=k) for k, v in big.items()}
 specs = {s["scene_id"]: s for s in (load(f"{SRC}/scene_specs.json") or [])}
-sids = sorted({os.path.basename(p)[:-10] for p in glob.glob(f"{SC}/*_clean.mp4")} | set(big))
+sids = sorted({os.path.basename(p)[:-10] for p in glob.glob(f"{SC}/*_clean.mp4")} | {os.path.basename(p)[:-4] for p in glob.glob(f"{SC}/*.mp4") if not p.endswith("_clean.mp4")} | set(big))
 out, gaps, copied = {}, [], []
 for sid in sids:
     per = load(f"{SC}/{sid}.json") or {}; src = os.path.join(SRC, (big.get(sid) or {}).get("clean_file") or f"scenes/{sid}_clean.mp4")
@@ -40,9 +40,16 @@ for sid in sids:
     else: gaps.append(f"{sid}: no timing (no scenes.json/srt/json)"); continue
     if per.get("ok") is False and how == "json": gaps.append(f"{sid}: GAD marked ok=false (skipped)"); continue
     if not lines: gaps.append(f"{sid}: no lines"); continue
-    dst = os.path.join(DST, f"{sid}_clean.mp4")
+    # caption box is gone in the web player -> prefer GAD's subtitled <scene>.mp4 (speaker + line burned in); _clean only as fallback
+    sub = f"{SC}/{sid}.mp4"; subbed = os.path.exists(sub)
+    if subbed: src = sub
+    else: gaps.append(f"{sid}: no subtitled .mp4 -> using _clean (no captions)")
+    name = f"{sid}.mp4" if subbed else f"{sid}_clean.mp4"; dst = os.path.join(DST, name)
     if not os.path.exists(dst) or not filecmp.cmp(src, dst, shallow=False): shutil.copy2(src, dst); copied.append(sid)
-    out[sid] = {"video": f"assets/lines/{sid}_clean.mp4", "duration": per.get("duration") or (big.get(sid) or {}).get("duration"), "source": how, "lines": lines}
+    out[sid] = {"video": f"assets/lines/{name}", "subtitled": subbed, "duration": per.get("duration") or (big.get(sid) or {}).get("duration"), "source": how, "lines": lines}
+keep = {os.path.basename(v["video"]) for v in out.values()}   # one mp4 per scene: drop stale copies (e.g. old _clean)
+removed = [f for f in os.listdir(DST) if f.endswith(".mp4") and f not in keep]
+for f in removed: os.remove(os.path.join(DST, f))
 json.dump(out, open(os.path.join(DST, "scenes.json"), "w"), indent=1, ensure_ascii=False)
 print("scenes wired:", {k: (v["source"], [l["id"] for l in v["lines"]]) for k, v in out.items()})
-print("copied/updated:", copied); print("gaps:", gaps or "none")
+print("copied/updated:", copied); print("removed stale:", removed); print("gaps:", gaps or "none")

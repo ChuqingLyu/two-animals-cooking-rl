@@ -5,6 +5,8 @@ import asyncio, json, sys
 from playwright.async_api import async_playwright
 URL = "http://localhost:8777/"; OUT = "/workspace/cooking-game/shots/"
 EXPECT = [("L0", "dingo"), ("L1", "wendy"), ("L2", "kai"), ("L3", "dingo"), ("L4", "wendy")]
+async def NEXT(pg):   # video showing -> its Continue button (text box hidden); otherwise the box's Next
+    await pg.click("#vidNext" if await pg.is_visible("#vidNext") else "#recapNext")
 async def main():
     fails = []
     async with async_playwright() as p:
@@ -21,14 +23,16 @@ async def main():
                   const sp=Voice.speaking, v=Final.views.find(v=>v.name===sp);
                   return {level:r.dataset.level, teacher:r.dataset.teacher, teacherFig:f&&f.dataset.who, head:document.getElementById('recapTeacher').textContent,
                     speaker:sp, talkAnim:v?v.ch.action:null, line:document.getElementById('recapLine').textContent, visual:!!document.querySelector('#recapVisual img'),
-                    audio:Voice.audio.src.split('/voice/')[1]||'', scene:Voice.inVideo?document.getElementById('sceneVideo').dataset.scene:'', cap:document.getElementById('sceneSub').textContent, visible:r.checkVisibility(), term:document.getElementById('kcTermMain').textContent, draft:document.getElementById('kcDraft').checkVisibility(), lit:document.querySelectorAll('#kcBullets li.on').length, defn:document.getElementById('kcDef').textContent.length}})()""")
-                ok = st["level"] == lv and st["teacher"] == t and st["teacherFig"] == t and st["visual"] and st["visible"] and st["talkAnim"] == "talk" and (st["scene"].startswith("recap_") and st["cap"].startswith(st["speaker"].capitalize() + ": ") if st["scene"] else st["audio"].startswith("recap/"))
+                    audio:Voice.audio.src.split('/voice/')[1]||'', scene:Voice.inVideo?document.getElementById('sceneVideo').dataset.scene:'', nobox:['subtitle','sceneSub'].every(id=>!document.getElementById(id).checkVisibility())&&!document.querySelector('.recapSay').checkVisibility({visibilityProperty:true}), btn:document.getElementById('vidNext').checkVisibility(), card:document.querySelector('.recapCard,#kcBullets').checkVisibility(), visible:r.checkVisibility(), term:document.getElementById('kcTermMain').textContent, draft:document.getElementById('kcDraft').checkVisibility(), lit:document.querySelectorAll('#kcBullets li.on').length, defn:document.getElementById('kcDef').textContent.length}})()""")
+                ok = st["level"] == lv and st["teacher"] == t and st["teacherFig"] == t and st["visual"] and st["visible"] and st["talkAnim"] == "talk" and (st["scene"].startswith("recap_") and st["nobox"] and st["btn"] and st["card"] if st["scene"] else st["audio"].startswith("recap/"))
                 ok = ok and st["term"] != "" and st["draft"] and st["lit"] == 1 and st["defn"] > 0
                 ok = ok and data["lessons"][i]["level"] == lv and data["lessons"][i]["teacher"] == t
                 print(w, "lesson", i + 1, st, "OK" if ok else "FAIL")
                 if not ok: fails.append((w, i, st))
                 if w != 390 and i in (0, 1): await pg.screenshot(path=f"{OUT}recap_{w}_lesson{i + 1}_{lv}_{t}.png")
-                await pg.click("#recapNext")
+                if w != 390 and i == 0: await pg.screenshot(path=f"{OUT}novidbox_recap_{w}.png")
+                await NEXT(pg)
+                if i + 1 < len(EXPECT): await pg.wait_for_function(f"document.getElementById('recap').dataset.lesson==='{i + 2}'", timeout=4000)
             await pg.wait_for_timeout(900)
             summ = await pg.evaluate("[document.getElementById('kcSummary').checkVisibility(), document.querySelectorAll('#kcSummary li').length]"); print(w, "summary card:", summ); fails += [] if summ == [True, 5] else [(w, "summary", summ)]
             wrap = await pg.evaluate("[document.getElementById('recap').dataset.lesson, document.getElementById('recap').dataset.teacher, document.getElementById('recapLine').textContent]")
@@ -37,7 +41,7 @@ async def main():
             if w != 390: await pg.screenshot(path=f"{OUT}recap_illus_{w}.png")
             il = await pg.evaluate("[document.getElementById('recapIllus').dataset.key, document.querySelector('#recapIllus img').complete && document.querySelector('#recapIllus img').naturalWidth, document.querySelector('#recapIllus .illusText')?.textContent]")
             print(w, "illustration:", il); fails += [] if il[0] == "short_video_reward" and il[1] > 0 and il[2] == "+1" else [(w, "illus", il)]
-            await pg.click("#recapNext"); await pg.wait_for_timeout(1200)
+            await NEXT(pg); await pg.wait_for_timeout(1200)
             cert = await pg.evaluate("""(()=>{const q=s=>document.querySelector('#certBox '+s);return {visible:document.getElementById('certBox').checkVisibility(), name:q('.cName').textContent,
               topics:document.querySelectorAll('#certBox .cTopics li').length, sigs:[...document.querySelectorAll('#certBox .cSig')].map(e=>e.textContent), date:q('.cDate').textContent,
               font:getComputedStyle(q('.cName')).fontFamily, color:getComputedStyle(q('.cName')).color}})()""")

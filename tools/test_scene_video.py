@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Scene video test: L0 opening line dingo_L0_01 plays from the clean scene video (assets/lines/L0_s01_clean.mp4)
-with our own 'Dingo: ...' caption (speaker colored), music ducked, no Kokoro mp3. Server: localhost:8777 -> web/."""
+(subtitled scene video, speaker + line burned in; no caption box; story/bridge show just video + Continue), music ducked, no Kokoro mp3. Server: localhost:8777 -> web/."""
 import asyncio, sys
 from playwright.async_api import async_playwright
 OUT = "/workspace/cooking-game/shots/"
@@ -14,24 +14,45 @@ async def main():
             await pg.goto("http://localhost:8777/"); await pg.wait_for_selector("#theatre:not(.hidden)", timeout=8000); await pg.click("#theatreSkip"); await pg.wait_for_timeout(500)
             fb = await pg.evaluate("Object.keys(Voice.lines).find(k=>k.startsWith('dingo_')&&!Voice.sceneOf[k]&&Voice.lines[k].file&&!Voice.lines[k].cont)")   # a line with no scene video yet -> Kokoro mp3
             await pg.evaluate(f"void Voice.play(['dingo_L0_01','{fb}'])"); await pg.wait_for_timeout(1500)
-            st = await pg.evaluate("""(()=>{const v=document.getElementById('sceneVid'),c=document.getElementById('sceneSub'),bb=c.querySelector('b');
+            NOBOX = "['subtitle','sceneSub'].every(id=>!document.getElementById(id).checkVisibility())"
+            st = await pg.evaluate("""(()=>{const v=document.getElementById('sceneVid');
               return {visible:document.getElementById('sceneVideo').checkVisibility(), src:v.currentSrc.split('/').pop(), playing:!v.paused&&v.currentTime>0.3,
-                caption:c.textContent, cls:c.className, color:bb&&getComputedStyle(bb).color, ducked:Music.ducked, kokoro:!Voice.audio.paused}})()""")
-            ok = st["visible"] and st["src"] == "L0_s01_clean.mp4" and st["playing"] and st["caption"].startswith("Dingo: Welcome") and st["cls"] == "sub-dingo" and st["color"] == "rgb(192, 102, 26)" and st["ducked"] and not st["kokoro"]
-            if w != 390: await pg.screenshot(path=f"{OUT}scene_L0_s01_{w}.png")
+                nobox:"""+NOBOX+""", ducked:Music.ducked, kokoro:!Voice.audio.paused}})()""")
+            ok = st["visible"] and st["src"] == "L0_s01.mp4" and st["playing"] and st["nobox"] and st["ducked"] and not st["kokoro"]
             await pg.wait_for_function("document.getElementById('sceneVideo').classList.contains('hidden') && Voice.audio.src.includes('/voice/')", timeout=12000)
-            after = await pg.evaluate("[document.getElementById('sceneVideo').classList.contains('hidden'), Voice.audio.src.split('/').pop()]")
+            after = await pg.evaluate("[document.getElementById('sceneVideo').classList.contains('hidden'), Voice.audio.src.split('/').pop(), document.getElementById('subtitle').checkVisibility()]")
             await pg.evaluate('Voice.stop()')
-            ok = ok and after[0] and after[1] == fb + ".mp3" and not errs   # next line falls back to Kokoro
-            # gameplay: panel shrinks to the speaker's corner (Dingo -> right, Wendy -> left), centred elsewhere
+            ok = ok and after[0] and after[1] == fb + ".mp3" and after[2] and not errs   # next line falls back to Kokoro and keeps its caption box
+            # story intro: only the video + Continue, no dialogue box; Continue advances to the next line
+            await pg.evaluate("void Story.intro()"); await pg.wait_for_function("document.getElementById('sceneVideo').dataset.scene==='story_s01' && document.getElementById('sceneVid').currentTime>0.5", timeout=8000)
+            si = await pg.evaluate("[document.querySelector('#dialog .dlgBox').checkVisibility({visibilityProperty:true}), document.getElementById('vidNext').checkVisibility(), "+NOBOX+"]")
+            if w != 390: await pg.screenshot(path=f"{OUT}novidbox_story_{w}.png")
+            await pg.evaluate("Story.data.intro.forEach(l=>l.after=null)")   # skip name entry for the test
+            await pg.wait_for_function("!Story.typing", timeout=8000); t0 = await pg.evaluate("document.getElementById('dlgText').textContent")
+            await pg.click("#vidNext"); await pg.wait_for_function("t=>{const x=document.getElementById('dlgText').textContent;return x.length>0&&x!==t&&!Story.typing}", arg=t0, timeout=8000)
+            adv = await pg.evaluate("[Story.data.intro.findIndex(l=>Story.text(l)===document.getElementById('dlgText').textContent), document.getElementById('sceneVid').currentSrc.split('/').pop()]")
+            for _ in range(6):
+                if not await pg.evaluate("Story.active"): break
+                await pg.click("#vidNext", timeout=15000); await pg.wait_for_timeout(400)
+            sdone = await pg.evaluate("[Story.active, document.getElementById('dialog').classList.contains('hidden'), document.getElementById('sceneVideo').classList.contains('hidden')]")
+            print(w, "story:", si, adv, sdone); ok = ok and si == [False, True, True] and adv[0] >= 1 and sdone == [None, True, True]
+            # bridge: video + Continue, Continue leads to the roadmap walk
+            await pg.evaluate("void Story.bridge('l0','l1')"); await pg.wait_for_function("document.getElementById('sceneVideo').dataset.scene==='trans_s01' && !document.getElementById('sceneVideo').classList.contains('hidden')", timeout=8000)
+            br = await pg.evaluate("[document.querySelector('#bridge .bridgeCard').checkVisibility({visibilityProperty:true}), document.getElementById('vidNext').checkVisibility(), "+NOBOX+"]")
+            await pg.click("#vidNext"); await pg.wait_for_timeout(1800)
+            bd = await pg.evaluate("[document.getElementById('bridge').classList.contains('hidden'), document.getElementById('sceneVideo').classList.contains('hidden')]")
+            print(w, "bridge:", br, bd); ok = ok and br == [False, True, True] and bd == [True, True]
+            # gameplay: panel shrinks to the speaker's corner (Dingo -> right, Wendy -> left), no caption box, no Continue (play goes on)
             await pg.evaluate("localStorage.setItem('playerName','Lucy'); App.go('l0'); 0"); await pg.wait_for_timeout(1200)
-            await pg.evaluate("void Voice.play(['dingo_L0_03'])"); await pg.wait_for_function("document.getElementById('sceneSub').textContent.length>0", timeout=6000)
+            await pg.evaluate("void Voice.play(['dingo_L0_03'])"); await pg.wait_for_function("Voice.inVideo && document.getElementById('sceneVid').currentTime>0.5", timeout=6000)
             cor = await pg.evaluate("""(()=>{const b=document.getElementById('sceneVideo'),r=b.getBoundingClientRect();return {corner:b.classList.contains('corner'),left:b.classList.contains('left'),
-              x:Math.round(r.left),w:Math.round(r.width),right:Math.round(innerWidth-r.right),bottom:Math.round(innerHeight-r.bottom),cap:document.getElementById('sceneSub').textContent}})()""")
+              x:Math.round(r.left),w:Math.round(r.width),right:Math.round(innerWidth-r.right),bottom:Math.round(innerHeight-r.bottom),nobox:"""+NOBOX+""",btn:document.getElementById('vidNext').checkVisibility()}})()""")
             await pg.screenshot(path=f"{OUT}scene_L0_s03_corner_{w}.png")
+            if w != 390: await pg.screenshot(path=f"{OUT}novidbox_level_{w}.png")
+            await pg.wait_for_function("document.getElementById('sceneVideo').classList.contains('hidden')", timeout=15000)   # auto-advances, no click needed
             await pg.evaluate("void Voice.play(['wendy_L1_02'])"); await pg.wait_for_timeout(1200)
-            wl = await pg.evaluate("[document.getElementById('sceneVideo').classList.contains('left'), document.getElementById('sceneSub').textContent]")
-            ok = ok and cor["corner"] and not cor["left"] and cor["right"] < 40 and cor["w"] < w * .5 and cor["cap"].startswith("Dingo: ") and wl[0] and wl[1].startswith("Wendy: ")
+            wl = await pg.evaluate("[document.getElementById('sceneVideo').classList.contains('left'), "+NOBOX+"]")
+            ok = ok and cor["corner"] and not cor["left"] and cor["right"] < 40 and cor["w"] < w * .5 and cor["nobox"] and not cor["btn"] and wl == [True, True]
             print(w, "corner:", cor, "wendy:", wl)
             print(w, st, after, errs, "OK" if ok else "FAIL"); ok or fails.append(w); await pg.close()
         await b.close()
