@@ -55,6 +55,21 @@ async def main():
             ok = ok and cor["corner"] and not cor["left"] and cor["right"] < 40 and cor["w"] < w * .5 and cor["nobox"] and not cor["btn"] and wl == [True, True]
             print(w, "corner:", cor, "wendy:", wl)
             print(w, st, after, errs, "OK" if ok else "FAIL"); ok or fails.append(w); await pg.close()
+        # fresh profile: Start -> welcome (double-clicking Continue every step) -> journey map with L0 current, every line shown once
+        pg = await b.new_page(viewport={"width": 1280, "height": 720}); await pg.goto("http://localhost:8777/"); await pg.evaluate("localStorage.clear()"); await pg.reload()
+        await pg.wait_for_selector("#theatre:not(.hidden)", timeout=8000); await pg.click("#theatreSkip"); await pg.wait_for_timeout(500)
+        await pg.evaluate("window._seen=[]; const o=Story.type; Story.type=(el,t,c)=>{_seen.push(t); return o(el,t,c)}; 0")
+        await pg.click("#homeStart"); await pg.wait_for_selector("#dialog:not(.hidden)", timeout=5000)
+        for _ in range(60):
+            if not await pg.evaluate("Story.active"): break
+            if await pg.is_visible("#dlgNameRow"): await pg.fill("#dlgName", "Lucy"); await pg.click("#dlgNameOk"); continue
+            if await pg.is_visible("#vidNext"): await pg.evaluate("{const b=document.getElementById('vidNext'); b.click(); b.click()}")   # fast double click
+            await pg.wait_for_timeout(600)
+        await pg.wait_for_timeout(800)
+        rm = await pg.evaluate("({cur:App.cur, levels:document.getElementById('menu').classList.contains('levelsOn'), current:[...document.querySelectorAll('#roadmap .rmNode.current')].map(n=>n.dataset.i), lines:_seen.length, total:Story.data.intro.length})")
+        await pg.screenshot(path=f"{OUT}intro_to_roadmap_1280.png")
+        rok = rm["cur"] == "menu" and rm["levels"] and rm["current"] == ["0"] and rm["lines"] == rm["total"]
+        print("intro -> roadmap (double clicks):", rm, "OK" if rok else "FAIL"); rok or fails.append("intro_roadmap"); await pg.close()
         await b.close()
     print("RESULT:", "PASS" if not fails else f"FAIL {fails}"); sys.exit(1 if fails else 0)
 asyncio.run(main())

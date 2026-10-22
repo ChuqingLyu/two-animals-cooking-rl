@@ -1,4 +1,4 @@
-// 两只小动物学做饭 — static demo. No server logic; open via any static file server.
+// Q-Kitchen — static demo. No server logic; open via any static file server.
 // Levels 1, 2 and the team-value card replay precomputed rollouts of real VDN checkpoints (data/*.json).
 // Level 3's AI partner is a small rule planner in JS (the trained MLP needs Overcooked's featurizer, not ported).
 "use strict";
@@ -17,7 +17,7 @@ const Lang = {
     document.querySelectorAll("[data-t]").forEach(e => { const v = this.t(e.dataset.t); if (typeof v === "string") e.textContent = v; });
     document.getElementById("langBtn").textContent = this.cur === "zh" ? "EN" : "中文";
     document.documentElement.lang = this.cur;
-    document.title = this.t("title") + " · Demo";
+    document.title = "Q-Kitchen";   // English-only title; Chinese only as the small secondary line under the header title
     App.refresh();
   },
 };
@@ -471,7 +471,11 @@ const Next = (id, to) => { const b = document.getElementById(id); b.disabled = f
 const Flow = {
   busy: false,
   async start() {                                            // home "Start"
-    if (!Flow.introDone) { await Story.intro(); Flow.introDone = true; }
+    if (Flow.busy) return;
+    if (!Flow.introDone) {                                   // first Start: Dingo's welcome, then the journey map with the next stop highlighted
+      Flow.busy = true; try { await Story.intro(); Flow.introDone = true; } finally { Flow.busy = false; }
+      App.seenLevels = true; return App.go("menu");
+    }
     App.go(Progress.cur());
   },
   async next(from, to) {

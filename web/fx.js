@@ -181,7 +181,7 @@ const Voice = {
     const box = document.getElementById("sceneVideo"), v = document.getElementById("sceneVid");
     const t0 = run[0].start, last = run[run.length - 1], i1 = S.lines.indexOf(last);
     const t1 = Math.min(S.duration || 1e9, last.end + (i1 === S.lines.length - 1 ? .35 : .15));   // skip the silent held tail
-    this.inVideo = true; box.classList.remove("hidden"); box.dataset.scene = sid;
+    this.inVideo = true; box.classList.remove("hidden"); box.dataset.scene = sid; this._vnLock = false;
     const slot = document.getElementById("recapVideoSlot"), dock = !!(slot && slot.offsetParent);   // recap: video sits in the stage next to the knowledge card
     if (dock && box.parentNode !== slot) slot.append(box); else if (!dock && box.parentNode !== document.body) document.body.append(box);
     box.classList.toggle("docked", dock);
@@ -217,6 +217,8 @@ const Voice = {
   // Continue under a centred scene video: advances whatever flow owns it
   vidNext() {
     const $ = id => document.getElementById(id), vis = id => $(id) && !$(id).classList.contains("hidden");
+    // one click = one step: repeat clicks are ignored until the next scene segment starts (fallback: 1.5 s)
+    if (this._vnLock) return; this._vnLock = true; clearTimeout(this._vnT); this._vnT = setTimeout(() => this._vnLock = false, 1500);
     if (typeof App !== "undefined" && App.cur === "final" && vis("recap")) return $("recapNext").click();
     const typing = typeof Story !== "undefined" && Story.typing; if (typing) Story.finish();   // the box's handlers attach once its typewriter is done
     if (vis("bridge")) return setTimeout(() => $("bridgeNext").click(), 0);

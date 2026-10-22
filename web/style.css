@@ -361,3 +361,8 @@ body.vidStage #sceneVideo:not(.corner){overflow:visible;background:none;box-shad
 #vidNext{display:none;pointer-events:auto;position:absolute;right:0;top:calc(100% + 12px);font-family:"Nunito","ZCOOL KuaiLe",sans-serif;color:var(--ink)}
 body.vidStage #sceneVideo:not(.corner):not(.hidden) #vidNext{display:inline-flex}
 body.vidStage #subtitle,body.vidStage #dialog .dlgBox,body.vidStage #dialog .dlgStage,body.vidStage #bridge .bridgeCard,body.vidStage .recapSay{visibility:hidden}
+/* journey map page (roadmap screen + bridge maps): GAD's map page art as the bottom layer; home / end of intro keep --home-bg */
+:root{--map-bg:url(assets/roadmap/map_page_bg_1280.webp)}@media (min-width:1301px){:root{--map-bg:url(assets/roadmap/map_page_bg.webp)}}
+.levelsOn #homeStage{background:var(--page-bg) var(--map-bg) center/cover no-repeat}.levelsOn #homeStage::after{content:none}
+#bridge{background:var(--page-bg) var(--map-bg) center/cover no-repeat}
+header h1 .titleSub{display:block;font-size:.55em;font-weight:600;opacity:.75;line-height:1.1}header h1 .titleSub:empty{display:none}

@@ -1,7 +1,7 @@
 // All on-screen text. zh is primary; en is the toggle. Lines marked (placeholder) await the copywriter.
 const I18N = {
 zh: {
-  title: "两只小动物学做饭", nav_menu: "关卡菜单", ok: "知道了", ask: "回答问题", replay: "重新播放",
+  title: "Q-Kitchen", title_sub: "Q 厨房", nav_menu: "关卡菜单", ok: "知道了", ask: "回答问题", replay: "重新播放",
   l1_name: "奖励", l2_name: "探索", l3_name: "合作", team_name: "团队价值",
   menu_note: "演示版：AI 伙伴的行为来自真实训练的 VDN 策略回放（第1、2关）；第3关的 AI 伙伴是规则程序（见 README）。",
   card1_title: "AI 靠奖励学习",
@@ -38,7 +38,7 @@ zh: {
   step_penalty: "每走一步 -0.005",
 },
 en: {
-  title: "Two Little Monsters Learn to Cook", nav_menu: "Levels", ok: "Got it", ask: "Answer", replay: "Replay",
+  title: "Q-Kitchen", title_sub: "", nav_menu: "Levels", ok: "Got it", ask: "Answer", replay: "Replay",
   l1_name: "Reward", l2_name: "Exploration", l3_name: "Cooperation", team_name: "Team value",
   menu_note: "Demo: in levels 1-2 the AI partner replays a really-trained VDN policy; in level 3 the AI partner is a rule program (see README).",
   card1_title: "Reward",
