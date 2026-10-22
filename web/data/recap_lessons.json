@@ -679,5 +679,66 @@
   ],
   "closing_zh": "一句话总结：智能体在环境里做动作，靠奖励试错学习，学会一套策略，还能和队友合作。"
  },
- "_cards_doc": "lessons[].card / summary_card: knowledge-card text, seeded by tools/seed_recap_cards.py from GAD's draft. status=draft until Lucy approves; edit freely, no code change needed."
+ "_cards_doc": "lessons[].card / summary_card: knowledge-card text, seeded by tools/seed_recap_cards.py from GAD's draft. status=draft until Lucy approves; edit freely, no code change needed.",
+ "illustrations": {
+  "_doc": "Recap illustrations (assets/recap/*.webp from GAD art/recap via tools/sync_recap_art.py). overlays: text drawn on the image in game typography, x/y = % of the image (centre).",
+  "onion_pile": {
+   "src": "assets/recap/onion_pile.webp",
+   "overlays": []
+  },
+  "short_video_reward": {
+   "src": "assets/recap/short_video_reward.webp",
+   "overlays": [
+    {
+     "text": "+1",
+     "x": 30.2,
+     "y": 8.4,
+     "size": 3.4
+    }
+   ]
+  },
+  "vacuum_choices": {
+   "src": "assets/recap/vacuum_choices.webp",
+   "overlays": []
+  },
+  "vacuum_fast_dirty": {
+   "src": "assets/recap/vacuum_fast_dirty.webp",
+   "overlays": []
+  },
+  "nav_explore": {
+   "src": "assets/recap/nav_explore.webp",
+   "overlays": []
+  },
+  "new_restaurant": {
+   "src": "assets/recap/new_restaurant.webp",
+   "overlays": []
+  },
+  "chatbot_unsure": {
+   "src": "assets/recap/chatbot_unsure.webp",
+   "overlays": []
+  },
+  "warehouse_robots": {
+   "src": "assets/recap/warehouse_robots.webp",
+   "overlays": []
+  },
+  "team_score": {
+   "src": "assets/recap/team_score.webp",
+   "overlays": []
+  }
+ },
+ "line_illustrations": {
+  "status": "draft",
+  "note": "DRAFT placement, pending Lucy's review: recap line id -> illustration key. Edit freely.",
+  "map": {
+   "recap_03": "vacuum_choices",
+   "recap_06": "onion_pile",
+   "recap_07": "short_video_reward",
+   "recap_10": "vacuum_fast_dirty",
+   "recap_11": "new_restaurant",
+   "recap_12": "nav_explore",
+   "recap_15": "chatbot_unsure",
+   "recap_18": "warehouse_robots",
+   "recap_19": "team_score"
+  }
+ }
 }

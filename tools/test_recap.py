@@ -13,7 +13,7 @@ async def main():
             pg = await b.new_page(viewport={"width": w, "height": h}); errs = []; bad = []
             pg.on("pageerror", lambda e: errs.append(str(e))); pg.on("response", lambda r: r.status >= 400 and bad.append(r.url))
             await pg.goto(URL); await pg.wait_for_selector("#theatre:not(.hidden)", timeout=8000); await pg.click("#theatreSkip"); await pg.wait_for_timeout(500)
-            await pg.evaluate("localStorage.setItem('progress',5); App.go('final')"); await pg.wait_for_timeout(1200)
+            await pg.evaluate("localStorage.setItem('progress',5); localStorage.setItem('playerName','Lucy'); App.go('final')"); await pg.wait_for_timeout(1200)
             data = await pg.evaluate("Final.data")
             for i, (lv, t) in enumerate(EXPECT):
                 await pg.wait_for_timeout(900)
@@ -33,7 +33,20 @@ async def main():
             summ = await pg.evaluate("[document.getElementById('kcSummary').checkVisibility(), document.querySelectorAll('#kcSummary li').length]"); print(w, "summary card:", summ); fails += [] if summ == [True, 5] else [(w, "summary", summ)]
             wrap = await pg.evaluate("[document.getElementById('recap').dataset.lesson, document.getElementById('recap').dataset.teacher, document.getElementById('recapLine').textContent]")
             print(w, "wrap-up:", wrap); fails += [] if wrap[0] == "wrap" and wrap[1] == "dingo" else [(w, "wrap", wrap)]
-            await pg.click("#recapNext"); await pg.wait_for_timeout(300)
+            await pg.evaluate("Final.illus('recap_07')"); await pg.wait_for_function("document.querySelector('#recapIllus img').complete", timeout=5000)
+            if w != 390: await pg.screenshot(path=f"{OUT}recap_illus_{w}.png")
+            il = await pg.evaluate("[document.getElementById('recapIllus').dataset.key, document.querySelector('#recapIllus img').complete && document.querySelector('#recapIllus img').naturalWidth, document.querySelector('#recapIllus .illusText')?.textContent]")
+            print(w, "illustration:", il); fails += [] if il[0] == "short_video_reward" and il[1] > 0 and il[2] == "+1" else [(w, "illus", il)]
+            await pg.click("#recapNext"); await pg.wait_for_timeout(1200)
+            cert = await pg.evaluate("""(()=>{const q=s=>document.querySelector('#certBox '+s);return {visible:document.getElementById('certBox').checkVisibility(), name:q('.cName').textContent,
+              topics:document.querySelectorAll('#certBox .cTopics li').length, sigs:[...document.querySelectorAll('#certBox .cSig')].map(e=>e.textContent), date:q('.cDate').textContent,
+              font:getComputedStyle(q('.cName')).fontFamily, color:getComputedStyle(q('.cName')).color}})()""")
+            dl = await pg.evaluate("Final.downloadCert()")
+            print(w, "certificate:", cert, "png bytes~", dl)
+            if w != 390: await pg.screenshot(path=f"{OUT}certificate_{w}.png")
+            okc = cert["visible"] and cert["name"] == "Lucy" and cert["topics"] == 5 and len(cert["sigs"]) == 3 and cert["date"] and "Nunito" in cert["font"] and cert["color"] == "rgb(74, 53, 40)" and dl > 100000
+            fails += [] if okc else [(w, "cert", cert)]
+            await pg.click("#certNext"); await pg.wait_for_timeout(300)
             rep = await pg.is_visible("#finalTable"); print(w, "report shown:", rep, "| errors:", errs, "| http>=400:", bad)
             if not rep or errs or bad: fails.append((w, "end", rep, errs, bad))
             await pg.close()

@@ -795,7 +795,9 @@ const Final = {
   // i = 0..n-1 lessons, n = wrap-up, n+1 = report
   async show(i) {
     const d = this.data, n = d.lessons.length; this.i = i; Voice.stop();
+    if (i === n + 1) return this.certificate();
     if (i > n) return this.report();
+    document.getElementById("certificate").classList.add("hidden");
     const ls = i < n ? d.lessons[i] : Object.assign({level: "", topic: Lang.t("recap_wrap"), callout: "", terms: []}, d.wrapup);
     const T = Voice.NAMES[ls.teacher] || ls.teacher, rc = document.getElementById("recap");
     rc.dataset.level = ls.level; rc.dataset.teacher = ls.teacher; rc.dataset.lesson = i < n ? i + 1 : "wrap";
@@ -814,6 +816,7 @@ const Final = {
       document.getElementById("recapWho").textContent = (Voice.NAMES[l.character] || l.character) + ":"; document.getElementById("recapWho").className = "sub-" + l.character;
       document.getElementById("recapLine").textContent = Voice.fill(l.text);
       if (i < n && ls.card) this.lite(ls.card, (ls.card.line_bullet || [])[ls.lines.indexOf(l)] ?? 0);
+      this.illus(l.id);
       document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("speaking", f.dataset.who === l.character));
       if (!(await Voice.play([l.id]))) return;
     }
@@ -844,8 +847,49 @@ const Final = {
     $("kcDef").innerHTML = this.mark(this.T(b, "def")); const ex = this.T(b, "kitchen");
     $("kcKitchen").innerHTML = this.mark(ex); $("kcKitchenRow").classList.toggle("hidden", !ex);
   },
+  // recap illustration for a line (data: illustrations + line_illustrations.map); text overlays (e.g. '+1' on the star) in game type
+  illus(id) {
+    const el = document.getElementById("recapIllus"), d = this.data, key = ((d.line_illustrations || {}).map || {})[id], il = key && (d.illustrations || {})[key];
+    el.classList.toggle("hidden", !il); el.dataset.key = key || ""; if (!il) { el.innerHTML = ""; return; }
+    el.innerHTML = `<img src="${il.src}" alt="">` + (il.overlays || []).map(o => `<span class="illusText" style="left:${o.x}%;top:${o.y}%;--s:${o.size || 5}">${o.text}</span>`).join("");
+  },
+  // certificate after the recap: background + GAD layout boxes (data/certificate_layout.json), text from data/certificate.json
+  async certificate() {
+    Voice.stop(); this.tok++;
+    const $ = id => document.getElementById(id);
+    if (!this.cert) try { this.cert = {lay: await (await fetch("data/certificate_layout.json")).json(), txt: await (await fetch("data/certificate.json")).json()}; } catch (e) { return this.report(); }
+    $("recap").classList.add("hidden"); $("certificate").classList.remove("hidden");
+    const {lay, txt} = this.cert, [W, H] = lay.image_size, L = Lang.cur === "zh" ? "zh" : "en", tr = o => (o && (o[L] || o.en)) || "";
+    const box = (r, cls, html) => `<div class="cbox ${cls}" style="left:${r[0] / W * 100}%;top:${r[1] / H * 100}%;width:${(r[2] - r[0]) / W * 100}%;height:${(r[3] - r[1]) / H * 100}%">${html}</div>`;
+    const topics = ((this.data.summary_card || {}).topics || []).map(t => `${t.level} · ` + (L === "zh" ? t.topic_zh : (t.terms.map(b => b.term_en || b.term_zh).join(", ") || t.topic_zh)));
+    const date = new Date().toLocaleDateString((txt.date_format || {})[L] || undefined, {year: "numeric", month: "long", day: "numeric"});
+    $("certBox").style.backgroundImage = `url(${txt.background})`; $("certBox").dataset.status = txt.status || "";
+    $("certBox").innerHTML = box(lay.title, "cTitle", `<span>${tr(txt.title)}</span>`) + box(lay.name, "cName", `<span>${Voice.fill(tr(txt.name))}</span>`)
+      + box(lay.topics_list, "cTopics", `<ol>${topics.slice(0, lay.topics_line_count || 5).map(t => `<li>${t}</li>`).join("")}</ol>`)
+      + lay.signatures.map((r, k) => box(r, "cSig", `<span>${tr(txt.signatures[k])}</span>`)).join("") + box(lay.date, "cDate", `<span>${date}</span>`);
+    $("certDraft").classList.toggle("hidden", txt.status !== "draft"); $("certDraft").textContent = Lang.t("card_draft");
+    $("certNext").onclick = () => this.show(this.data.lessons.length + 2);
+    $("certPrint").onclick = () => window.print();
+    $("certDownload").onclick = () => this.downloadCert();
+  },
+  // draw the same boxes onto a 1920x1080 canvas -> PNG download
+  async downloadCert() {
+    const {lay, txt} = this.cert, [W, H] = lay.image_size, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    const ctx = cv.getContext("2d"), img = new Image(); img.src = txt.background; await img.decode(); await document.fonts.ready;
+    ctx.drawImage(img, 0, 0, W, H); ctx.fillStyle = "#4A3528"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const F = "Nunito, 'ZCOOL KuaiLe', sans-serif";
+    const fit = (t, r, px, wt = 800) => { let s = px; do { ctx.font = `${wt} ${s}px ${F}`; s -= 2; } while (ctx.measureText(t).width > (r[2] - r[0]) * .92 && s > 10); ctx.fillText(t, (r[0] + r[2]) / 2, (r[1] + r[3]) / 2); };
+    const q = s => document.querySelector("#certBox " + s), all = s => [...document.querySelectorAll("#certBox " + s)].map(e => e.textContent);
+    fit(q(".cTitle").textContent, lay.title, 60); fit(q(".cName").textContent, lay.name, 110, 900);
+    const tp = all(".cTopics li"), r = lay.topics_list, lh = (r[3] - r[1]) / (lay.topics_line_count || 5);
+    ctx.textAlign = "left"; tp.forEach((t, k) => { ctx.font = `700 34px ${F}`; ctx.fillText(t, r[0] + 40, r[1] + lh * (k + .5)); });
+    ctx.textAlign = "center"; all(".cSig").forEach((t, k) => fit(t, lay.signatures[k], 34, 700)); fit(q(".cDate").textContent, lay.date, 30, 700);
+    const a = document.createElement("a"); a.download = "certificate_" + Voice.name().replace(/[^\w\u4e00-\u9fff-]+/g, "_") + ".png"; a.href = cv.toDataURL("image/png"); a.click();
+    return a.href.length;
+  },
   report() {
     Voice.stop(); Story.active = null; this.tok++;
+    document.getElementById("certificate").classList.add("hidden");
     document.getElementById("recap").classList.add("hidden"); document.getElementById("finalReport").classList.remove("hidden");
     const s = App.state, l3 = s.l3 || {}, l4 = s.l4 || {};
     const v = x => x == null ? "–" : x;

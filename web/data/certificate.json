@@ -1,0 +1,32 @@
+{
+ "status": "draft",
+ "note": "Certificate text, pending Lucy's review. Boxes come from certificate_layout.json (GAD). {name} = player's name from the intro.",
+ "background": "assets/recap/certificate.webp",
+ "title": {
+  "en": "Little AI Chef",
+  "zh": "小小 AI 厨师"
+ },
+ "name": {
+  "en": "{name}",
+  "zh": "{name}"
+ },
+ "topics": "summary_card",
+ "signatures": [
+  {
+   "en": "Dingo",
+   "zh": "豆丁"
+  },
+  {
+   "en": "Wendy",
+   "zh": "Wendy"
+  },
+  {
+   "en": "Kai",
+   "zh": "Kai"
+  }
+ ],
+ "date_format": {
+  "en": "en-GB",
+  "zh": "zh-CN"
+ }
+}

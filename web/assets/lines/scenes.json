@@ -72,7 +72,7 @@
     "speaker": "dingo",
     "text": "Trying something new is called exploring. Sometimes it's a mess, sometimes you find something better.",
     "start": 0.0,
-    "end": 5.86
+    "end": 5.68
    }
   ]
  },
@@ -155,8 +155,8 @@
     "id": "dingo_L0_03",
     "speaker": "dingo",
     "text": "Now drop it in the pot.",
-    "start": 0.54,
-    "end": 1.86
+    "start": 0.0,
+    "end": 3.04
    }
   ]
  },
@@ -169,8 +169,8 @@
     "id": "dingo_L0_04",
     "speaker": "dingo",
     "text": "Let it cook for a bit.",
-    "start": 0.62,
-    "end": 1.92
+    "start": 0.68,
+    "end": 2.08
    }
   ]
  },
@@ -184,7 +184,7 @@
     "speaker": "dingo",
     "text": "Grab a plate.",
     "start": 0.0,
-    "end": 1.84
+    "end": 1.54
    }
   ]
  },
@@ -198,7 +198,7 @@
     "speaker": "dingo",
     "text": "Serve it right here!",
     "start": 0.0,
-    "end": 2.08
+    "end": 1.68
    }
   ]
  },
@@ -212,7 +212,7 @@
     "speaker": "dingo",
     "text": "You did it! That's a perfect bowl. You're officially a Soup Master!",
     "start": 0.0,
-    "end": 3.78
+    "end": 4.08
    }
   ]
  },
@@ -247,7 +247,7 @@
     "speaker": "dingo",
     "text": "They're my new apprentices. They can't learn just by watching. They learn from stars. Every time they do a step right, you give them a star. Will you teach them?",
     "start": 0.0,
-    "end": 10.32
+    "end": 11.76
    }
   ]
  },
@@ -261,7 +261,7 @@
     "speaker": "dingo",
     "text": "Pick the steps that deserve a star, then press Train.",
     "start": 0.0,
-    "end": 3.76
+    "end": 3.54
    }
   ]
  },
@@ -303,7 +303,7 @@
     "speaker": "dingo",
     "text": "It took them a long time to find their first star.",
     "start": 0.0,
-    "end": 4.06
+    "end": 3.44
    }
   ]
  },
@@ -359,7 +359,7 @@
     "speaker": "dingo",
     "text": "They're very curious. Try turning their curiosity up or down.",
     "start": 0.0,
-    "end": 3.92
+    "end": 4.26
    }
   ]
  },
@@ -394,7 +394,7 @@
     "speaker": "dingo",
     "text": "If they never try anything, they never find a star.",
     "start": 0.0,
-    "end": 3.82
+    "end": 3.5
    }
   ]
  },
@@ -407,8 +407,8 @@
     "id": "dingo_L2_07",
     "speaker": "dingo",
     "text": "A little curious at first, then focused. That's how they find the best path. Trying lots of things at the start really helps!",
-    "start": 0.54,
-    "end": 7.44
+    "start": 0.0,
+    "end": 7.06
    }
   ]
  },
@@ -421,8 +421,8 @@
     "id": "dingo_L3_01",
     "speaker": "dingo",
     "text": "Wow, you taught them well. Ready for the soup contest? First, how sure are you that we'll win?",
-    "start": 0.42,
-    "end": 5.76
+    "start": 0.0,
+    "end": 5.92
    }
   ]
  },
@@ -464,14 +464,14 @@
     "speaker": "dingo",
     "text": "Here's a secret: nobody can make soup alone in this kitchen. You two have to work together!",
     "start": 0.0,
-    "end": 5.54
+    "end": 4.98
    },
    {
     "id": "dingo_L4_02",
     "speaker": "dingo",
     "text": "You'll play as Wendy. Kai is counting on you. Ready... cook!",
-    "start": 6.46,
-    "end": 10.74
+    "start": 6.36,
+    "end": 10.6
    }
   ]
  },
@@ -534,7 +534,7 @@
     "speaker": "dingo",
     "text": "Two bowls wins. You're so close!",
     "start": 0.0,
-    "end": 2.66
+    "end": 2.46
    }
   ]
  },
@@ -548,14 +548,14 @@
     "speaker": "dingo",
     "text": "Remember our very first soup? Onions, pot, cook, plate, serve!",
     "start": 0.0,
-    "end": 5.16
+    "end": 5.26
    },
    {
     "id": "recap_02",
     "speaker": "dingo",
     "text": "In AI words, the cook is the agent. The kitchen is the environment.",
-    "start": 6.22,
-    "end": 10.32
+    "start": 6.18,
+    "end": 10.48
    }
   ]
  },
@@ -793,7 +793,7 @@
     "speaker": "dingo",
     "text": "What a great name, friend. So happy to meet you!",
     "start": 0.0,
-    "end": 3.34
+    "end": 3.24
    }
   ]
  },
@@ -807,7 +807,7 @@
     "speaker": "dingo",
     "text": "Today's a big day. My two little apprentices are learning to cook, and I need a helper. That's you!",
     "start": 0.0,
-    "end": 5.88
+    "end": 6.24
    }
   ]
  },
@@ -821,7 +821,7 @@
     "speaker": "dingo",
     "text": "Let's make some yummy onion soup together. Ready? Follow me!",
     "start": 0.0,
-    "end": 4.16
+    "end": 3.88
    }
   ]
  },
@@ -834,8 +834,8 @@
     "id": "dingo_trans_0_1",
     "speaker": "dingo",
     "text": "Nice work, friend! Now Wendy's turn. Can you teach her with stars?",
-    "start": 0.52,
-    "end": 4.66
+    "start": 0.0,
+    "end": 4.72
    }
   ]
  },
@@ -848,8 +848,8 @@
     "id": "dingo_trans_1_2",
     "speaker": "dingo",
     "text": "Wendy's learning! But Kai never wants to try new things... let's help him explore.",
-    "start": 0.48,
-    "end": 4.54
+    "start": 0.0,
+    "end": 4.86
    }
   ]
  },
@@ -862,8 +862,8 @@
     "id": "dingo_trans_2_3",
     "speaker": "dingo",
     "text": "Curious cooks find new tricks! Now, how sure are they about their moves?",
-    "start": 0.7,
-    "end": 4.56
+    "start": 0.0,
+    "end": 4.86
    }
   ]
  },
@@ -877,7 +877,7 @@
     "speaker": "dingo",
     "text": "They're almost real chefs! Time for the big soup contest. Let's go!",
     "start": 0.0,
-    "end": 4.0
+    "end": 5.16
    }
   ]
  }

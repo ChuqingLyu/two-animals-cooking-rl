@@ -336,3 +336,20 @@ mark,mark.term{background:var(--hl);color:var(--ink);padding:0 .25em;border-radi
 .recapHead h2{font-size:var(--fs-5)}#recapStep,#recapTeacher{color:var(--ink);font-size:var(--fs-3)}
 #recapLine{font-size:var(--fs-4)}
 @media (max-width:900px){.recapBody{grid-template-columns:1fr}.recapStage{min-height:220px}#kcTermMain{font-size:var(--fs-5)}}
+
+/* --- recap illustration (in the knowledge card) --- */
+#recapIllus{position:relative;container-type:inline-size;border-radius:12px;overflow:hidden}
+#recapIllus img{display:block;width:100%;height:auto}
+.illusText{position:absolute;transform:translate(-50%,-50%);font-family:var(--font);font-weight:900;font-size:calc(var(--s) * 1cqw);color:var(--ink);background:var(--hl);border-radius:99px;padding:0 .3em;line-height:1.2}
+#recapIllus:not(.hidden)~#recapVisual{display:none}
+/* --- certificate --- */
+#certificate{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+#certBox{position:relative;width:min(100%,calc((100*var(--vh) - 200px)*16/9));aspect-ratio:16/9;background:center/100% 100% no-repeat;container-type:inline-size;color:var(--ink)}
+.cbox{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--font);color:var(--ink);overflow:hidden}
+.cTitle{font-weight:800;font-size:3.1cqw}.cName{font-weight:900;font-size:5.4cqw}
+.cTopics{justify-content:flex-start}.cTopics ol{list-style:none;margin:0;padding:0 2cqw;width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;text-align:left;font-weight:700;font-size:1.75cqw}
+.cSig{font-weight:700;font-size:1.75cqw}.cDate{font-weight:700;font-size:1.5cqw}
+.certBar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+@media print{@page{size:landscape;margin:0}
+  body *{visibility:hidden!important}#certBox,#certBox *{visibility:visible!important}
+  #certBox{position:fixed;left:0;top:0;width:100vw;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
