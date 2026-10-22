@@ -1,0 +1,15 @@
+{
+ "L0_s01": {
+  "video": "assets/lines/L0_s01_clean.mp4",
+  "duration": 7.04,
+  "lines": [
+   {
+    "id": "dingo_L0_01",
+    "speaker": "dingo",
+    "text": "Welcome to my kitchen! Have you ever made onion soup? Let's make one together.",
+    "start": 0.0,
+    "end": 4.68
+   }
+  ]
+ }
+}

@@ -28,7 +28,7 @@ class Story {
   static async load() { try { Story.data = await (await fetch("data/story.json")).json(); } catch (e) {} }
   static defaultName() { return (Story.data.default_name || {})[Lang.cur] || "Friend"; }
   static text(line) { return Voice.fill(line[Lang.cur] || line.en || ""); }
-  static captures(line) { return !!Story.active && line.character === "dingo"; }
+  static captures(line) { return Story.active === "recap" || (!!Story.active && line.character === "dingo"); }
   static view() { return Story._view || (Story._view = new CharView(document.getElementById("dlgDingo"), "dingo")); }
 
   // typewriter into el; resolves when done; a click (skip()) completes it at once

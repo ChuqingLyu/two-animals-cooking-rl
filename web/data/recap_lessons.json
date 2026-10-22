@@ -1,0 +1,217 @@
+{
+ "_doc": "Recap teaching section (shown after L4). One lesson per level, taught by 'teacher' (dingo|wendy|kai). lines[]: character = who speaks (talk animation + caption), text = caption ({name} allowed), voice = mp3 path under assets/voice/ (empty = text only). Replace text/voice files freely; no code changes needed. Source: cooking-game/voices/script_kokoro/recap/recap_lines.json + docs/recap_teaching.md.",
+ "lessons": [
+  {
+   "level": "L0",
+   "teacher": "dingo",
+   "topic": "Agent, environment, state, action",
+   "callout": "Steps in order = a sequence of decisions",
+   "visual": {
+    "steps": true
+   },
+   "terms": [
+    "agent = the cook",
+    "environment = the kitchen",
+    "state = this moment",
+    "action = the move you pick"
+   ],
+   "lines": [
+    {
+     "id": "recap_01",
+     "character": "dingo",
+     "text": "Remember our very first soup? Onions, pot, cook, plate, serve!",
+     "voice": "recap/recap_01_dingo.mp3"
+    },
+    {
+     "id": "recap_02",
+     "character": "dingo",
+     "text": "In AI words, the cook is the agent. The kitchen is the environment.",
+     "voice": "recap/recap_02_dingo.mp3"
+    },
+    {
+     "id": "recap_03",
+     "character": "dingo",
+     "text": "Each moment in the kitchen is a state. Each move you pick is an action.",
+     "voice": "recap/recap_03_dingo.mp3"
+    },
+    {
+     "id": "recap_04",
+     "character": "wendy",
+     "text": "And the right order of actions makes the soup!",
+     "voice": "recap/recap_04_wendy.mp3"
+    }
+   ]
+  },
+  {
+   "level": "L1",
+   "teacher": "wendy",
+   "topic": "Reward & reward design",
+   "callout": "You learn what you get rewarded for",
+   "visual": {
+    "img": "assets/cards/knowledge_card_1_v2.png"
+   },
+   "terms": [
+    "reward = a gold star",
+    "stars only for onions → zero soup",
+    "small stars for each helpful step → faster"
+   ],
+   "lines": [
+    {
+     "id": "recap_05",
+     "character": "wendy",
+     "text": "Level one was all about rewards! A reward is like a gold star.",
+     "voice": "recap/recap_05_wendy.mp3"
+    },
+    {
+     "id": "recap_06",
+     "character": "wendy",
+     "text": "When I only got stars for onions, I just piled up onions. Zero soup!",
+     "voice": "recap/recap_06_wendy.mp3"
+    },
+    {
+     "id": "recap_07",
+     "character": "wendy",
+     "text": "So reward design matters. You learn what you get rewarded for.",
+     "voice": "recap/recap_07_wendy.mp3"
+    },
+    {
+     "id": "recap_08",
+     "character": "kai",
+     "text": "Good rewards, like small stars for each helpful step, taught us much faster.",
+     "voice": "recap/recap_08_kai.mp3"
+    }
+   ]
+  },
+  {
+   "level": "L2",
+   "teacher": "kai",
+   "topic": "Exploration vs. exploitation",
+   "callout": "Try a lot first, then use what works",
+   "visual": {
+    "img": "assets/ui/curiosity_dial.png"
+   },
+   "terms": [
+    "explore = try new things",
+    "exploit = use what works best",
+    "training = trying again and again"
+   ],
+   "lines": [
+    {
+     "id": "recap_09",
+     "character": "kai",
+     "text": "Level two was about exploring. It means trying new things.",
+     "voice": "recap/recap_09_kai.mp3"
+    },
+    {
+     "id": "recap_10",
+     "character": "kai",
+     "text": "With zero curiosity, we kept bumping into walls. No soup at all.",
+     "voice": "recap/recap_10_kai.mp3"
+    },
+    {
+     "id": "recap_11",
+     "character": "kai",
+     "text": "So at first, try a lot. Later, use what works best. That's exploitation.",
+     "voice": "recap/recap_11_kai.mp3"
+    },
+    {
+     "id": "recap_12",
+     "character": "wendy",
+     "text": "Trying, and trying again, is how we learned. That's training!",
+     "voice": "recap/recap_12_wendy.mp3"
+    }
+   ]
+  },
+  {
+   "level": "L3",
+   "teacher": "dingo",
+   "topic": "Action values, confidence, policy",
+   "callout": "Is the AI sure?",
+   "visual": {
+    "img": "assets/cards/knowledge_card_4_v2.png"
+   },
+   "terms": [
+    "value = a guess of how good an action is",
+    "solid bubble = sure, dashed = not so sure",
+    "low confidence → think for yourself"
+   ],
+   "lines": [
+    {
+     "id": "recap_13",
+     "character": "dingo",
+     "text": "Level three asked a big question: is the AI sure?",
+     "voice": "recap/recap_13_dingo.mp3"
+    },
+    {
+     "id": "recap_14",
+     "character": "dingo",
+     "text": "Each action has a value. That's a guess of how good it will be.",
+     "voice": "recap/recap_14_dingo.mp3"
+    },
+    {
+     "id": "recap_15",
+     "character": "dingo",
+     "text": "Solid bubbles meant sure. Dashed bubbles meant not so sure.",
+     "voice": "recap/recap_15_dingo.mp3"
+    },
+    {
+     "id": "recap_16",
+     "character": "kai",
+     "text": "If our confidence is low, don't trust us too much. Think for yourself!",
+     "voice": "recap/recap_16_kai.mp3"
+    }
+   ]
+  },
+  {
+   "level": "L4",
+   "teacher": "wendy",
+   "topic": "Multi-agent cooperation, team score",
+   "callout": "Two agents, one team",
+   "visual": {
+    "img": "assets/cards/knowledge_card_3_v2.png"
+   },
+   "terms": [
+    "multi-agent = agents working together",
+    "team score = my score + Kai's score",
+    "fewer stars for me can mean a better team"
+   ],
+   "lines": [
+    {
+     "id": "recap_17",
+     "character": "wendy",
+     "text": "Level four was teamwork! You played me, and Kai cooked beside you.",
+     "voice": "recap/recap_17_wendy.mp3"
+    },
+    {
+     "id": "recap_18",
+     "character": "wendy",
+     "text": "Two agents working together is called multi-agent cooperation.",
+     "voice": "recap/recap_18_wendy.mp3"
+    },
+    {
+     "id": "recap_19",
+     "character": "wendy",
+     "text": "The team score is my score plus Kai's score, added up.",
+     "voice": "recap/recap_19_wendy.mp3"
+    },
+    {
+     "id": "recap_20",
+     "character": "kai",
+     "text": "Sometimes you get fewer stars, but the team does better. That's okay.",
+     "voice": "recap/recap_20_kai.mp3"
+    }
+   ]
+  }
+ ],
+ "wrapup": {
+  "teacher": "dingo",
+  "lines": [
+   {
+    "id": "recap_21",
+    "character": "dingo",
+    "text": "Now you know how AI learns. Great job, little chefs!",
+    "voice": "recap/recap_21_dingo.mp3"
+   }
+  ]
+ }
+}

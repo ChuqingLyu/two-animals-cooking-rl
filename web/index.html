@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Two Little Monsters Learn to Cook · Demo</title>
 <link rel="stylesheet" href="style.css">
+<script src="stage.js"></script>
 </head>
 <body>
 <header>
@@ -114,6 +115,24 @@
   </section>
 
   <section id="final" class="screen">
+    <!-- recap teaching: one lesson per level from data/recap_lessons.json, then Dingo's wrap-up, then the trainer report -->
+    <div id="recap">
+      <div class="recapHead"><span id="recapStep"></span><h2 id="recapTitle"></h2><span id="recapTeacher"></span></div>
+      <div class="recapBody">
+        <div class="recapCast">
+          <figure data-who="dingo"><canvas id="recapDingo" width="358" height="410" aria-label="Dingo"></canvas><figcaption>Dingo</figcaption></figure>
+          <figure data-who="wendy"><canvas id="recapWendy" width="174" height="256" aria-label="Wendy"></canvas><figcaption>Wendy</figcaption></figure>
+          <figure data-who="kai"><canvas id="recapKai" width="219" height="256" aria-label="Kai"></canvas><figcaption>Kai</figcaption></figure>
+        </div>
+        <div class="recapBoard panel">
+          <p id="recapCallout"></p>
+          <div id="recapVisual"></div>
+          <ul id="recapTerms"></ul>
+        </div>
+      </div>
+      <div class="recapSay"><b id="recapWho"></b><p id="recapLine"></p><button id="recapNext" class="next big" data-t="next"></button></div>
+    </div>
+    <div id="finalReport" class="hidden">
     <h2 data-t="final_title"></h2>
     <table id="finalTable"></table>
     <div class="cards">
@@ -122,6 +141,7 @@
     </div>
     <button data-go="team" data-t="team_name"></button>
     <button data-go="menu" data-t="nav_menu"></button>
+    </div>
   </section>
 
   <section id="team" class="screen">
@@ -150,6 +170,7 @@
   <button id="theatreSkip" data-t="skip"></button>
 </div>
 <div id="subtitle" class="hidden"></div>
+<div id="sceneVideo" class="hidden"><video id="sceneVid" playsinline preload="auto"></video><div id="sceneSub"></div></div>
 <!-- Dingo's welcome dialogue (RPG box, typewriter, name entry) -->
 <div id="dialog" class="hidden home-bg" onclick="Story.click()">
   <div class="dlgStage"><canvas id="dlgDingo" width="358" height="410" aria-label="Dingo"></canvas></div>

@@ -138,7 +138,7 @@ const Pop = {
     const img = document.createElement("img");
     img.src = "assets/cards/knowledge_card_" + Pop.CARD_IMG[key] + "_v2.png";
     img.alt = Lang.t(key + "_title") + ": " + Lang.t(key);
-    img.style.cssText = "display:block;width:380px;max-width:80vw;border-radius:10px";
+    img.style.cssText = "display:block;width:380px;max-width:calc(80vw / var(--z,1));border-radius:10px";
     if (Lang.cur === "en") {
       document.getElementById("popTitle").textContent = "";
       document.getElementById("popBody").textContent = "";
@@ -775,17 +775,59 @@ const L4 = {
   key(e) { this.g && this.g.key(e); },
 };
 
-// ---------- final recap: confidence vs. reality, 4 knowledge cards ----------
+// ---------- final recap: teaching section (data/recap_lessons.json), Dingo's wrap-up, then the trainer report ----------
 const Final = {
-  start() {
-    Music.scene("menu");
+  async load() {
+    if (this.data) return this.data;
+    try { this.data = await (await fetch("data/recap_lessons.json")).json(); } catch (e) { this.data = {lessons: [], wrapup: {teacher: "dingo", lines: []}}; }
+    const reg = (l, lv) => Voice.lines[l.id] = {file: l.voice || "", character: l.character, level: "recap_" + lv, text: l.text};
+    this.data.lessons.forEach(ls => ls.lines.forEach(l => reg(l, ls.level))); this.data.wrapup.lines.forEach(l => reg(l, "wrap"));
+    return this.data;
+  },
+  async start() {
+    Music.scene("menu"); Story.active = "recap";
+    document.getElementById("recap").classList.remove("hidden"); document.getElementById("finalReport").classList.add("hidden");
+    this.views = this.views || ["dingo", "wendy", "kai"].map(n => new CharView(document.getElementById("recap" + n[0].toUpperCase() + n.slice(1)), n));
+    await this.load(); if (App.cur !== "final") return;
+    document.getElementById("recapNext").onclick = () => this.show(this.i + 1);
+    this.show(0);
+  },
+  // i = 0..n-1 lessons, n = wrap-up, n+1 = report
+  async show(i) {
+    const d = this.data, n = d.lessons.length; this.i = i; Voice.stop();
+    if (i > n) return this.report();
+    const ls = i < n ? d.lessons[i] : Object.assign({level: "", topic: Lang.t("recap_wrap"), callout: "", terms: []}, d.wrapup);
+    const T = Voice.NAMES[ls.teacher] || ls.teacher, rc = document.getElementById("recap");
+    rc.dataset.level = ls.level; rc.dataset.teacher = ls.teacher; rc.dataset.lesson = i < n ? i + 1 : "wrap";
+    document.getElementById("recapStep").textContent = i < n ? Lang.t("recap_lesson")(i + 1, n) + " · " + ls.level : "★";
+    document.getElementById("recapTitle").textContent = (i < n ? Lang.t(ls.level.toLowerCase() + "_name") + ": " : "") + ls.topic;
+    document.getElementById("recapTeacher").textContent = Lang.t("recap_teacher")(T);
+    document.getElementById("recapCallout").textContent = ls.callout || "";
+    const vis = document.getElementById("recapVisual"), v = ls.visual || {}; vis.innerHTML = ""; vis.className = v.steps ? "steps" : "";
+    if (v.steps) Steps.render(vis, new Set([1, 2, 3, 4, 5]), null); else if (v.img) vis.innerHTML = `<img src="${v.img}" alt="">`;
+    document.getElementById("recapTerms").innerHTML = (ls.terms || []).map(t => `<li>${t}</li>`).join("");
+    document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("teacher", f.dataset.who === ls.teacher));
+    document.querySelector(".recapBoard").classList.toggle("hidden", i >= n);
+    const tok = this.tok = (this.tok || 0) + 1;
+    for (const l of ls.lines) {
+      if (tok !== this.tok || App.cur !== "final") return;
+      document.getElementById("recapWho").textContent = (Voice.NAMES[l.character] || l.character) + ":";
+      document.getElementById("recapLine").textContent = Voice.fill(l.text);
+      document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("speaking", f.dataset.who === l.character));
+      if (!(await Voice.play([l.id]))) return;
+    }
+    if (tok === this.tok) document.querySelectorAll(".recapCast figure").forEach(f => f.classList.remove("speaking"));
+  },
+  report() {
+    Voice.stop(); Story.active = null; this.tok++;
+    document.getElementById("recap").classList.add("hidden"); document.getElementById("finalReport").classList.remove("hidden");
     const s = App.state, l3 = s.l3 || {}, l4 = s.l4 || {};
     const v = x => x == null ? "–" : x;
     document.getElementById("finalTable").innerHTML = `<tr><th></th><th>${Lang.t("confidence")}</th><th>${Lang.t("actual")}</th></tr>
       <tr><td>${Lang.t("you")}</td><td>${v(l3.you)}/5</td><td rowspan="3">L3: ${v(l3.soups)} ${Lang.t("bowls")} / 400<br>L4: ${v(l4.soups)} ${Lang.t("bowls")} / 60 s</td></tr>
       <tr><td>Wendy</td><td>${v(l3.wendy)}/5</td></tr><tr><td>Kai</td><td>${v(l3.kai)}/5</td></tr>`;
-    Pop.card("card4");
   },
+  stop() { this.tok = (this.tok || 0) + 1; if (Story.active === "recap") Story.active = null; },
 };
 
 // ---------- progress (linear) ----------
@@ -825,7 +867,7 @@ const App = {
     if (on) Roadmap.render(document.getElementById("roadmap"), Progress.ORDER.indexOf(Progress.cur()), {clickable: true});
   },
   async init() {
-    await Promise.all([Assets.load(), Fx.load(), Sfx.load(), Voice.load(), Character.load(), Story.load(), Guide.load(), Music.loadConfig(), Roadmap.load()]);
+    await Promise.all([Assets.load(), Fx.load(), Sfx.load(), Voice.load(), Voice.loadScenes(), Character.load(), Story.load(), Guide.load(), Music.loadConfig(), Roadmap.load()]);
     KaiNet.load(await Assets.json("kai_net"));
     Assets.img.star_coin = Object.assign(new Image(), {src: "assets/ui/star_coin.png"});
     document.getElementById("muteBtn").onclick = () => Sfx.toggle(); document.getElementById("muteBtn").textContent = Sfx.muted ? "🔇" : "🔊";

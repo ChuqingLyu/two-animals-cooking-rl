@@ -119,11 +119,24 @@ const Voice = {
       m.filter(l => l.level === lv).forEach((l, i) => { const c = cues[i], mm = c && c.match(/^([^:]{1,12}):\s*(.*)$/); if (mm) Object.assign(l, {speaker: mm[1], caption: mm[2]}); });
     }));
   },
+  // scene videos (assets/lines/scenes.json, built by tools/sync_scenes.py): file_id -> {scene, start, end}
+  scenes: {}, sceneOf: {},
+  async loadScenes() {
+    try { const r = await fetch("assets/lines/scenes.json"); if (r.ok) this.scenes = await r.json(); } catch (e) {}
+    if (!document.createElement("video").canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')) this.scenes = {};   // no H.264: Kokoro fallback
+    for (const [sid, sc] of Object.entries(this.scenes)) sc.lines.forEach((l, i) => this.sceneOf[l.id] = {sid, i});
+  },
   ids(level) { return Object.keys(this.lines).filter(k => this.lines[k].level === level); },
   name() { return localStorage.getItem("playerName") || (typeof Story !== "undefined" ? Story.defaultName() : "Friend"); },
   fill(t) { return String(t).replace(/\{name\}/g, this.name()); },
   sub(line) {
     this.speaking = line ? line.character : null;
+    if (this.inVideo) {     // scene video: our own speaker-prefixed caption over the clean video
+      const c = document.getElementById("sceneSub"); c.innerHTML = ""; if (!line) return;
+      const b = document.createElement("b"); b.textContent = (this.NAMES[line.character] || line.character) + ": ";
+      c.className = "sub-" + line.character; c.append(b, document.createTextNode(this.fill(line.caption || line.text)));
+      document.getElementById("subtitle").classList.add("hidden"); return;
+    }
     if (line && typeof Story !== "undefined" && Story.captures(line)) return;      // story dialogue / bridge show the line in their own box
     const el = document.getElementById("subtitle");
     const ref = document.getElementById("dingoRef"), bub = ref && ref.querySelector(".bubble");
@@ -142,21 +155,55 @@ const Voice = {
     const b = document.createElement("b"); b.textContent = (line.speaker || this.NAMES[line.character] || line.character) + ": ";
     el.append(b, document.createTextNode(this.fill(line.caption || line.text))); el.className = "sub-" + line.character;
   },
-  stop() { this.token++; Music.duck(false); this.audio.pause(); speechSynthesis && speechSynthesis.cancel(); this.sub(null); },
+  stop() { this.endVideo(); this.token++; Music.duck(false); this.audio.pause(); speechSynthesis && speechSynthesis.cancel(); this.sub(null); },
   // items: voice ids, or {say: "text"} for spoken text without a recording (e.g. the number in dingo_L4_04)
   async play(items) {
     this.stop(); const tok = this.token; Music.duck(true);
-    for (const it of items) {
+    for (let k = 0; k < items.length; k++) {
+      const it = items[k];
       if (tok !== this.token) return false;
-      if (typeof it === "object") { await this.speak(it.say, tok); continue; }
+      if (typeof it === "object") { this.endVideo(); await this.speak(it.say, tok); continue; }
+      const sc = this.sceneOf[it];
+      if (sc) {   // run of consecutive ids from the same scene video -> one continuous segment (voice = video audio)
+        const S = this.scenes[sc.sid], run = [S.lines[sc.i]];
+        while (k + 1 < items.length && typeof items[k + 1] === "string" && (this.sceneOf[items[k + 1]] || {}).sid === sc.sid) run.push(S.lines[this.sceneOf[items[++k]].i]);
+        if (!(await this.playScene(S, sc.sid, run, tok))) { S.lines.forEach(l => delete this.sceneOf[l.id]); k -= run.length; }   // video failed -> mp3 fallback
+        continue;
+      }
+      this.endVideo();
       const line = this.lines[it]; if (!line) continue;
       this.sub(line);
       await new Promise(res => { this.audio.src = "assets/voice/" + line.file; this.audio.muted = Sfx.muted; this.audio.onended = res; this.audio.onerror = res;
         this.audio.play().catch(() => setTimeout(res, 1500 + line.text.length * 45)); });
       await new Promise(r => setTimeout(r, 250));
     }
-    if (tok === this.token) { this.sub(null); Music.duck(false); }
+    if (tok === this.token) { this.endVideo(); this.sub(null); Music.duck(false); }
     return tok === this.token;
+  },
+  playScene(S, sid, run, tok) {
+    const box = document.getElementById("sceneVideo"), v = document.getElementById("sceneVid");
+    const t0 = run[0].start, last = run[run.length - 1], i1 = S.lines.indexOf(last);
+    const t1 = i1 === S.lines.length - 1 ? (S.duration || last.end + .5) : last.end + .15;
+    this.inVideo = true; box.classList.remove("hidden"); box.dataset.scene = sid;
+    if (!v.src.endsWith(S.video)) v.src = S.video;
+    v.muted = Sfx.muted; v.currentTime = t0; this.video = v;
+    return new Promise(res => {
+      let cur = null; const done = (ok = true) => { if (!this._vres) return; v.ontimeupdate = v.onended = v.onerror = null; this._vres = null; v.pause(); this.sub(null); res(ok !== false); };
+      this._vres = done;
+      v.ontimeupdate = () => {
+        if (tok !== this.token) return done();
+
+        const t = v.currentTime, l = run.find(l => t >= l.start - .05 && t < l.end + .1) || null;
+        if (l !== cur) { cur = l; this.sub(l && Object.assign({}, this.lines[l.id] || {}, {character: l.speaker, text: l.text, caption: null})); }
+        if (t >= t1) done();
+      };
+      v.onended = () => done(); v.onerror = () => done(false);
+      v.play().catch(() => { v.muted = true; v.play().catch(() => done(false)); });
+    });
+  },
+  endVideo() {
+    if (this._vres) this._vres();
+    this.inVideo = false; const b = document.getElementById("sceneVideo"); b && b.classList.add("hidden");
   },
   speak(text, tok) {
     const ref = document.getElementById("dingoRef"), bub = ref && ref.querySelector(".bubble");
