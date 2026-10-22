@@ -11,15 +11,19 @@ const TILE = {X: "counter", P: "pot", O: "onion", D: "dish", S: "serve", " ": "f
 
 // ---------- i18n ----------
 const Lang = {
-  cur: "en",
+  cur: localStorage.getItem("lang") === "zh" ? "zh" : "en",   // English by default (browser locale ignored); the EN / 中文 toggle persists the choice
   t(k) { return I18N[this.cur][k]; },
   apply() {
     document.querySelectorAll("[data-t]").forEach(e => { const v = this.t(e.dataset.t); if (typeof v === "string") e.textContent = v; });
-    document.getElementById("langBtn").textContent = this.cur === "zh" ? "EN" : "中文";
+    const lb = document.getElementById("langBtn"); lb.innerHTML = `<b class="${this.cur === "en" ? "on" : ""}">EN</b> / <b class="${this.cur === "zh" ? "on" : ""}">中文</b>`;
+    lb.setAttribute("aria-label", this.cur === "zh" ? "Switch to English" : "切换到中文");
     document.documentElement.lang = this.cur;
     document.title = "Q-Kitchen";   // English-only title; Chinese only as the small secondary line under the header title
     App.refresh();
+    if (typeof App !== "undefined" && App.cur === "final" && typeof Final !== "undefined") Final.relang();
+    if (typeof App !== "undefined" && App.cur === "menu" && App.seenLevels) App.homeLevels(true);   // roadmap stop labels
   },
+  toggle() { this.cur = this.cur === "zh" ? "en" : "zh"; localStorage.setItem("lang", this.cur); this.apply(); },
 };
 
 // ---------- assets (all filenames from assets/manifest.json) ----------
@@ -784,7 +788,7 @@ const Final = {
   async load() {
     if (this.data) return this.data;
     try { this.data = await (await fetch("data/recap_lessons.json")).json(); } catch (e) { this.data = {lessons: [], wrapup: {teacher: "dingo", lines: []}}; }
-    const reg = (l, lv) => Voice.lines[l.id] = {file: l.voice || "", character: l.character, level: "recap_" + lv, text: l.text};
+    const reg = (l, lv) => Voice.lines[l.id] = {id: l.id, file: l.voice || "", character: l.character, level: "recap_" + lv, text: l.text};
     this.data.lessons.forEach(ls => ls.lines.forEach(l => reg(l, ls.level))); this.data.wrapup.lines.forEach(l => reg(l, "wrap"));
     return this.data;
   },
@@ -806,9 +810,8 @@ const Final = {
     const T = Voice.NAMES[ls.teacher] || ls.teacher, rc = document.getElementById("recap");
     rc.dataset.level = ls.level; rc.dataset.teacher = ls.teacher; rc.dataset.lesson = i < n ? i + 1 : "wrap";
     document.getElementById("recapStep").textContent = i < n ? Lang.t("recap_lesson")(i + 1, n) + " · " + ls.level : "★";
-    document.getElementById("recapTitle").textContent = (i < n ? Lang.t(ls.level.toLowerCase() + "_name") + ": " : "") + ls.topic;
+    this.heads(ls, i, n);
     document.getElementById("recapTeacher").textContent = Lang.t("recap_teacher")(T);
-    document.getElementById("recapCallout").textContent = ls.callout || "";
     const vis = document.getElementById("recapVisual"), v = ls.visual || {}; vis.innerHTML = ""; vis.className = v.steps ? "steps" : "";
     if (v.steps) Steps.render(vis, new Set([1, 2, 3, 4, 5]), null); else if (v.img) vis.innerHTML = `<img src="${v.img}" alt="">`;
     document.getElementById("recapTerms").innerHTML = (ls.terms || []).map(t => `<li>${t}</li>`).join("");
@@ -818,13 +821,26 @@ const Final = {
     for (const l of ls.lines) {
       if (tok !== this.tok || App.cur !== "final") return;
       document.getElementById("recapWho").textContent = (Voice.NAMES[l.character] || l.character) + ":"; document.getElementById("recapWho").className = "sub-" + l.character;
-      document.getElementById("recapLine").textContent = Voice.fill(l.text);
+      document.getElementById("recapLine").textContent = Voice.fill((Lang.cur === "zh" && Voice.zhLine(l.id)) || l.text);
       if (i < n && ls.card) this.lite(ls.card, (ls.card.line_bullet || [])[ls.lines.indexOf(l)] ?? 0);
       this.illus(l.id);
       document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("speaking", f.dataset.who === l.character));
       if (!(await Voice.play([l.id]))) return;
     }
     if (tok === this.tok) document.querySelectorAll(".recapCast figure").forEach(f => f.classList.remove("speaking"));
+  },
+  heads(ls, i, n) {
+    const zh = Lang.cur === "zh";
+    document.getElementById("recapTitle").textContent = (i < n ? Lang.t(ls.level.toLowerCase() + "_name") + ": " : "") + ((zh && ls.topic_zh) || ls.topic);
+    document.getElementById("recapCallout").textContent = (zh && ls.callout_zh) || ls.callout || "";
+  },
+  // language toggle while the recap / certificate is open: re-render text in place (voice and flow keep going)
+  relang() {
+    const $ = id => document.getElementById(id), d = this.data; if (!d) return;
+    if (!$("certificate").classList.contains("hidden")) return this.certificate();
+    if ($("recap").classList.contains("hidden") || this.i == null) return;
+    const n = d.lessons.length, i = this.i, ls = i < n ? d.lessons[i] : Object.assign({level: "", topic: Lang.t("recap_wrap"), callout: ""}, d.wrapup);
+    this.heads(ls, i, n); this.card(i < n ? ls.card : null, i >= n); this._lite && i < n && this.lite(...this._lite);
   },
   // knowledge card (text = data, may be a draft); bullet b lights up and drives the headline term / definition / kitchen example
   T(o, k) { const en = Lang.cur !== "zh" && o[k + "_en"]; return en || o[k + "_zh"] || ""; },
@@ -843,6 +859,7 @@ const Final = {
     this.lite(c, 0);
   },
   lite(c, k) {
+    this._lite = [c, k];
     const $ = id => document.getElementById(id);
     document.querySelectorAll("#kcBullets li").forEach(li => li.classList.toggle("on", +li.dataset.b === k));
     let h = k; while (h > 0 && !c.bullets[h].term_zh) h--;
@@ -951,7 +968,7 @@ const App = {
     document.querySelectorAll("[data-q]").forEach(b => b.onclick = () => Pop.question(b.dataset.q));
     document.querySelectorAll("[data-fs]").forEach(b => b.onclick = () => {
       const w = document.getElementById(b.dataset.fs); document.fullscreenElement ? document.exitFullscreen() : (w.requestFullscreen && w.requestFullscreen()); });
-    document.getElementById("langBtn").onclick = () => { Lang.cur = Lang.cur === "zh" ? "en" : "zh"; Lang.apply(); };
+    document.getElementById("langBtn").onclick = () => Lang.toggle();
     document.getElementById("l1train").onclick = () => L1.train();
     document.getElementById("eps").oninput = () => L2.knob();
     document.getElementById("l2train").onclick = () => L2.train();

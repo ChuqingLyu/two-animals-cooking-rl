@@ -100,10 +100,18 @@ const Music = {
 // Voice lines from assets/voice/manifest.json (file, character, level, text). Plays a queue with subtitles.
 const Voice = {
   audio: new Audio(), lines: {}, queue: [], token: 0,
-  NAMES: {dingo: "Dingo", wendy: "Wendy", kai: "Kai"},
+  NAMES: {dingo: "Dingo", wendy: "Wendy", kai: "Kai"}, NAMES_ZH: {dingo: "豆丁", wendy: "Wendy", kai: "Kai"},
+  // Chinese line text (data/scene_lines_zh.json): scenes[sid][i].zh for scene videos, voice[id].zh for mp3 / Kokoro lines; "" = not translated yet
+  zh: {scenes: {}, voice: {}},
+  zhLine(id) { const sc = this.sceneOf[id], z = sc && (this.zh.scenes[sc.sid] || [])[sc.i]; return (z && z.zh) || ((this.zh.voice[id] || {}).zh) || ""; },
+  // Chinese mode plays the clean video + web subtitles, but only when every line of the scene has Chinese text and the clean file was synced
+  zhScene(S, sid) { const z = this.zh.scenes[sid]; return Lang.cur === "zh" && !!S.video_clean && !!z && S.lines.every((l, i) => z[i] && z[i].zh); },
+  cap(line) { return this.fill((Lang.cur === "zh" && line.id && this.zhLine(line.id)) || line.caption || line.text); },
+  who(line) { return line.speaker && !(Lang.cur === "zh" && line.id && this.zhLine(line.id)) ? line.speaker : ((Lang.cur === "zh" ? this.NAMES_ZH : this.NAMES)[line.character] || line.speaker || line.character); },
   async load() {
     const m = await (await fetch("assets/voice/manifest.json")).json();
-    m.forEach(l => this.lines[l.file.replace(".mp3", "")] = l);
+    m.forEach(l => this.lines[l.id = l.file.replace(".mp3", "")] = l);
+    try { const r = await fetch("data/scene_lines_zh.json"); if (r.ok) Object.assign(this.zh, await r.json()); } catch (e) {}
     // recorded numbers 0..5 and the singular "bowl." ending; their captions continue the previous cue
     for (let n = 0; n <= 5; n++) this.lines["num_" + n] = {file: `dingo_num_${n}.mp3`, character: "dingo", level: "num", text: String(n), cont: true};
     this.lines.single_b = {file: "dingo_L4_04_b_singular.mp3", character: "dingo", level: "num", text: "bowl. Great teamwork!", cont: true};
@@ -132,7 +140,11 @@ const Voice = {
   sub(line) {
     this.speaking = line ? line.character : null;
     if (this.inVideo) {     // scene video: speaker + line are burned into the video -> no caption box at all
-      document.getElementById("sceneSub").innerHTML = ""; document.getElementById("subtitle").classList.add("hidden"); return;
+      const ss = document.getElementById("sceneSub"); ss.innerHTML = ""; document.getElementById("subtitle").classList.add("hidden");
+      if (this.zhVideo && line) {   // Chinese mode, clean video: light caption strip with speaker name in character colour + Chinese line
+        const b = document.createElement("b"); b.textContent = this.NAMES_ZH[line.character] + "："; ss.append(b, document.createTextNode(this.fill(this.zhLine(line.id)))); ss.className = "sub-" + line.character;
+      }
+      return;
     }
     if (line && typeof Story !== "undefined" && Story.captures(line)) return;      // story dialogue / bridge show the line in their own box
     const el = document.getElementById("subtitle");
@@ -141,16 +153,16 @@ const Voice = {
     // L4: Dingo is the referee at the kitchen's side; his lines go into his own speech bubble
     if (line.character === "dingo" && bub && ref.offsetParent) {
       el.classList.add("hidden");
-      if (line.cont && !bub.classList.contains("hidden")) { bub.textContent += " " + this.fill(line.caption || line.text); return; }
-      bub.textContent = this.fill(line.caption || line.text); bub.classList.remove("hidden"); return;
+      if (line.cont && !bub.classList.contains("hidden")) { bub.textContent += " " + this.cap(line); return; }
+      bub.textContent = this.cap(line); bub.classList.remove("hidden"); return;
     }
     bub && bub.classList.add("hidden");
-    if (line.cont && !el.classList.contains("hidden")) { el.lastChild.textContent += " " + this.fill(line.caption || line.text); return; }
+    if (line.cont && !el.classList.contains("hidden")) { el.lastChild.textContent += " " + this.cap(line); return; }
     el.innerHTML = "";
     // anywhere else Dingo speaks, his round avatar sits in the caption box so he is always on screen
     if (line.character === "dingo") { const a = new Image(); a.src = "assets/ui/dingo_avatar.png"; a.alt = "Dingo"; a.className = "subAvatar"; el.append(a); }
-    const b = document.createElement("b"); b.textContent = (line.speaker || this.NAMES[line.character] || line.character) + ": ";
-    el.append(b, document.createTextNode(this.fill(line.caption || line.text))); el.className = "sub-" + line.character;
+    const b = document.createElement("b"); b.textContent = this.who(line) + (Lang.cur === "zh" ? "：" : ": ");
+    el.append(b, document.createTextNode(this.cap(line))); el.className = "sub-" + line.character;
   },
   stop() { this.endVideo(); this.token++; Music.duck(false); this.audio.pause(); speechSynthesis && speechSynthesis.cancel(); this.sub(null); },
   // items: voice ids, or {say: "text"} for spoken text without a recording (e.g. the number in dingo_L4_04)
@@ -191,7 +203,8 @@ const Voice = {
     box.classList.toggle("left", run[0].speaker === "wendy");
     // story / bridge / recap: just the video + one Continue button (no text box); gameplay corner panel: no button, flow goes on by itself
     document.body.classList.toggle("vidStage", !box.classList.contains("corner") && hid("theatre"));
-    if (!v.src.endsWith(S.video)) v.src = S.video;
+    this.zhVideo = this.zhScene(S, sid); box.classList.toggle("zh", this.zhVideo);
+    const src = this.zhVideo ? S.video_clean : S.video; if (!v.src.endsWith(src)) v.src = src;   // English: subtitled video as-is
     v.muted = Sfx.muted; v.currentTime = t0; this.video = v;
     return new Promise(res => {
       let cur = null; const done = (ok = true) => { if (!this._vres) return; v.ontimeupdate = v.onended = v.onerror = null; this._vres = null; v.pause(); this.sub(null); res(ok !== false); };
@@ -200,7 +213,7 @@ const Voice = {
         if (tok !== this.token) return done();
 
         const t = v.currentTime, l = run.find(l => t >= l.start - .05 && t < l.end + .1) || null;
-        if (l !== cur) { cur = l; if (l) box.classList.toggle("left", l.speaker === "wendy"); this.sub(l && Object.assign({}, this.lines[l.id] || {}, {character: l.speaker, text: l.text, caption: null})); }
+        if (l !== cur) { cur = l; if (l) box.classList.toggle("left", l.speaker === "wendy"); this.sub(l && Object.assign({}, this.lines[l.id] || {}, {id: l.id, character: l.speaker, text: l.text, caption: null})); }
         if (t >= t1) done();
       };
       v.onended = () => done(); v.onerror = () => done(false);

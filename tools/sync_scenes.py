@@ -47,7 +47,15 @@ for sid in sids:
     name = f"{sid}.mp4" if subbed else f"{sid}_clean.mp4"; dst = os.path.join(DST, name)
     if not os.path.exists(dst) or not filecmp.cmp(src, dst, shallow=False): shutil.copy2(src, dst); copied.append(sid)
     out[sid] = {"video": f"assets/lines/{name}", "subtitled": subbed, "duration": per.get("duration") or (big.get(sid) or {}).get("duration"), "source": how, "lines": lines}
-keep = {os.path.basename(v["video"]) for v in out.values()}   # one mp4 per scene: drop stale copies (e.g. old _clean)
+# Chinese mode needs the clean video (web subtitles on top) -- copied only for scenes whose every line has zh text in web/data/scene_lines_zh.json
+ZH = (load(os.path.join(DST, "../../data/scene_lines_zh.json")) or {}).get("scenes", {})
+for sid, o in out.items():
+    z, cl = ZH.get(sid) or [], f"{SC}/{sid}_clean.mp4"
+    if o["subtitled"] and os.path.exists(cl) and len(z) >= len(o["lines"]) and all((z[i] or {}).get("zh") for i in range(len(o["lines"]))):
+        d = os.path.join(DST, f"{sid}_clean.mp4")
+        if not os.path.exists(d) or not filecmp.cmp(cl, d, shallow=False): shutil.copy2(cl, d); copied.append(sid + "_clean")
+        o["video_clean"] = f"assets/lines/{sid}_clean.mp4"
+keep = {os.path.basename(x) for v in out.values() for x in (v["video"], v.get("video_clean")) if x}   # one mp4 per scene: drop stale copies (e.g. old _clean)
 removed = [f for f in os.listdir(DST) if f.endswith(".mp4") and f not in keep]
 for f in removed: os.remove(os.path.join(DST, f))
 json.dump(out, open(os.path.join(DST, "scenes.json"), "w"), indent=1, ensure_ascii=False)

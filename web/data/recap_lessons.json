@@ -55,9 +55,9 @@
       "text_zh": "做决定的那一方。厨房里，厨师就是智能体。",
       "def_zh": "做决定的那一方。",
       "kitchen_zh": "厨房里，厨师就是智能体。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "The one who makes the decisions. In the kitchen, the chef is the agent.",
+      "def_en": "The one who makes the decisions.",
+      "kitchen_en": "In the kitchen, the chef is the agent."
      },
      {
       "term_zh": "环境",
@@ -65,9 +65,9 @@
       "text_zh": "智能体所在的世界。这里就是厨房。",
       "def_zh": "智能体所在的世界。",
       "kitchen_zh": "这里就是厨房。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "The world the agent lives in. Here, it is the kitchen.",
+      "def_en": "The world the agent lives in.",
+      "kitchen_en": "Here, it is the kitchen."
      },
      {
       "term_zh": "状态",
@@ -75,8 +75,8 @@
       "text_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
       "def_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "What the environment looks like right now, e.g. how many onions are in the pot.",
+      "def_en": "What the environment looks like right now, e.g. how many onions are in the pot.",
       "kitchen_en": ""
      },
      {
@@ -85,8 +85,8 @@
       "text_zh": "智能体每一步的选择：走、拿、放、上菜。",
       "def_zh": "智能体每一步的选择：走、拿、放、上菜。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "What the agent chooses at each step: walk, pick up, put down, serve.",
+      "def_en": "What the agent chooses at each step: walk, pick up, put down, serve.",
       "kitchen_en": ""
      },
      {
@@ -95,8 +95,8 @@
       "text_zh": "关键：做汤需要**按顺序做很多个决定**，这叫序列决策。",
       "def_zh": "关键：做汤需要**按顺序做很多个决定**，这叫序列决策。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Key idea: making soup takes **many decisions in order**. This is called sequential decision-making.",
+      "def_en": "Key idea: making soup takes **many decisions in order**. This is called sequential decision-making.",
       "kitchen_en": ""
      }
     ],
@@ -105,8 +105,13 @@
      1,
      2,
      3
-    ]
-   }
+    ],
+    "heading_en": "Lesson 0 · Teacher: Dingo: Agent and environment",
+    "topic_en": "Agent and environment",
+    "en_status": "draft (EN translated from the Chinese draft, pending Lucy's review)"
+   },
+   "topic_zh": "智能体、环境、状态、动作",
+   "callout_zh": "按顺序的步骤 = 一连串决策"
   },
   {
    "level": "L1",
@@ -161,8 +166,8 @@
       "text_zh": "做对一步得到的分数信号，就像金星。",
       "def_zh": "做对一步得到的分数信号，就像金星。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "A score signal you get for doing a step right, like a gold star.",
+      "def_en": "A score signal you get for doing a step right, like a gold star.",
       "kitchen_en": ""
      },
      {
@@ -171,19 +176,19 @@
       "text_zh": "智能体的目标：让**累计奖励**尽量多。",
       "def_zh": "智能体的目标：让**累计奖励**尽量多。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "The agent's goal: get as much **total reward** as possible.",
+      "def_en": "The agent's goal: get as much **total reward** as possible.",
       "kitchen_en": ""
      },
      {
       "term_zh": "奖励设计",
-      "term_en": "",
+      "term_en": "Reward design",
       "text_zh": "奖励给什么，它就学什么。只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
       "def_zh": "奖励给什么，它就学什么。",
       "kitchen_zh": "只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "Whatever you reward is what it learns. Reward only onions, and it just piles up onions and never makes soup (the reward gets \"gamed\").",
+      "def_en": "Whatever you reward is what it learns.",
+      "kitchen_en": "Reward only onions, and it just piles up onions and never makes soup (the reward gets \"gamed\")."
      },
      {
       "term_zh": "",
@@ -191,8 +196,8 @@
       "text_zh": "好办法：给每个有用的小步骤一点小奖励，学得更快（奖励塑形）。",
       "def_zh": "好办法：给每个有用的小步骤一点小奖励，学得更快（奖励塑形）。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "A good trick: give a small reward for each useful little step, and it learns faster (reward shaping).",
+      "def_en": "A good trick: give a small reward for each useful little step, and it learns faster (reward shaping).",
       "kitchen_en": ""
      }
     ],
@@ -201,8 +206,13 @@
      1,
      2,
      3
-    ]
-   }
+    ],
+    "heading_en": "Lesson 1 · Teacher: Wendy: Reward",
+    "topic_en": "Reward",
+    "en_status": "draft (EN translated from the Chinese draft, pending Lucy's review)"
+   },
+   "topic_zh": "奖励与奖励设计",
+   "callout_zh": "奖励什么，就学会什么"
   },
   {
    "level": "L2",
@@ -257,8 +267,8 @@
       "text_zh": "尝试没做过的动作，发现新办法。",
       "def_zh": "尝试没做过的动作，发现新办法。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Trying actions you haven't tried before to find new ways.",
+      "def_en": "Trying actions you haven't tried before to find new ways.",
       "kitchen_en": ""
      },
      {
@@ -267,8 +277,8 @@
       "text_zh": "选目前已知最好的动作。",
       "def_zh": "选目前已知最好的动作。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Picking the best action you know so far.",
+      "def_en": "Picking the best action you know so far.",
       "kitchen_en": ""
      },
      {
@@ -277,9 +287,9 @@
       "text_zh": "平衡：一开始多探索，后来多利用。完全不探索，就会一直撞墙。",
       "def_zh": "平衡：一开始多探索，后来多利用。",
       "kitchen_zh": "完全不探索，就会一直撞墙。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "Balance: explore a lot at first, then exploit more later. With no exploring at all, it keeps bumping into the wall.",
+      "def_en": "Balance: explore a lot at first, then exploit more later.",
+      "kitchen_en": "With no exploring at all, it keeps bumping into the wall."
      },
      {
       "term_zh": "训练",
@@ -287,8 +297,8 @@
       "text_zh": "反复试错、根据奖励调整，一次次变好。",
       "def_zh": "反复试错、根据奖励调整，一次次变好。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Trying again and again, adjusting by the rewards, getting better each time.",
+      "def_en": "Trying again and again, adjusting by the rewards, getting better each time.",
       "kitchen_en": ""
      }
     ],
@@ -297,8 +307,13 @@
      1,
      2,
      3
-    ]
-   }
+    ],
+    "heading_en": "Lesson 2 · Teacher: Kai: Exploration and exploitation",
+    "topic_en": "Exploration and exploitation",
+    "en_status": "draft (EN translated from the Chinese draft, pending Lucy's review)"
+   },
+   "topic_zh": "探索与利用",
+   "callout_zh": "先多尝试，再用有效的办法"
   },
   {
    "level": "L3",
@@ -353,8 +368,8 @@
       "text_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
       "def_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "A guess of \"if I do this action in this state, how much reward will I get later\".",
+      "def_en": "A guess of \"if I do this action in this state, how much reward will I get later\".",
       "kitchen_en": ""
      },
      {
@@ -363,19 +378,19 @@
       "text_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
       "def_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "The rule for which action to pick in each state, usually the one with the highest Q.",
+      "def_en": "The rule for which action to pick in each state, usually the one with the highest Q.",
       "kitchen_en": ""
      },
      {
       "term_zh": "置信度",
-      "term_en": "",
+      "term_en": "Confidence",
       "text_zh": "AI 对自己估计有多确定。实心泡泡=很确定，虚线泡泡=不太确定。",
       "def_zh": "AI 对自己估计有多确定。",
       "kitchen_zh": "实心泡泡=很确定，虚线泡泡=不太确定。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "How sure the AI is about its own guess. Solid bubble = very sure, dashed bubble = not so sure.",
+      "def_en": "How sure the AI is about its own guess.",
+      "kitchen_en": "Solid bubble = very sure, dashed bubble = not so sure."
      },
      {
       "term_zh": "",
@@ -383,8 +398,8 @@
       "text_zh": "关键：AI 不确定时，别全信它，要自己判断。",
       "def_zh": "关键：AI 不确定时，别全信它，要自己判断。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Key idea: when the AI is not sure, don't trust it completely. Think for yourself.",
+      "def_en": "Key idea: when the AI is not sure, don't trust it completely. Think for yourself.",
       "kitchen_en": ""
      }
     ],
@@ -393,8 +408,13 @@
      1,
      2,
      3
-    ]
-   }
+    ],
+    "heading_en": "Lesson 3 · Teacher: Dingo: Action values and policy",
+    "topic_en": "Action values and policy",
+    "en_status": "draft (EN translated from the Chinese draft, pending Lucy's review)"
+   },
+   "topic_zh": "动作价值、置信度、策略",
+   "callout_zh": "AI 确定吗？"
   },
   {
    "level": "L4",
@@ -449,18 +469,18 @@
       "text_zh": "多个智能体在同一个环境里一起行动。",
       "def_zh": "多个智能体在同一个环境里一起行动。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Several agents acting together in the same environment.",
+      "def_en": "Several agents acting together in the same environment.",
       "kitchen_en": ""
      },
      {
       "term_zh": "团队价值",
-      "term_en": "",
+      "term_en": "Team value",
       "text_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
       "def_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Team score = everyone's scores added together (the VDN idea).",
+      "def_en": "Team score = everyone's scores added together (the VDN idea).",
       "kitchen_en": ""
      },
      {
@@ -469,9 +489,9 @@
       "text_zh": "关键：有时个人少得一点，团队整体更好。合作看的是总分。",
       "def_zh": "关键：有时个人少得一点，团队整体更好。",
       "kitchen_zh": "合作看的是总分。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "Key idea: sometimes one player gets a little less, but the whole team does better. Teamwork is about the total score.",
+      "def_en": "Key idea: sometimes one player gets a little less, but the whole team does better.",
+      "kitchen_en": "Teamwork is about the total score."
      }
     ],
     "line_bullet": [
@@ -479,8 +499,13 @@
      1,
      2,
      2
-    ]
-   }
+    ],
+    "heading_en": "Lesson 4 · Teacher: Wendy: Multi-agent cooperation",
+    "topic_en": "Multi-agent cooperation",
+    "en_status": "draft (EN translated from the Chinese draft, pending Lucy's review)"
+   },
+   "topic_zh": "多智能体合作、团队得分",
+   "callout_zh": "两个智能体，一个团队"
   }
  ],
  "wrapup": {
@@ -512,9 +537,9 @@
       "text_zh": "做决定的那一方。厨房里，厨师就是智能体。",
       "def_zh": "做决定的那一方。",
       "kitchen_zh": "厨房里，厨师就是智能体。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "The one who makes the decisions. In the kitchen, the chef is the agent.",
+      "def_en": "The one who makes the decisions.",
+      "kitchen_en": "In the kitchen, the chef is the agent."
      },
      {
       "term_zh": "环境",
@@ -522,9 +547,9 @@
       "text_zh": "智能体所在的世界。这里就是厨房。",
       "def_zh": "智能体所在的世界。",
       "kitchen_zh": "这里就是厨房。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "The world the agent lives in. Here, it is the kitchen.",
+      "def_en": "The world the agent lives in.",
+      "kitchen_en": "Here, it is the kitchen."
      },
      {
       "term_zh": "状态",
@@ -532,8 +557,8 @@
       "text_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
       "def_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "What the environment looks like right now, e.g. how many onions are in the pot.",
+      "def_en": "What the environment looks like right now, e.g. how many onions are in the pot.",
       "kitchen_en": ""
      },
      {
@@ -542,11 +567,12 @@
       "text_zh": "智能体每一步的选择：走、拿、放、上菜。",
       "def_zh": "智能体每一步的选择：走、拿、放、上菜。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "What the agent chooses at each step: walk, pick up, put down, serve.",
+      "def_en": "What the agent chooses at each step: walk, pick up, put down, serve.",
       "kitchen_en": ""
      }
-    ]
+    ],
+    "topic_en": "Agent and environment"
    },
    {
     "level": "L1",
@@ -559,21 +585,22 @@
       "text_zh": "做对一步得到的分数信号，就像金星。",
       "def_zh": "做对一步得到的分数信号，就像金星。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "A score signal you get for doing a step right, like a gold star.",
+      "def_en": "A score signal you get for doing a step right, like a gold star.",
       "kitchen_en": ""
      },
      {
       "term_zh": "奖励设计",
-      "term_en": "",
+      "term_en": "Reward design",
       "text_zh": "奖励给什么，它就学什么。只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
       "def_zh": "奖励给什么，它就学什么。",
       "kitchen_zh": "只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "Whatever you reward is what it learns. Reward only onions, and it just piles up onions and never makes soup (the reward gets \"gamed\").",
+      "def_en": "Whatever you reward is what it learns.",
+      "kitchen_en": "Reward only onions, and it just piles up onions and never makes soup (the reward gets \"gamed\")."
      }
-    ]
+    ],
+    "topic_en": "Reward"
    },
    {
     "level": "L2",
@@ -586,8 +613,8 @@
       "text_zh": "尝试没做过的动作，发现新办法。",
       "def_zh": "尝试没做过的动作，发现新办法。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Trying actions you haven't tried before to find new ways.",
+      "def_en": "Trying actions you haven't tried before to find new ways.",
       "kitchen_en": ""
      },
      {
@@ -596,8 +623,8 @@
       "text_zh": "选目前已知最好的动作。",
       "def_zh": "选目前已知最好的动作。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Picking the best action you know so far.",
+      "def_en": "Picking the best action you know so far.",
       "kitchen_en": ""
      },
      {
@@ -606,11 +633,12 @@
       "text_zh": "反复试错、根据奖励调整，一次次变好。",
       "def_zh": "反复试错、根据奖励调整，一次次变好。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Trying again and again, adjusting by the rewards, getting better each time.",
+      "def_en": "Trying again and again, adjusting by the rewards, getting better each time.",
       "kitchen_en": ""
      }
-    ]
+    ],
+    "topic_en": "Exploration and exploitation"
    },
    {
     "level": "L3",
@@ -623,8 +651,8 @@
       "text_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
       "def_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "A guess of \"if I do this action in this state, how much reward will I get later\".",
+      "def_en": "A guess of \"if I do this action in this state, how much reward will I get later\".",
       "kitchen_en": ""
      },
      {
@@ -633,21 +661,22 @@
       "text_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
       "def_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "The rule for which action to pick in each state, usually the one with the highest Q.",
+      "def_en": "The rule for which action to pick in each state, usually the one with the highest Q.",
       "kitchen_en": ""
      },
      {
       "term_zh": "置信度",
-      "term_en": "",
+      "term_en": "Confidence",
       "text_zh": "AI 对自己估计有多确定。实心泡泡=很确定，虚线泡泡=不太确定。",
       "def_zh": "AI 对自己估计有多确定。",
       "kitchen_zh": "实心泡泡=很确定，虚线泡泡=不太确定。",
-      "text_en": "",
-      "def_en": "",
-      "kitchen_en": ""
+      "text_en": "How sure the AI is about its own guess. Solid bubble = very sure, dashed bubble = not so sure.",
+      "def_en": "How sure the AI is about its own guess.",
+      "kitchen_en": "Solid bubble = very sure, dashed bubble = not so sure."
      }
-    ]
+    ],
+    "topic_en": "Action values and policy"
    },
    {
     "level": "L4",
@@ -660,24 +689,28 @@
       "text_zh": "多个智能体在同一个环境里一起行动。",
       "def_zh": "多个智能体在同一个环境里一起行动。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Several agents acting together in the same environment.",
+      "def_en": "Several agents acting together in the same environment.",
       "kitchen_en": ""
      },
      {
       "term_zh": "团队价值",
-      "term_en": "",
+      "term_en": "Team value",
       "text_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
       "def_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
       "kitchen_zh": "",
-      "text_en": "",
-      "def_en": "",
+      "text_en": "Team score = everyone's scores added together (the VDN idea).",
+      "def_en": "Team score = everyone's scores added together (the VDN idea).",
       "kitchen_en": ""
      }
-    ]
+    ],
+    "topic_en": "Multi-agent cooperation"
    }
   ],
-  "closing_zh": "一句话总结：智能体在环境里做动作，靠奖励试错学习，学会一套策略，还能和队友合作。"
+  "closing_zh": "一句话总结：智能体在环境里做动作，靠奖励试错学习，学会一套策略，还能和队友合作。",
+  "heading_en": "Wrap-up · Dingo",
+  "closing_en": "In one sentence: an agent takes actions in an environment, learns by trial and error from rewards, learns a policy, and can work together with teammates.",
+  "en_status": "draft (EN translated from the Chinese draft, pending Lucy's review)"
  },
  "_cards_doc": "lessons[].card / summary_card: knowledge-card text, seeded by tools/seed_recap_cards.py from GAD's draft. status=draft until Lucy approves; edit freely, no code change needed.",
  "illustrations": {

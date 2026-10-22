@@ -366,3 +366,7 @@ body.vidStage #subtitle,body.vidStage #dialog .dlgBox,body.vidStage #dialog .dlg
 .levelsOn #homeStage{background:var(--page-bg) var(--map-bg) center/cover no-repeat}.levelsOn #homeStage::after{content:none}
 #bridge{background:var(--page-bg) var(--map-bg) center/cover no-repeat}
 header h1 .titleSub{display:block;font-size:.55em;font-weight:600;opacity:.75;line-height:1.1}header h1 .titleSub:empty{display:none}
+/* EN / 中文 toggle (header, top-right): active language bold */
+#langBtn b{font-weight:600;opacity:.7}#langBtn b.on{font-weight:900;opacity:1}
+/* Chinese mode on a clean scene video: light caption strip at the bottom of the video (no big box) */
+#sceneVideo.zh #sceneSub:not(:empty){display:block!important;position:absolute;left:0;right:0;bottom:0;transform:none;max-width:none;border-radius:0;box-shadow:none;background:linear-gradient(#fff8ec00,#fff8ecd9 35%);padding:1.2em 4% .6em;font-family:Nunito,"ZCOOL KuaiLe",sans-serif;font-weight:700;color:var(--ink);text-align:center}
