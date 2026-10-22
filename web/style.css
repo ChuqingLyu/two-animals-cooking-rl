@@ -296,6 +296,7 @@ button[data-go="menu"]::before{content:"🗺️"}#langBtn::before{content:"🌐"
 @font-face{font-family:"ZCOOL KuaiLe";src:url(assets/fonts/zcool_kuaile.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+2E80-FFFF}
 :root{--font:"Nunito","ZCOOL KuaiLe","PingFang SC","Microsoft YaHei",sans-serif;--ink:#4A3528;--paper:#fff8ec;--hl:#FFE2B8;
   --c-dingo:#C0661A;--c-wendy:#F2C230;--c-kai:#2BA8A0;
+  --c-wendy-text:#A06F00;--c-kai-text:#1E7F79; /* darker text-on-light variants (contrast); fills keep --c-wendy/--c-kai */
   --fs-1:12px;--fs-2:15px;--fs-3:18px;--fs-4:22px;--fs-5:28px;--fs-6:40px}
 html,body,button,input,select,textarea,h1,h2,h3,h4{font-family:var(--font)}
 body{color:var(--ink);font-size:var(--fs-3)}
@@ -309,8 +310,8 @@ mark,mark.term{background:var(--hl);color:var(--ink);padding:0 .25em;border-radi
 /* speaker names: the only place character colours appear */
 #subtitle b,#sceneSub b,#recapWho{color:var(--ink)}
 #subtitle.sub-dingo b,#sceneSub.sub-dingo b,#recapWho.sub-dingo{color:var(--c-dingo)}
-#subtitle.sub-wendy b,#sceneSub.sub-wendy b,#recapWho.sub-wendy{color:var(--c-wendy)}
-#subtitle.sub-kai b,#sceneSub.sub-kai b,#recapWho.sub-kai{color:var(--c-kai)}
+#subtitle.sub-wendy b,#sceneSub.sub-wendy b,#recapWho.sub-wendy{color:var(--c-wendy-text)}
+#subtitle.sub-kai b,#sceneSub.sub-kai b,#recapWho.sub-kai{color:var(--c-kai-text)}
 #subtitle,#sceneSub{box-shadow:0 4px 14px #4a352833;font-weight:700}
 /* --- recap: stage (teacher / scene video) beside the knowledge card --- */
 .recapBody{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:stretch;width:100%}
