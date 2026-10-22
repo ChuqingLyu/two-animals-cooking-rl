@@ -1,7 +1,127 @@
 {
+ "C1_s01": {
+  "video": "assets/lines/C1_s01_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "wendy_C1_01",
+    "speaker": "wendy",
+    "text": "Whoa! I got a star! What did I do?",
+    "start": 0.82,
+    "end": 3.2
+   },
+   {
+    "id": "dingo_C1_02",
+    "speaker": "dingo",
+    "text": "You put an onion in the pot. Stars tell you 'that was good, do it again!'",
+    "start": 3.86,
+    "end": 7.9
+   }
+  ]
+ },
+ "C1_s02": {
+  "video": "assets/lines/C1_s02_clean.mp4",
+  "duration": 9.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "kai_C1_03",
+    "speaker": "kai",
+    "text": "Um... so if I want more stars, I do more of that?",
+    "start": 0.0,
+    "end": 4.12
+   },
+   {
+    "id": "dingo_C1_04",
+    "speaker": "dingo",
+    "text": "Exactly. That's called a reward.",
+    "start": 4.74,
+    "end": 6.72
+   }
+  ]
+ },
+ "C2_s01": {
+  "video": "assets/lines/C2_s01_clean.mp4",
+  "duration": 11.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "kai_C2_01",
+    "speaker": "kai",
+    "text": "I always go this way. It's... a long way, but I know it.",
+    "start": 0.0,
+    "end": 3.68
+   },
+   {
+    "id": "wendy_C2_02",
+    "speaker": "wendy",
+    "text": "Ooh, what's that? I found a shortcut!",
+    "start": 4.32,
+    "end": 6.28
+   }
+  ]
+ },
+ "C2_s02": {
+  "video": "assets/lines/C2_s02_clean.mp4",
+  "duration": 8.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_C2_03",
+    "speaker": "dingo",
+    "text": "Trying something new is called exploring. Sometimes it's a mess, sometimes you find something better.",
+    "start": 0.0,
+    "end": 5.86
+   }
+  ]
+ },
+ "C3_s01": {
+  "video": "assets/lines/C3_s01_clean.mp4",
+  "duration": 11.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_C3_01",
+    "speaker": "dingo",
+    "text": "After lots of practice, they have a plan in their heads. That's their strategy.",
+    "start": 0.0,
+    "end": 4.64
+   },
+   {
+    "id": "wendy_C3_02",
+    "speaker": "wendy",
+    "text": "I know where to go every time!",
+    "start": 5.42,
+    "end": 7.56
+   }
+  ]
+ },
+ "C3_s02": {
+  "video": "assets/lines/C3_s02_clean.mp4",
+  "duration": 10.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "kai_C3_03",
+    "speaker": "kai",
+    "text": "Um... I'm sure about the onions, but not the plates yet.",
+    "start": 0.7,
+    "end": 4.32
+   },
+   {
+    "id": "dingo_C3_04",
+    "speaker": "dingo",
+    "text": "The clearer the bubble, the surer they are.",
+    "start": 5.7,
+    "end": 8.32
+   }
+  ]
+ },
  "L0_s01": {
   "video": "assets/lines/L0_s01_clean.mp4",
   "duration": 7.04,
+  "source": "scenes.json",
   "lines": [
    {
     "id": "dingo_L0_01",
@@ -9,6 +129,755 @@
     "text": "Welcome to my kitchen! Have you ever made onion soup? Let's make one together.",
     "start": 0.0,
     "end": 4.68
+   }
+  ]
+ },
+ "L0_s02": {
+  "video": "assets/lines/L0_s02_clean.mp4",
+  "duration": 4.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_02",
+    "speaker": "dingo",
+    "text": "First, grab an onion.",
+    "start": 0.66,
+    "end": 2.04
+   }
+  ]
+ },
+ "L0_s03": {
+  "video": "assets/lines/L0_s03_clean.mp4",
+  "duration": 4.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_03",
+    "speaker": "dingo",
+    "text": "Now drop it in the pot.",
+    "start": 0.54,
+    "end": 1.86
+   }
+  ]
+ },
+ "L0_s04": {
+  "video": "assets/lines/L0_s04_clean.mp4",
+  "duration": 4.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_04",
+    "speaker": "dingo",
+    "text": "Let it cook for a bit.",
+    "start": 0.62,
+    "end": 1.92
+   }
+  ]
+ },
+ "L0_s05": {
+  "video": "assets/lines/L0_s05_clean.mp4",
+  "duration": 4.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_05",
+    "speaker": "dingo",
+    "text": "Grab a plate.",
+    "start": 0.0,
+    "end": 1.84
+   }
+  ]
+ },
+ "L0_s06": {
+  "video": "assets/lines/L0_s06_clean.mp4",
+  "duration": 4.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_06",
+    "speaker": "dingo",
+    "text": "Serve it right here!",
+    "start": 0.0,
+    "end": 2.08
+   }
+  ]
+ },
+ "L0_s07": {
+  "video": "assets/lines/L0_s07_clean.mp4",
+  "duration": 7.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_07",
+    "speaker": "dingo",
+    "text": "You did it! That's a perfect bowl. You're officially a Soup Master!",
+    "start": 0.0,
+    "end": 3.78
+   }
+  ]
+ },
+ "L0_s08": {
+  "video": "assets/lines/L0_s08_clean.mp4",
+  "duration": 15.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "wendy_L0_08",
+    "speaker": "wendy",
+    "text": "Hi! I'm Wendy, nice to meet you! Ooh, is that soup? It smells amazing!",
+    "start": 0.44,
+    "end": 4.12
+   },
+   {
+    "id": "kai_L0_09",
+    "speaker": "kai",
+    "text": "Um... hello. I'm Kai. We're new here... could you show us how to make soup?",
+    "start": 5.1,
+    "end": 9.62
+   }
+  ]
+ },
+ "L0_s09": {
+  "video": "assets/lines/L0_s09_clean.mp4",
+  "duration": 15.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L0_10",
+    "speaker": "dingo",
+    "text": "They're my new apprentices. They can't learn just by watching. They learn from stars. Every time they do a step right, you give them a star. Will you teach them?",
+    "start": 0.0,
+    "end": 10.32
+   }
+  ]
+ },
+ "L1_s01": {
+  "video": "assets/lines/L1_s01_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L1_01",
+    "speaker": "dingo",
+    "text": "Pick the steps that deserve a star, then press Train.",
+    "start": 0.0,
+    "end": 3.76
+   }
+  ]
+ },
+ "L1_s02": {
+  "video": "assets/lines/L1_s02_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "wendy_L1_02",
+    "speaker": "wendy",
+    "text": "Onions! More onions! I love onions!",
+    "start": 0.54,
+    "end": 2.82
+   },
+   {
+    "id": "kai_L1_03",
+    "speaker": "kai",
+    "text": "Um... I think we have too many onions...",
+    "start": 3.64,
+    "end": 6.26
+   },
+   {
+    "id": "kai_L1_04",
+    "speaker": "kai",
+    "text": "I want a star... but how do I get one?",
+    "start": 8.32,
+    "end": 10.72
+   }
+  ]
+ },
+ "L1_s03": {
+  "video": "assets/lines/L1_s03_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L1_05",
+    "speaker": "dingo",
+    "text": "It took them a long time to find their first star.",
+    "start": 0.0,
+    "end": 4.06
+   }
+  ]
+ },
+ "L1_s04": {
+  "video": "assets/lines/L1_s04_clean.mp4",
+  "duration": 8.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "wendy_L1_06",
+    "speaker": "wendy",
+    "text": "We did it! Soup's up!",
+    "start": 0.0,
+    "end": 2.34
+   },
+   {
+    "id": "dingo_L1_07",
+    "speaker": "dingo",
+    "text": "See? They learn whatever you reward. Nice work!",
+    "start": 2.92,
+    "end": 5.9
+   }
+  ]
+ },
+ "L2_s01": {
+  "video": "assets/lines/L2_s01_clean.mp4",
+  "duration": 11.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "wendy_L2_01",
+    "speaker": "wendy",
+    "text": "I know you gave me stars for soup... but what's over there? I just have to check!",
+    "start": 0.9,
+    "end": 5.68
+   },
+   {
+    "id": "kai_L2_02",
+    "speaker": "kai",
+    "text": "Wendy, wait for me!",
+    "start": 7.16,
+    "end": 8.66
+   }
+  ]
+ },
+ "L2_s02": {
+  "video": "assets/lines/L2_s02_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L2_03",
+    "speaker": "dingo",
+    "text": "They're very curious. Try turning their curiosity up or down.",
+    "start": 0.0,
+    "end": 3.92
+   }
+  ]
+ },
+ "L2_s03": {
+  "video": "assets/lines/L2_s03_clean.mp4",
+  "duration": 9.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "wendy_L2_04",
+    "speaker": "wendy",
+    "text": "Wheee! Everything is so interesting!",
+    "start": 1.6,
+    "end": 2.72
+   },
+   {
+    "id": "kai_L2_05",
+    "speaker": "kai",
+    "text": "Um... I'll just stay here. I don't want to try anything new.",
+    "start": 4.72,
+    "end": 7.98
+   }
+  ]
+ },
+ "L2_s04": {
+  "video": "assets/lines/L2_s04_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L2_06",
+    "speaker": "dingo",
+    "text": "If they never try anything, they never find a star.",
+    "start": 0.0,
+    "end": 3.82
+   }
+  ]
+ },
+ "L2_s05": {
+  "video": "assets/lines/L2_s05_clean.mp4",
+  "duration": 12.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L2_07",
+    "speaker": "dingo",
+    "text": "A little curious at first, then focused. That's how they find the best path. Trying lots of things at the start really helps!",
+    "start": 0.54,
+    "end": 7.44
+   }
+  ]
+ },
+ "L3_s01": {
+  "video": "assets/lines/L3_s01_clean.mp4",
+  "duration": 9.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L3_01",
+    "speaker": "dingo",
+    "text": "Wow, you taught them well. Ready for the soup contest? First, how sure are you that we'll win?",
+    "start": 0.42,
+    "end": 5.76
+   }
+  ]
+ },
+ "L3_s02": {
+  "video": "assets/lines/L3_s02_clean.mp4",
+  "duration": 12.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L3_02",
+    "speaker": "dingo",
+    "text": "Now let's ask Wendy and Kai.",
+    "start": 0.0,
+    "end": 2.3
+   },
+   {
+    "id": "wendy_L3_03",
+    "speaker": "wendy",
+    "text": "Totally! I know exactly where the onions are!",
+    "start": 3.66,
+    "end": 6.06
+   },
+   {
+    "id": "kai_L3_04",
+    "speaker": "kai",
+    "text": "Um... I'm not so sure about the plates...",
+    "start": 7.58,
+    "end": 9.86
+   }
+  ]
+ },
+ "L4_s01": {
+  "video": "assets/lines/L4_s01_clean.mp4",
+  "duration": 14.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_L4_01",
+    "speaker": "dingo",
+    "text": "Here's a secret: nobody can make soup alone in this kitchen. You two have to work together!",
+    "start": 0.0,
+    "end": 5.54
+   },
+   {
+    "id": "dingo_L4_02",
+    "speaker": "dingo",
+    "text": "You'll play as Wendy. Kai is counting on you. Ready... cook!",
+    "start": 6.46,
+    "end": 10.74
+   }
+  ]
+ },
+ "L4_s02": {
+  "video": "assets/lines/L4_s02_clean.mp4",
+  "duration": 5.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "kai_L4_03",
+    "speaker": "kai",
+    "text": "We actually did it!",
+    "start": 0.0,
+    "end": 1.84
+   },
+   {
+    "id": "wendy_L4_04",
+    "speaker": "wendy",
+    "text": "Best team ever!",
+    "start": 2.32,
+    "end": 3.24
+   }
+  ]
+ },
+ "L4_s03": {
+  "video": "assets/lines/L4_s03_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "kai_L4_06",
+    "speaker": "kai",
+    "text": "Um... that was hard. I'll do my best next time.",
+    "start": 0.0,
+    "end": 4.06
+   },
+   {
+    "id": "wendy_L4_07",
+    "speaker": "wendy",
+    "text": "Let's try again! I know we can do it!",
+    "start": 4.74,
+    "end": 7.6
+   },
+   {
+    "id": "dingo_L4_08",
+    "speaker": "dingo",
+    "text": "Close! Want another round?",
+    "start": 8.34,
+    "end": 10.7
+   }
+  ]
+ },
+ "L4_s04": {
+  "video": "assets/lines/L4_s04_clean.mp4",
+  "duration": 4.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_fail_c",
+    "speaker": "dingo",
+    "text": "Two bowls wins. You're so close!",
+    "start": 0.0,
+    "end": 2.66
+   }
+  ]
+ },
+ "recap_L0_s01": {
+  "video": "assets/lines/recap_L0_s01_clean.mp4",
+  "duration": 12.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_01",
+    "speaker": "dingo",
+    "text": "Remember our very first soup? Onions, pot, cook, plate, serve!",
+    "start": 0.0,
+    "end": 5.16
+   },
+   {
+    "id": "recap_02",
+    "speaker": "dingo",
+    "text": "In AI words, the cook is the agent. The kitchen is the environment.",
+    "start": 6.22,
+    "end": 10.32
+   }
+  ]
+ },
+ "recap_L0_s02": {
+  "video": "assets/lines/recap_L0_s02_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_03",
+    "speaker": "dingo",
+    "text": "Each moment in the kitchen is a state. Each move you pick is an action.",
+    "start": 0.0,
+    "end": 5.74
+   },
+   {
+    "id": "recap_04",
+    "speaker": "wendy",
+    "text": "And the right order of actions makes the soup!",
+    "start": 5.74,
+    "end": 9.8
+   }
+  ]
+ },
+ "recap_L1_s01": {
+  "video": "assets/lines/recap_L1_s01_clean.mp4",
+  "duration": 14.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_05",
+    "speaker": "wendy",
+    "text": "Level one was all about rewards! A reward is like a gold star.",
+    "start": 0.0,
+    "end": 5.1
+   },
+   {
+    "id": "recap_06",
+    "speaker": "wendy",
+    "text": "When I only got stars for onions, I just piled up onions. Zero soup!",
+    "start": 6.18,
+    "end": 11.4
+   }
+  ]
+ },
+ "recap_L1_s02": {
+  "video": "assets/lines/recap_L1_s02_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_07",
+    "speaker": "wendy",
+    "text": "So reward design matters. You learn what you get rewarded for.",
+    "start": 0.0,
+    "end": 4.64
+   },
+   {
+    "id": "recap_08",
+    "speaker": "kai",
+    "text": "Good rewards, like small stars for each helpful step, taught us much faster.",
+    "start": 5.64,
+    "end": 10.44
+   }
+  ]
+ },
+ "recap_L2_s01": {
+  "video": "assets/lines/recap_L2_s01_clean.mp4",
+  "duration": 12.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_09",
+    "speaker": "kai",
+    "text": "Level two was about exploring. It means trying new things.",
+    "start": 0.0,
+    "end": 4.26
+   },
+   {
+    "id": "recap_10",
+    "speaker": "kai",
+    "text": "With zero curiosity, we kept bumping into walls. No soup at all.",
+    "start": 5.68,
+    "end": 10.16
+   }
+  ]
+ },
+ "recap_L2_s02": {
+  "video": "assets/lines/recap_L2_s02_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_11",
+    "speaker": "kai",
+    "text": "So at first, try a lot. Later, use what works best. That's exploitation.",
+    "start": 0.0,
+    "end": 4.64
+   },
+   {
+    "id": "recap_12",
+    "speaker": "wendy",
+    "text": "Trying, and trying again, is how we learned. That's training!",
+    "start": 6.04,
+    "end": 9.66
+   }
+  ]
+ },
+ "recap_L3_s01": {
+  "video": "assets/lines/recap_L3_s01_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_13",
+    "speaker": "dingo",
+    "text": "Level three asked a big question: is the AI sure?",
+    "start": 0.0,
+    "end": 4.04
+   },
+   {
+    "id": "recap_14",
+    "speaker": "dingo",
+    "text": "Each action has a value. That's a guess of how good it will be.",
+    "start": 5.62,
+    "end": 9.72
+   }
+  ]
+ },
+ "recap_L3_s02": {
+  "video": "assets/lines/recap_L3_s02_clean.mp4",
+  "duration": 13.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_15",
+    "speaker": "dingo",
+    "text": "Solid bubbles meant sure. Dashed bubbles meant not so sure.",
+    "start": 0.0,
+    "end": 4.42
+   },
+   {
+    "id": "recap_16",
+    "speaker": "kai",
+    "text": "If our confidence is low, don't trust us too much. Think for yourself!",
+    "start": 5.3,
+    "end": 9.3
+   }
+  ]
+ },
+ "recap_L4_s01": {
+  "video": "assets/lines/recap_L4_s01_clean.mp4",
+  "duration": 12.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_17",
+    "speaker": "wendy",
+    "text": "Level four was teamwork! You played me, and Kai cooked beside you.",
+    "start": 0.0,
+    "end": 4.82
+   },
+   {
+    "id": "recap_18",
+    "speaker": "wendy",
+    "text": "Two agents working together is called multi-agent cooperation.",
+    "start": 5.68,
+    "end": 9.52
+   }
+  ]
+ },
+ "recap_L4_s02": {
+  "video": "assets/lines/recap_L4_s02_clean.mp4",
+  "duration": 12.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_19",
+    "speaker": "wendy",
+    "text": "The team score is my score plus Kai's score, added up.",
+    "start": 0.98,
+    "end": 5.42
+   },
+   {
+    "id": "recap_20",
+    "speaker": "kai",
+    "text": "Sometimes you get fewer stars, but the team does better. That's okay.",
+    "start": 6.88,
+    "end": 11.06
+   }
+  ]
+ },
+ "recap_L4_s03": {
+  "video": "assets/lines/recap_L4_s03_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "recap_21",
+    "speaker": "dingo",
+    "text": "Now you know how AI learns. Great job, little chefs!",
+    "start": 0.0,
+    "end": 3.92
+   }
+  ]
+ },
+ "story_s01": {
+  "video": "assets/lines/story_s01_clean.mp4",
+  "duration": 9.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_story_01",
+    "speaker": "dingo",
+    "text": "Well hello there, friend! Welcome, welcome!",
+    "start": 0.0,
+    "end": 3.32
+   },
+   {
+    "id": "dingo_story_02",
+    "speaker": "dingo",
+    "text": "I'm Dingo, head chef of this little kitchen. What's your name?",
+    "start": 4.64,
+    "end": 8.36
+   }
+  ]
+ },
+ "story_s02": {
+  "video": "assets/lines/story_s02_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_story_03",
+    "speaker": "dingo",
+    "text": "What a great name, friend. So happy to meet you!",
+    "start": 0.0,
+    "end": 3.34
+   }
+  ]
+ },
+ "story_s03": {
+  "video": "assets/lines/story_s03_clean.mp4",
+  "duration": 10.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_story_04",
+    "speaker": "dingo",
+    "text": "Today's a big day. My two little apprentices are learning to cook, and I need a helper. That's you!",
+    "start": 0.0,
+    "end": 5.88
+   }
+  ]
+ },
+ "story_s04": {
+  "video": "assets/lines/story_s04_clean.mp4",
+  "duration": 6.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_story_05",
+    "speaker": "dingo",
+    "text": "Let's make some yummy onion soup together. Ready? Follow me!",
+    "start": 0.0,
+    "end": 4.16
+   }
+  ]
+ },
+ "trans_s01": {
+  "video": "assets/lines/trans_s01_clean.mp4",
+  "duration": 7.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_trans_0_1",
+    "speaker": "dingo",
+    "text": "Nice work, friend! Now Wendy's turn. Can you teach her with stars?",
+    "start": 0.52,
+    "end": 4.66
+   }
+  ]
+ },
+ "trans_s02": {
+  "video": "assets/lines/trans_s02_clean.mp4",
+  "duration": 8.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_trans_1_2",
+    "speaker": "dingo",
+    "text": "Wendy's learning! But Kai never wants to try new things... let's help him explore.",
+    "start": 0.48,
+    "end": 4.54
+   }
+  ]
+ },
+ "trans_s03": {
+  "video": "assets/lines/trans_s03_clean.mp4",
+  "duration": 7.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_trans_2_3",
+    "speaker": "dingo",
+    "text": "Curious cooks find new tricks! Now, how sure are they about their moves?",
+    "start": 0.7,
+    "end": 4.56
+   }
+  ]
+ },
+ "trans_s04": {
+  "video": "assets/lines/trans_s04_clean.mp4",
+  "duration": 7.04,
+  "source": "scenes.json",
+  "lines": [
+   {
+    "id": "dingo_trans_3_4",
+    "speaker": "dingo",
+    "text": "They're almost real chefs! Time for the big soup contest. Let's go!",
+    "start": 0.0,
+    "end": 4.0
    }
   ]
  }

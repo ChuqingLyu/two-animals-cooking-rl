@@ -280,3 +280,10 @@ button[data-go="menu"]::before{content:"🗺️"}#langBtn::before{content:"🌐"
 #sceneSub:empty{display:none}
 #sceneSub.sub-wendy b{color:#ffd54a}#sceneSub.sub-kai b{color:#5fd3c3}#sceneSub.sub-dingo b{color:#f6b26b}
 #subtitle{pointer-events:none}
+
+/* gameplay: scene video shrinks to the speaker's bottom corner (Wendy left, Dingo/Kai right) */
+#sceneVideo.corner{left:auto;top:auto;right:calc(1.2*var(--vw));bottom:calc(1.5*var(--vh));transform:none;width:clamp(200px,calc(21*var(--vw)),420px);border-radius:12px;border:3px solid #f6b26b}
+#sceneVideo.corner.left{right:auto;left:calc(1.2*var(--vw));border-color:#ffd54a}
+#sceneVideo.corner #sceneSub{position:static;transform:none;max-width:none;border-radius:0;font-size:clamp(12px,calc(1.4*var(--vmin)),18px);padding:6px 10px}
+@media (max-width:900px){#sceneVideo.corner{width:calc(46*var(--vw))}}
+#subtitle .subAvatar{pointer-events:auto}   /* caption box lets clicks through to the kitchen; Dingo avatar stays hit-testable */

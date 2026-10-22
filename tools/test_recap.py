@@ -21,8 +21,8 @@ async def main():
                   const sp=Voice.speaking, v=Final.views.find(v=>v.name===sp);
                   return {level:r.dataset.level, teacher:r.dataset.teacher, teacherFig:f&&f.dataset.who, head:document.getElementById('recapTeacher').textContent,
                     speaker:sp, talkAnim:v?v.ch.action:null, line:document.getElementById('recapLine').textContent, visual:!!document.querySelector('#recapVisual img'),
-                    audio:Voice.audio.src.split('/voice/')[1]||'', visible:r.checkVisibility()}})()""")
-                ok = st["level"] == lv and st["teacher"] == t and st["teacherFig"] == t and st["visual"] and st["visible"] and st["talkAnim"] == "talk" and st["audio"].startswith("recap/")
+                    audio:Voice.audio.src.split('/voice/')[1]||'', scene:Voice.inVideo?document.getElementById('sceneVideo').dataset.scene:'', cap:document.getElementById('sceneSub').textContent, visible:r.checkVisibility()}})()""")
+                ok = st["level"] == lv and st["teacher"] == t and st["teacherFig"] == t and st["visual"] and st["visible"] and st["talkAnim"] == "talk" and (st["scene"].startswith("recap_") and st["cap"].startswith(st["speaker"].capitalize() + ": ") if st["scene"] else st["audio"].startswith("recap/"))
                 ok = ok and data["lessons"][i]["level"] == lv and data["lessons"][i]["teacher"] == t
                 print(w, "lesson", i + 1, st, "OK" if ok else "FAIL")
                 if not ok: fails.append((w, i, st))

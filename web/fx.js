@@ -163,10 +163,10 @@ const Voice = {
       const it = items[k];
       if (tok !== this.token) return false;
       if (typeof it === "object") { this.endVideo(); await this.speak(it.say, tok); continue; }
-      const sc = this.sceneOf[it];
+      const sc = !(this.lines[it] || {}).cont && this.sceneOf[it];   // composed lines (numbers + tail) keep their mp3 so the caption stays one sentence
       if (sc) {   // run of consecutive ids from the same scene video -> one continuous segment (voice = video audio)
         const S = this.scenes[sc.sid], run = [S.lines[sc.i]];
-        while (k + 1 < items.length && typeof items[k + 1] === "string" && (this.sceneOf[items[k + 1]] || {}).sid === sc.sid) run.push(S.lines[this.sceneOf[items[++k]].i]);
+        while (k + 1 < items.length && typeof items[k + 1] === "string" && !(this.lines[items[k + 1]] || {}).cont && (this.sceneOf[items[k + 1]] || {}).sid === sc.sid) run.push(S.lines[this.sceneOf[items[++k]].i]);
         if (!(await this.playScene(S, sc.sid, run, tok))) { S.lines.forEach(l => delete this.sceneOf[l.id]); k -= run.length; }   // video failed -> mp3 fallback
         continue;
       }
@@ -183,8 +183,12 @@ const Voice = {
   playScene(S, sid, run, tok) {
     const box = document.getElementById("sceneVideo"), v = document.getElementById("sceneVid");
     const t0 = run[0].start, last = run[run.length - 1], i1 = S.lines.indexOf(last);
-    const t1 = i1 === S.lines.length - 1 ? (S.duration || last.end + .5) : last.end + .15;
+    const t1 = Math.min(S.duration || 1e9, last.end + (i1 === S.lines.length - 1 ? .35 : .15));   // skip the silent held tail
     this.inVideo = true; box.classList.remove("hidden"); box.dataset.scene = sid;
+    // gameplay: small panel in the speaker's corner (kitchen tiles stay visible); story / bridges / recap: full-size centred
+    const hid = id => { const e = document.getElementById(id); return !e || e.classList.contains("hidden"); };
+    box.classList.toggle("corner", typeof App !== "undefined" && /^l\d$/.test(App.cur) && hid("dialog") && hid("bridge") && hid("theatre"));
+    box.classList.toggle("left", run[0].speaker === "wendy");
     if (!v.src.endsWith(S.video)) v.src = S.video;
     v.muted = Sfx.muted; v.currentTime = t0; this.video = v;
     return new Promise(res => {
@@ -194,7 +198,7 @@ const Voice = {
         if (tok !== this.token) return done();
 
         const t = v.currentTime, l = run.find(l => t >= l.start - .05 && t < l.end + .1) || null;
-        if (l !== cur) { cur = l; this.sub(l && Object.assign({}, this.lines[l.id] || {}, {character: l.speaker, text: l.text, caption: null})); }
+        if (l !== cur) { cur = l; if (l) box.classList.toggle("left", l.speaker === "wendy"); this.sub(l && Object.assign({}, this.lines[l.id] || {}, {character: l.speaker, text: l.text, caption: null})); }
         if (t >= t1) done();
       };
       v.onended = () => done(); v.onerror = () => done(false);
@@ -229,6 +233,7 @@ const Theatre = {
     ov.classList.remove("hidden", "poster"); document.getElementById("theatreStart").classList.add("hidden");
     v.src = level === "home" ? ART.OPENING_VIDEO : "assets/video/" + this.MAP[level] + ".mp4"; ov.classList.toggle("home", level === "home");
     const lines = this.VOICE[level]; this.overlay = !!lines;
+    // if the arrival dialogue exists as a scene video, Voice.play shows it in the centred panel over the (muted) arrival animation
     v.muted = !!lines || Sfx.muted; v.currentTime = 0;
     let videoDone = false, voiceDone = !lines, closed = false;
     const close = () => { if (closed) return; closed = true; Voice.stop(); v.pause(); v.removeAttribute("src"); v.load(); ov.classList.add("hidden");
