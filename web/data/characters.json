@@ -1,0 +1,18 @@
+{
+  "_doc": "Per character and skin (kitchen | home): backend static | sprite | spine. See docs/ANIMATION_ASSETS.md. Actions without an entry fall back to static.",
+  "wendy": {
+    "kitchen": {"backend": "sprite",
+      "actions": {"talk": {"json": "anim2d/wendy_talk.json"}},
+      "static": {}},
+    "home": {"backend": "static", "static": {"down": "home/wendy_home.png"}}
+  },
+  "kai": {
+    "kitchen": {"backend": "static", "static": {}},
+    "home": {"backend": "static", "static": {"down": "home/kai_home.png"}}
+  },
+  "dingo": {
+    "home": {"backend": "sprite",
+      "actions": {"idle": {"json": "home/dingo_idle.json"}},
+      "static": {"down": "home/dingo_home.png"}}
+  }
+}

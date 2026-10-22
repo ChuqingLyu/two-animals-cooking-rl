@@ -170,3 +170,72 @@ header{position:relative;z-index:2;box-shadow:0 2px 8px #8a5a2022}
 .levelsOn .menuStage{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}.levelsOn #levelsDingoSlot{width:clamp(140px,min(20vmin,calc((100vw - 900px)/2)),280px)}@media (max-width:900px){.levelsOn #levelsDingoSlot{width:30vw}}
 /* autoplay blocked: home art as the poster behind the big Start button */
 #theatre.poster{background:var(--page-bg) var(--home-bg) center/cover no-repeat}#theatre.poster video{opacity:0}
+/* ================= v4: Character canvases, story dialogue, bridges, roadmap, guide, button icons ================= */
+#menuDingoImg{background:none!important;animation:none!important;display:block;width:100%;height:auto;aspect-ratio:358/410}
+.homeWendy,.homeKai{height:auto}
+/* --- RPG dialogue --- */
+#dialog{position:fixed;inset:0;z-index:25;display:flex;align-items:flex-end;justify-content:center;cursor:pointer}
+#dialog::before{content:"";position:absolute;inset:0;background:#fff8ec55}
+.dlgStage{position:absolute;right:max(4vw,calc(50% - 46vw));bottom:calc(min(30vh,240px) - 2vh);width:clamp(150px,24vmin,320px)}
+.dlgStage canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 10px #0003)}
+.dlgBox{position:relative;margin:0 var(--m) var(--m);width:min(1100px,calc(100vw - 2*var(--m)));box-sizing:border-box;min-height:min(30vh,220px);
+  border-style:solid;border-width:0;border-image:url(assets/ui/kit/panel_large.png) 60 fill / 28px stretch;padding:clamp(18px,3vmin,34px) clamp(20px,4vmin,44px) 64px}
+.dlgName{position:absolute;top:-16px;left:32px;background:#2a8d7f;color:#fff;padding:4px 16px;border-radius:12px;font-size:clamp(15px,2vmin,22px)}
+#dlgText{margin:0;font-size:clamp(17px,2.6vmin,30px);line-height:1.45;color:#4a3420;min-height:2.9em}
+#dlgNameRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-weight:bold}
+#dlgName{font:inherit;font-size:clamp(16px,2.2vmin,24px);padding:.35em .6em;border:3px solid #f6b26b;border-radius:12px;width:min(320px,60vw)}
+#dlgNext{position:absolute;right:20px;bottom:14px}
+/* --- bridge --- */
+#bridge{position:fixed;inset:0;z-index:25;background:#fff8ec;display:flex;align-items:center;justify-content:center}
+#bridgeMap{position:absolute;inset:0}
+.bridgeCard{position:relative;z-index:2;display:flex;align-items:flex-end;gap:12px;max-width:min(900px,calc(100vw - 2*var(--m)));transition:opacity .3s}
+#bridge.walking .bridgeCard{opacity:0;pointer-events:none}
+#bridgeDingo{width:clamp(120px,20vmin,260px);height:auto;flex:0 0 auto}
+.bridgeBubble{border-style:solid;border-width:0;border-image:url(assets/ui/kit/panel_large.png) 60 fill / 28px stretch;padding:clamp(16px,3vmin,30px);display:flex;flex-direction:column;align-items:flex-end;gap:12px;margin-bottom:6vh}
+#bridgeText{margin:0;font-size:clamp(17px,2.6vmin,30px);line-height:1.4;align-self:stretch;min-height:2.8em}
+/* --- roadmap: 16:9 box (contain), nodes at nodes.json ratios, 160px @1920 --- */
+.roadmap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;container-type:size}
+.rmBox{position:relative;width:min(100cqw,100cqh*16/9);aspect-ratio:16/9;background:center/cover no-repeat;border-radius:var(--radius);box-shadow:var(--shadow);container-type:inline-size}
+#roadmap{width:calc(100vw - 2*var(--m));height:calc(100vh - 90px)}
+#bridgeMap .rmBox{border-radius:0;box-shadow:none}#bridgeMap{display:flex;align-items:center;justify-content:center}#bridgeMap.roadmap{position:absolute;inset:0;width:auto;height:auto}
+.rmNode{position:absolute;width:8.333cqw;height:8.333cqw;transform:translate(-50%,-50%);border:0;border-image:none;padding:0;background:var(--img) center/100% 100% no-repeat;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:3.4cqw;text-shadow:0 2px 3px #0006}
+.rmNode:hover{filter:brightness(1.08)}.rmNode:disabled{opacity:1;filter:none;cursor:default;color:#eee}
+.rmNode b{position:relative;z-index:1}
+.rmNode span{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:1.05cqw;color:#4a3420;background:#fffaf0d0;padding:.15em .6em;border-radius:99px;text-shadow:none;margin-top:.2em}
+.rmNode .rmBounce{display:none}
+.rmNode.current{z-index:2}
+@media (prefers-reduced-motion:no-preference){
+  .rmNode.current{background:none}
+  .rmNode.current .rmBounce{display:block;position:absolute;left:0;bottom:0;width:100%;aspect-ratio:160/180;background:var(--sheet) 0 0/calc(var(--n)*100%) 100% no-repeat;animation:rmBounce var(--dur) steps(16,jump-none) infinite}
+  .rmNode.current b{animation:rmBob calc(var(--dur)) ease-in-out infinite}
+}
+@keyframes rmBounce{from{background-position-x:0%}to{background-position-x:100%}}
+@keyframes rmBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8%)}}
+.rmDingo{position:absolute;width:6.5cqw;transform:translate(-50%,-150%);border-radius:50%;filter:drop-shadow(0 4px 4px #0004);z-index:3;pointer-events:none}
+/* --- guide (ring + arrow sprite sheets, art bubble with HTML text) --- */
+#guideLayer{position:fixed;inset:0;pointer-events:none;z-index:24}
+#guideLayer i{position:absolute;display:block}
+.gRing{background:url(assets/ui/guide/ring_sheet.webp) 0 0/2400% 100% no-repeat;animation:gRing 1s steps(24,jump-none) infinite}
+.gPointer{background:url(assets/ui/guide/arrow_down_sheet.webp) 0 0/1600% 100% no-repeat;animation:gPtr 1s steps(16,jump-none) infinite}
+@keyframes gRing{from{background-position-x:0%}to{background-position-x:100%}}
+@keyframes gPtr{from{background-position-x:0%}to{background-position-x:100%}}
+@media (prefers-reduced-motion:reduce){.gRing{animation:none;background:url(assets/ui/guide/ring.png) center/100% 100%}.gPointer{animation:none;background:url(assets/ui/guide/arrow_down.png) center/contain no-repeat}}
+#guideBubble{position:fixed;z-index:32;display:flex;align-items:center;gap:10px;box-sizing:border-box;min-height:96px;padding:20px 26px 46px 70px;background:center/100% 100% no-repeat;pointer-events:none;font-size:clamp(14px,1.9vmin,20px);color:#4a3420;filter:drop-shadow(0 4px 6px #0002)}
+#guideBubble img{width:44px;height:44px;object-fit:contain;border-radius:50%;flex:0 0 auto}
+#guideBubble b{color:#2a8d7f}
+/* --- button icons: guide art for star/play/next/retry, emoji elsewhere --- */
+button::before{display:inline-block;vertical-align:-.12em;margin-right:.4em;line-height:1}
+.icon-img::before,#l1train::before,#l2train::before,#homeStart::before,#theatreStart::before,#l4start::before,[data-theatre="intro"]::before,
+.next::before,#dlgNext::before,#bridgeNext::before,#again::before,[data-theatre]:not([data-theatre="intro"])::before{content:"";width:1.15em;height:1.15em;background:center/contain no-repeat}
+#l1train::before,#l2train::before,#homeStart::before,#theatreStart::before,#l4start::before,[data-theatre="intro"]::before{background-image:url(assets/ui/guide/icon_play.png)}
+.next::before,#dlgNext::before,#bridgeNext::before{background-image:url(assets/ui/guide/icon_next.png)}
+#again::before,[data-theatre]:not([data-theatre="intro"])::before{background-image:url(assets/ui/guide/icon_retry.png)}
+#popClose::before,#dlgNameOk::before{content:"✔"}#l0teach::before{content:"🤝"}.ask::before{content:"💬"}
+button[data-go="menu"]::before{content:"🗺️"}#langBtn::before{content:"🌐"}#theatreSkip::before{content:"⏭"}.choice::before{content:"💬"}
+#rate button::before{content:"🌡️";font-size:.7em}
+.starbtn{filter:drop-shadow(0 0 0 transparent)}   /* reward toggles are the star art itself (icon_star used for done roadmap stops) */
+.rmNode.done::after{content:"";position:absolute;right:2%;top:2%;width:32%;height:32%;background:url(assets/ui/guide/icon_star.png) center/contain no-repeat}
+#menuDingoImg,.homeWendy,.homeKai,#dlgDingo,#bridgeDingo{background:none!important;border:0!important;border-radius:0;image-rendering:auto}
+#dlgText{font-size:clamp(20px,3.4vmin,34px)}
+.dlgStage{width:clamp(170px,30vmin,380px);bottom:calc(min(30vh,220px) + var(--m) - 12px)}

@@ -1,0 +1,103 @@
+{
+ "_doc": "Scene -> track id; tracks: file in assets/music (mp3 re-encoded from the -18 dBFS WAV masters with a LAME gapless header), vol per music_list.md, samples = exact WAV length @44.1k so loopEnd skips any encoder padding. jingle = one-shot played on scene entry.",
+ "crossfade": 0.8,
+ "duck": 0.25,
+ "tracks": {
+  "t_opening": {
+   "file": "bgm_opening",
+   "vol": 0.6,
+   "loop": false,
+   "samples": 445009,
+   "rate": 1
+  },
+  "t_welcome": {
+   "file": "bgm_welcome_loop",
+   "vol": 0.5,
+   "loop": true,
+   "samples": 1260000,
+   "rate": 1
+  },
+  "t_concept_reward": {
+   "file": "bgm_concept_reward_loop",
+   "vol": 0.5,
+   "loop": true,
+   "samples": 1323000,
+   "rate": 1
+  },
+  "t_concept_explore": {
+   "file": "bgm_concept_explore_loop",
+   "vol": 0.5,
+   "loop": true,
+   "samples": 1411200,
+   "rate": 1
+  },
+  "t_concept_strategy": {
+   "file": "bgm_concept_strategy_loop",
+   "vol": 0.5,
+   "loop": true,
+   "samples": 1392631,
+   "rate": 1
+  },
+  "t_bridge": {
+   "file": "bgm_story_loop",
+   "vol": 0.4,
+   "loop": true,
+   "samples": 846720,
+   "rate": 1,
+   "jingle": "stinger_transition"
+  },
+  "t_end_success": {
+   "file": "bgm_welcome_loop",
+   "vol": 0.4,
+   "loop": true,
+   "samples": 1260000,
+   "rate": 1,
+   "jingle": "jingle_success"
+  },
+  "t_end_fail": {
+   "file": "bgm_story_loop",
+   "vol": 0.4,
+   "loop": true,
+   "samples": 846720,
+   "rate": 1,
+   "jingle": "jingle_fail"
+  },
+  "t_menu": {
+   "file": "bgm_welcome_loop",
+   "vol": 0.5,
+   "loop": true,
+   "samples": 1260000,
+   "rate": 1
+  },
+  "t_gameplay": {
+   "file": "bgm_kitchen_loop",
+   "vol": 0.5,
+   "loop": true,
+   "samples": 641454,
+   "rate": 1
+  },
+  "t_arrival": {
+   "file": "bgm_story_loop",
+   "vol": 0.4,
+   "loop": true,
+   "samples": 846720,
+   "rate": 1
+  }
+ },
+ "scenes": {
+  "opening": "t_opening",
+  "arrival": "t_arrival",
+  "welcome": "t_welcome",
+  "concept_l1": "t_concept_reward",
+  "concept_l2": "t_concept_explore",
+  "concept_l3": "t_concept_strategy",
+  "bridge": "t_bridge",
+  "end_success": "t_end_success",
+  "end_fail": "t_end_fail",
+  "menu": "t_menu",
+  "gameplay": "t_gameplay"
+ },
+ "sample_rate": 44100,
+ "jingle_vol": 0.7,
+ "lead_samples": 0
+}

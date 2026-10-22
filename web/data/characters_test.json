@@ -1,0 +1,52 @@
+{
+ "_doc": "test only: dummy two-frame sprite backend for Wendy (pw_levels.py sprite test)",
+ "wendy": {
+  "kitchen": {
+   "backend": "sprite",
+   "actions": {
+    "idle": {
+     "sheet": "../data/test_sprites/idle.png",
+     "frameW": 32,
+     "frameH": 96,
+     "count": 2,
+     "fps": 8
+    },
+    "walk": {
+     "sheet": "../data/test_sprites/walk.png",
+     "frameW": 32,
+     "frameH": 96,
+     "count": 2,
+     "fps": 8
+    },
+    "talk": {
+     "sheet": "../data/test_sprites/talk.png",
+     "frameW": 32,
+     "frameH": 96,
+     "count": 2,
+     "fps": 8
+    },
+    "happy": {
+     "sheet": "../data/test_sprites/happy.png",
+     "frameW": 32,
+     "frameH": 96,
+     "count": 2,
+     "fps": 8
+    },
+    "confused": {
+     "sheet": "../data/test_sprites/confused.png",
+     "frameW": 32,
+     "frameH": 96,
+     "count": 2,
+     "fps": 8
+    }
+   },
+   "static": {}
+  }
+ },
+ "kai": {
+  "kitchen": {
+   "backend": "static",
+   "static": {}
+  }
+ }
+}

@@ -23,7 +23,7 @@ zh: {
   card3: "看小熊头上的气泡，就知道它打算做什么。你们分好工，汤就做得更快。",
   l3_keys: "方向键/WASD 移动，空格键拿/放，也可以点击格子。一局 60 秒。", l3_bubble: "显示 AI 伙伴的气泡",
   l3_unsure: "小熊没把握，你觉得它对吗？", l3_follow: "对，照你的计划", l3_ignore: "不对，换一件事",
-  l3_start: "开始一局", watch_again: "再看一遍", watch_opening: "▶ 开场动画", skip: "跳过 ▶", l3_note: "提示：开着气泡玩一局，再关掉气泡玩一局，回顾页会比较两次。",
+  l3_start: "开始一局", watch_again: "再看一遍", watch_opening: "开场动画", skip: "跳过", l3_note: "提示：开着气泡玩一局，再关掉气泡玩一局，回顾页会比较两次。",
   q3: "开着气泡和关掉气泡，哪次做的汤更多？为什么？",
   q3_choices: ["开着气泡更多：我知道它要干什么，就去做别的", "关掉气泡更多", "差不多"],
   q3_right: -1, q3_fb: ["说说看，你是怎么分工的？(placeholder)", "有意思！为什么会这样呢？(placeholder)", "也可能！多玩几局试试。(placeholder)"],
@@ -58,7 +58,7 @@ en: {
   q2_right: 1, q2_fb: ["It knows nothing at first. (placeholder)", "Right! Without trying, it never finds the reward. (placeholder)", "Speed doesn't help without trying. (placeholder)"],
   card3_title: "Is it sure?",
   card3: "Dashed bubble means \"not sure.\" Do you agree?",
-  l3_keys: "Arrows/WASD move, Space picks up / puts down, or click a tile. 60 s per round.", watch_again: "Watch again", watch_opening: "▶ Opening", skip: "Skip ▶", l3_bubble: "Show the AI partner's bubble",
+  l3_keys: "Arrows/WASD move, Space picks up / puts down, or click a tile. 60 s per round.", watch_again: "Watch again", watch_opening: "Opening", skip: "Skip", l3_bubble: "Show the AI partner's bubble",
   l3_unsure: "It's not sure. Follow its plan?", l3_follow: "Yes, go ahead", l3_ignore: "No, do something else",
   l3_start: "Start a round", l3_note: "Tip: play one round with the bubble on and one with it off; the recap compares them.",
   q3: "Bubble on or off: which made more soup?",
@@ -77,12 +77,14 @@ en: {
 
 // ---- level flow per GDD_level_design.md (L0-L4 + recap) ----
 Object.assign(I18N.en, {
-  menu_hi: "Welcome to my kitchen!", home_start: "Start", start_opening: "▶ Start",
+  menu_hi: "Welcome to my kitchen!", home_start: "Start", start_opening: "Start", your_name: "Your name:",
+  l1_no_tries: "All 3 tries used. Press Next!", step_scoop: "Scoop soup",
+  // Guide hint keys (copy lives in docs/hints.md -> data/hints.json; English shown for ZH until translated)
   l0_name: "Become a Soup Master", l1_name: "You give the stars", l2_name: "Curious monsters", l3_name: "Are you sure?", l4_name: "Soup contest", final_name: "Recap",
   menu_note: "Levels unlock one after another. L1-L3 show really-trained VDN models (overcooked-ai, cramped_room). In L4 Kai is a rule-based helper in the browser.",
   keys: "Arrows/WASD move, Space picks up / puts down, or click a tile.",
   steps: ["Grab onion", "Into the pot", "Wait to cook", "Get a plate", "Serve!"],
-  l0_teach: "Yes, I'll teach them!", next: "Next ▶", train: "Train",
+  l0_teach: "Yes, I'll teach them!", next: "Next", train: "Train",
   l1_hint: "Tap the star under each step that deserves a star, then press Train. First time: just one step.",
   tries: (n, m) => `Tries: ${n}/${m}`, pick_one: "Pick at least one step.", first_one: "For your first try, pick just one step.",
   closest: "We didn't train that exact mix; here's the closest trained one:",
@@ -111,12 +113,13 @@ Object.assign(I18N.en, {
   q3_fb: ["Compare your score with the bowls they made. Were you right?", "Their confidence comes from their Q-values. Did the bowls match?", "Did the bowls match how sure you all were?"],
 });
 Object.assign(I18N.zh, {
-  menu_hi: "欢迎来到我的厨房！", home_start: "开始", start_opening: "▶ 开始",
+  menu_hi: "欢迎来到我的厨房！", home_start: "开始", start_opening: "开始", your_name: "你的名字：",
+  l1_no_tries: "3 次机会用完啦，点「下一关」！", step_scoop: "盛汤",
   l0_name: "成为做汤大师", l1_name: "你来发星星", l2_name: "调皮的好奇心", l3_name: "你有信心吗？", l4_name: "做汤比赛", final_name: "回顾",
   menu_note: "关卡依次解锁。L1–L3 播放真实训练的 VDN 模型（overcooked-ai cramped_room）；L4 里的 Kai 是浏览器中的规则助手。",
   keys: "方向键/WASD 移动，空格拿/放，也可以点击格子。",
   steps: ["拿洋葱", "放进锅", "等汤煮好", "拿盘子", "端上桌"],
-  l0_teach: "好，我来教它们！", next: "下一关 ▶", train: "训练",
+  l0_teach: "好，我来教它们！", next: "下一关", train: "训练",
   l1_hint: "在值得奖励的步骤下点星星，然后点“训练”。第一次只能选一个步骤。",
   tries: (n, m) => `已试 ${n}/${m} 次`, pick_one: "至少选一个步骤。", first_one: "第一次只选一个步骤。",
   closest: "这个组合没有训练过，播放最接近的已训练方案：",

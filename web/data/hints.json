@@ -1,0 +1,619 @@
+{
+ "_source": "docs/hints.md (built by tools/build_hints.py)",
+ "levels": {
+  "L0": {
+   "0.1": {
+    "trigger": "`pick_onion` (step 1)",
+    "target": {
+     "tiles": [
+      [
+       0,
+       1
+      ],
+      [
+       4,
+       1
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "First, grab an onion from the onion box."
+    },
+    "wrong": [
+     {
+      "when": "wrong station",
+      "speaker": "dingo",
+      "text": "Not there. Look for the onion box."
+     }
+    ]
+   },
+   "0.2": {
+    "trigger": "`pot_onion` (step 2)",
+    "target": {
+     "tiles": [
+      [
+       2,
+       0
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Now walk to the pot and press Space."
+    },
+    "wrong": [
+     {
+      "when": "Holding the onion at another station",
+      "speaker": "dingo",
+      "text": "Almost! The onion goes in the pot."
+     }
+    ]
+   },
+   "0.3": {
+    "trigger": "`ready` (step 3, automatic)",
+    "target": {
+     "tiles": [
+      [
+       2,
+       0
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Let it cook. Watch the ring fill up."
+    },
+    "wrong": [
+     {
+      "when": "Pressing Space on the pot while it cooks",
+      "speaker": "dingo",
+      "text": "Patience! It's still cooking."
+     }
+    ]
+   },
+   "0.4": {
+    "trigger": "`pick_dish` (step 4)",
+    "target": {
+     "tiles": [
+      [
+       1,
+       3
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Soup's ready! Grab a plate from the plate stack."
+    },
+    "wrong": [
+     {
+      "when": "Grabbed a plate before the soup was ready (step won't light)",
+      "speaker": "dingo",
+      "text": "Put the plate on a counter, then grab it again."
+     }
+    ]
+   },
+   "0.5a": {
+    "trigger": "scoop soup (`pick_soup`, not a step on the bar)",
+    "target": {
+     "tiles": [
+      [
+       2,
+       0
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Take your plate to the pot to scoop the soup."
+    },
+    "wrong": [
+     {
+      "when": "Plate used anywhere else",
+      "speaker": "dingo",
+      "text": "Plates go to the pot first. Scoop the soup!"
+     }
+    ]
+   },
+   "0.5b": {
+    "trigger": "`serve` (step 5)",
+    "target": {
+     "tiles": [
+      [
+       3,
+       3
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Serve it right here, at the serve window!"
+    },
+    "wrong": [
+     {
+      "when": "Soup used on another tile",
+      "speaker": "dingo",
+      "text": "So close! The serve window is down there."
+     }
+    ]
+   },
+   "0.6": {
+    "trigger": "`#l0teach` (after intro video)",
+    "target": {
+     "sel": "#l0teach"
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... will you teach us? Tap the big button."
+    },
+    "wrong": []
+   },
+   "0.7": {
+    "trigger": "`#l0next` (same effect)",
+    "target": {
+     "sel": "#l0next"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Ooh, let's go! Press Next!"
+    },
+    "wrong": []
+   }
+  },
+  "L1": {
+   "1.1": {
+    "trigger": "close card1",
+    "target": {
+     "sel": "#popClose"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Tap Got it when you're ready."
+    },
+    "wrong": []
+   },
+   "1.2": {
+    "trigger": "toggle a star (first try)",
+    "target": {
+     "sel": ".starbtn"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Pick one step that deserves a star."
+    },
+    "wrong": []
+   },
+   "1.3": {
+    "trigger": "press Train",
+    "target": {
+     "sel": "#l1train"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Ooh, stars are set! Press Train, press Train!"
+    },
+    "wrong": [
+     {
+      "when": "No star picked (`pick_one`)",
+      "speaker": "kai",
+      "text": "Um... I need at least one star, please."
+     },
+     {
+      "when": "More than one on try 1 (`first_one`)",
+      "speaker": "dingo",
+      "text": "First try, just one star. Then mix them!"
+     }
+    ]
+   },
+   "1.4": {
+    "trigger": "watch replay (no input needed)",
+    "target": {
+     "sel": "#c1, #l1steps"
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... watch which steps light up for us."
+    },
+    "wrong": []
+   },
+   "1.5": {
+    "trigger": "try again (tries 2–3, optional)",
+    "target": {
+     "sel": ".starbtn, #l1train"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Want to try different stars? You can mix them now!"
+    },
+    "wrong": [
+     {
+      "when": "Train pressed after 3/3 tries (button does nothing)",
+      "speaker": "dingo",
+      "text": "That's all three tries. Nice work! Press Next."
+     }
+    ]
+   },
+   "1.6": {
+    "trigger": "Answer (optional)",
+    "target": {
+     "sel": ".ask[data-q=q1]"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Why did Wendy keep grabbing onions? Tap Answer."
+    },
+    "wrong": []
+   },
+   "1.7": {
+    "trigger": "Next",
+    "target": {
+     "sel": "#l1next"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "They learn whatever you reward. Press Next!"
+    },
+    "wrong": []
+   }
+  },
+  "L2": {
+   "2.1": {
+    "trigger": "close card2",
+    "target": {
+     "sel": "#popClose"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Tap Got it when you're ready."
+    },
+    "wrong": []
+   },
+   "2.2": {
+    "trigger": "set curiosity",
+    "target": {
+     "sel": "#eps, #dial"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Turn my curiosity dial! What happens up high?"
+    },
+    "wrong": []
+   },
+   "2.3": {
+    "trigger": "footprints (optional)",
+    "target": {
+     "sel": "#trail"
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... footprints show where we walked."
+    },
+    "wrong": []
+   },
+   "2.4": {
+    "trigger": "press Train",
+    "target": {
+     "sel": "#l2train"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Dial set? Press Train and watch them practice."
+    },
+    "wrong": []
+   },
+   "2.5": {
+    "trigger": "watch replay",
+    "target": {
+     "sel": "#c2, #l2stats"
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... count how many bowls we make."
+    },
+    "wrong": []
+   },
+   "2.6": {
+    "trigger": "retry another band (optional)",
+    "target": {
+     "sel": "#eps, #l2train"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Try curiosity near zero, then in the middle."
+    },
+    "wrong": []
+   },
+   "2.7": {
+    "trigger": "Answer (optional)",
+    "target": {
+     "sel": ".ask[data-q=q2]"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Why let them be curious at first? Tap Answer."
+    },
+    "wrong": []
+   },
+   "2.8": {
+    "trigger": "Next",
+    "target": {
+     "sel": "#l2next"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "That was fun! Press Next!"
+    },
+    "wrong": []
+   }
+  },
+  "L3": {
+   "3.1": {
+    "trigger": "close card3",
+    "target": {
+     "sel": "#popClose"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Tap Got it when you're ready."
+    },
+    "wrong": []
+   },
+   "3.2": {
+    "trigger": "rate yourself",
+    "target": {
+     "sel": "#rate button[data-v=1..5]"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "How sure are you we'll win? Pick 1 to 5."
+    },
+    "wrong": []
+   },
+   "3.3": {
+    "trigger": "watch the round (no input)",
+    "target": {
+     "sel": "#confBars, #c3"
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... a dashed bubble means I'm not sure."
+    },
+    "wrong": []
+   },
+   "3.4": {
+    "trigger": "answer q3 (auto popup)",
+    "target": {
+     "sel": "#popChoices"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Who was more sure, you or them? Pick one."
+    },
+    "wrong": []
+   },
+   "3.5": {
+    "trigger": "close popup",
+    "target": {
+     "sel": "#popClose"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Tap Got it when you're ready."
+    },
+    "wrong": []
+   },
+   "3.6": {
+    "trigger": "Next",
+    "target": {
+     "sel": "#l3next"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Contest time! Press Next!"
+    },
+    "wrong": []
+   }
+  },
+  "L4": {
+   "4.1": {
+    "trigger": "start",
+    "target": {
+     "sel": "#l4start"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Press Ready... cook! when you're set."
+    },
+    "wrong": []
+   },
+   "4.2": {
+    "trigger": "`pick_onion`",
+    "target": {
+     "tiles": [
+      [
+       0,
+       1
+      ],
+      [
+       4,
+       1
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... could you grab an onion, please?"
+    },
+    "wrong": [
+     {
+      "when": "empty spot",
+      "speaker": "kai",
+      "text": "Um... the onions are in the onion box."
+     }
+    ]
+   },
+   "4.3": {
+    "trigger": "`pot_onion` (up to 3)",
+    "target": {
+     "tiles": [
+      [
+       2,
+       0
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Onion in hand! Into the pot it goes!"
+    },
+    "wrong": [
+     {
+      "when": "Pot full or cooking",
+      "speaker": "kai",
+      "text": "Um... the pot is busy. Maybe grab a plate?"
+     }
+    ]
+   },
+   "4.4": {
+    "trigger": "`start_cook` (empty hands)",
+    "target": {
+     "tiles": [
+      [
+       2,
+       0
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Hands empty? Press Space at the pot to cook."
+    },
+    "wrong": [
+     {
+      "when": "Space at pot while holding a plate before soup is ready",
+      "speaker": "dingo",
+      "text": "Not ready yet. Wait for the ring."
+     }
+    ]
+   },
+   "4.5": {
+    "trigger": "`pick_dish`",
+    "target": {
+     "tiles": [
+      [
+       1,
+       3
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... soup's cooking. Can you get a plate?"
+    },
+    "wrong": [
+     {
+      "when": "Plate grabbed with full hands",
+      "speaker": "wendy",
+      "text": "Oops, hands full! Put something down first."
+     }
+    ]
+   },
+   "4.6": {
+    "trigger": "`pick_soup`",
+    "target": {
+     "tiles": [
+      [
+       2,
+       0
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Ding! Soup's ready! Scoop it with your plate!"
+    },
+    "wrong": []
+   },
+   "4.7": {
+    "trigger": "`serve`",
+    "target": {
+     "tiles": [
+      [
+       3,
+       3
+      ]
+     ]
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Serve it at the window. Every bowl counts!"
+    },
+    "wrong": [
+     {
+      "when": "Soup used on another tile",
+      "speaker": "kai",
+      "text": "Um... the serve window is that way."
+     }
+    ]
+   },
+   "4.8": {
+    "trigger": "counter hand-off (optional)",
+    "target": {},
+    "idle": {
+     "speaker": "kai",
+     "text": "Um... you can leave things on a counter for me."
+    },
+    "wrong": [
+     {
+      "when": "Counter already full",
+      "speaker": "wendy",
+      "text": "That spot's taken! Try another counter."
+     }
+    ]
+   },
+   "bump": {
+    "trigger": "bump into Kai (`bump`)",
+    "target": {
+     "char": 1
+    },
+    "idle": null,
+    "wrong": [
+     {
+      "when": "",
+      "speaker": "kai",
+      "text": "Um... sorry! I'll move. Let's take turns."
+     }
+    ]
+   },
+   "4.9a": {
+    "trigger": "end · fail → retry",
+    "target": {
+     "sel": "#again"
+    },
+    "idle": {
+     "speaker": "wendy",
+     "text": "Let's try again! I know we can do it!"
+    },
+    "wrong": []
+   },
+   "4.9b": {
+    "trigger": "end · Next",
+    "target": {
+     "sel": "#l4next"
+    },
+    "idle": {
+     "speaker": "dingo",
+     "text": "Great teamwork! Press Next to see your cards."
+    },
+    "wrong": []
+   }
+  }
+ },
+ "shared": {
+  "unreachable": {
+   "speaker": "dingo",
+   "text": "Can't walk there. Try a floor tile next to it."
+  }
+ }
+}

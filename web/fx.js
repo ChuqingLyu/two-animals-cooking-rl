@@ -2,7 +2,7 @@
 "use strict";
 // Swap-in art: replace these two paths when the art director delivers the new Dingo idle image / opening animation.
 const ART = {
-  DINGO_IDLE: {sheet: "assets/home/dingo_idle_sheet.webp", frames: 32, fps: 12, still: "assets/home/dingo_home.png"}, // home Dingo: 1-row sprite sheet (one request)
+  // home Dingo / Wendy / Kai art now lives in data/characters.json (Character module; see docs/ANIMATION_ASSETS.md)
   OPENING_VIDEO: "assets/home/intro_opening_silent.mp4", // opening animation (no music; the page plays bgm); last frame = home screen
 };
 
@@ -44,27 +44,53 @@ const Sfx = {
 // ducked to 25% while a voice line plays; separate music on/off toggle.
 const Music = {
   FILES: ["bgm_story_loop", "bgm_kitchen_loop", "jingle_success", "jingle_fail"],
-  buf: {}, src: null, want: null, on: localStorage.getItem("music") !== "0", ducked: false,
+  cfg: {crossfade: .8, duck: .25, tracks: {}, scenes: {}},          // data/music.json (scene -> track id -> file/vol/rate)
+  buf: {}, src: null, srcGain: null, want: null, on: localStorage.getItem("music") !== "0", ducked: false, sceneName: null, log: [],
+  async loadConfig() { try { Object.assign(this.cfg, await (await fetch("data/music.json")).json()); } catch (e) {} },
   async init(ctx, master) {
     this.ctx = ctx; this.g = ctx.createGain(); this.g.connect(master); this.g.gain.value = 0;
+    const files = new Set(this.FILES); Object.values(this.cfg.tracks).forEach(t => { files.add(t.file); t.jingle && files.add(t.jingle); });
+    this.FILES = [...files];
     await Promise.all(this.FILES.map(async f => { const r = await fetch("assets/music/" + f + ".mp3"); this.buf[f] = await ctx.decodeAudioData(await r.arrayBuffer()); }));
-    if (this.want) { const w = this.want; this.want = null; this.play(w.name, w.vol); }
+    if (this.want) { const w = this.want; this.want = null; this.start(w); }
   },
-  level() { return !this.on || !this.want ? 0 : this.want.vol * (this.ducked ? .25 : 1); },
+  level() { return !this.on || !this.want ? 0 : this.ducked ? this.cfg.duck : 1; },
   ramp() { if (this.g) this.g.gain.setTargetAtTime(this.level(), this.ctx.currentTime, .15); },
-  play(name, vol = .35) {
-    if (this.want && this.want.name === name && this.src) { this.want.vol = vol; return this.ramp(); }
-    this.stopSrc(); this.want = {name, vol};
-    if (!this.ctx || !this.buf[name]) return;
-    this.src = this.ctx.createBufferSource(); this.src.buffer = this.buf[name]; this.src.loop = true; this.src.connect(this.g); this.src.start();
-    this.g.gain.value = 0; this.ramp();
+  // scene switch: crossfade to the scene's track (gameplay -> bgm_kitchen_loop)
+  scene(name) {
+    const id = this.cfg.scenes[name], t = this.cfg.tracks[id];
+    this.sceneName = name;
+    if (!t) return this.play(name === "gameplay" ? "bgm_kitchen_loop" : "bgm_story_loop", .3, name);
+    this.start({file: t.file, vol: t.vol, id, rate: t.rate, loop: t.loop !== false, samples: t.samples}, true);
+    if (t.jingle) this.jingle(t.jingle);
   },
+  // legacy entry: file name + volume (kept for callers that predate scenes)
+  play(file, vol = .35, id = file, rate = 1) {
+    if (this.want && this.want.id === id && this.src) return;
+    this.start({file, vol, id, rate});
+  },
+  start(w, force) {
+    if (this.want && this.want.id === w.id && this.src) return;
+    this.want = w; this.log.push(w.id);
+    if (!this.ctx || !this.buf[w.file]) return this.ramp();
+    const xf = this.cfg.crossfade, now = this.ctx.currentTime;
+    if (this.src) { const o = this.src, og = this.srcGain; og.gain.cancelScheduledValues(now); og.gain.setValueAtTime(og.gain.value, now); og.gain.linearRampToValueAtTime(0, now + xf); setTimeout(() => { try { o.stop(); } catch (e) {} }, xf * 1000 + 100); }
+    const s = this.ctx.createBufferSource(), g = this.ctx.createGain();
+    s.buffer = this.buf[w.file]; s.loop = w.loop !== false;
+    // seamless loop: loop exactly the master's sample count (skips mp3 encoder padding if the decoder kept any)
+    if (s.loop && w.samples) { const sr = this.cfg.sample_rate || 44100, lead = Music.lead(s.buffer, w.samples, sr); s.loopStart = lead; s.loopEnd = lead + w.samples / sr; } s.playbackRate.value = w.rate || 1; s.connect(g); g.connect(this.g);
+    g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(w.vol, now + xf); s.start();
+    this.src = s; this.srcGain = g; this.ramp();
+  },
+  // leading encoder delay still in the decoded buffer (music.json lead_samples, measured by the test; 0 = gapless header honoured)
+  lead(buf, samples, sr) { return (this.cfg.lead_samples || 0) / sr; },
   stopSrc() { if (this.src) { try { this.src.stop(); } catch (e) {} this.src = null; } },
   stop() { this.stopSrc(); this.want = null; this.ramp(); },
   current() { return this.want ? {...this.want} : null; },
+  playing() { return !!(this.ctx && this.ctx.state === "running" && this.src && this.want && this.on); },
   jingle(name) {
     if (!this.ctx || !this.buf[name] || !this.on) return;
-    const s = this.ctx.createBufferSource(), g = this.ctx.createGain(); g.gain.value = .8; s.buffer = this.buf[name]; s.connect(g); g.connect(Sfx.gain); s.start();
+    const s = this.ctx.createBufferSource(), g = this.ctx.createGain(); g.gain.value = .8; g.gain.value = this.cfg.jingle_vol || .8; s.buffer = this.buf[name]; s.connect(g); g.connect(Sfx.gain); s.start();
   },
   duck(on) { this.ducked = on; this.ramp(); },
   toggle() { this.on = !this.on; localStorage.setItem("music", this.on ? "1" : "0"); this.ramp(); this.paint(); },
@@ -94,23 +120,27 @@ const Voice = {
     }));
   },
   ids(level) { return Object.keys(this.lines).filter(k => this.lines[k].level === level); },
+  name() { return localStorage.getItem("playerName") || (typeof Story !== "undefined" ? Story.defaultName() : "Friend"); },
+  fill(t) { return String(t).replace(/\{name\}/g, this.name()); },
   sub(line) {
+    this.speaking = line ? line.character : null;
+    if (line && typeof Story !== "undefined" && Story.captures(line)) return;      // story dialogue / bridge show the line in their own box
     const el = document.getElementById("subtitle");
     const ref = document.getElementById("dingoRef"), bub = ref && ref.querySelector(".bubble");
     if (!line) { el.classList.add("hidden"); bub && bub.classList.add("hidden"); return; }
     // L4: Dingo is the referee at the kitchen's side; his lines go into his own speech bubble
     if (line.character === "dingo" && bub && ref.offsetParent) {
       el.classList.add("hidden");
-      if (line.cont && !bub.classList.contains("hidden")) { bub.textContent += " " + (line.caption || line.text); return; }
-      bub.textContent = line.caption || line.text; bub.classList.remove("hidden"); return;
+      if (line.cont && !bub.classList.contains("hidden")) { bub.textContent += " " + this.fill(line.caption || line.text); return; }
+      bub.textContent = this.fill(line.caption || line.text); bub.classList.remove("hidden"); return;
     }
     bub && bub.classList.add("hidden");
-    if (line.cont && !el.classList.contains("hidden")) { el.lastChild.textContent += " " + (line.caption || line.text); return; }
+    if (line.cont && !el.classList.contains("hidden")) { el.lastChild.textContent += " " + this.fill(line.caption || line.text); return; }
     el.innerHTML = "";
     // anywhere else Dingo speaks, his round avatar sits in the caption box so he is always on screen
     if (line.character === "dingo") { const a = new Image(); a.src = "assets/ui/dingo_avatar.png"; a.alt = "Dingo"; a.className = "subAvatar"; el.append(a); }
     const b = document.createElement("b"); b.textContent = (line.speaker || this.NAMES[line.character] || line.character) + ": ";
-    el.append(b, document.createTextNode(line.caption || line.text)); el.className = "sub-" + line.character;
+    el.append(b, document.createTextNode(this.fill(line.caption || line.text))); el.className = "sub-" + line.character;
   },
   stop() { this.token++; Music.duck(false); this.audio.pause(); speechSynthesis && speechSynthesis.cancel(); this.sub(null); },
   // items: voice ids, or {say: "text"} for spoken text without a recording (e.g. the number in dingo_L4_04)
@@ -147,7 +177,7 @@ const Theatre = {
   seen: {},
   show(level, then) {
     this.seen[level] = true; Voice.stop(); const prevMusic = Music.current();
-    Music.play("bgm_story_loop", level === "intro" || level === "home" ? .35 : .12);       // low under the voiced concept videos
+    Music.scene({home: "opening", intro: "arrival", l1: "concept_l1", l2: "concept_l2", l3: "concept_l3"}[level] || "opening");   // each animated scene has its own track
     const ov = document.getElementById("theatre"), v = this.video = document.getElementById("theatreVideo");
     ov.classList.remove("hidden", "poster"); document.getElementById("theatreStart").classList.add("hidden");
     v.src = level === "home" ? ART.OPENING_VIDEO : "assets/video/" + this.MAP[level] + ".mp4"; ov.classList.toggle("home", level === "home");
@@ -155,7 +185,7 @@ const Theatre = {
     v.muted = !!lines || Sfx.muted; v.currentTime = 0;
     let videoDone = false, voiceDone = !lines, closed = false;
     const close = () => { if (closed) return; closed = true; Voice.stop(); v.pause(); v.removeAttribute("src"); v.load(); ov.classList.add("hidden");
-      prevMusic ? Music.play(prevMusic.name, prevMusic.vol) : Music.stop(); then && then(); };
+      prevMusic ? Music.start(prevMusic) : Music.stop(); then && then(); };
     const check = () => { if (videoDone && voiceDone) setTimeout(close, level === "home" ? 0 : 400); };   // home: last frame == home screen, cut straight over
     v.onended = v.onerror = () => { videoDone = true; check(); };          // ended video stays on its last frame
     v.play().catch(() => { v.muted = true; v.play().catch(() => { videoDone = true; check(); }); });

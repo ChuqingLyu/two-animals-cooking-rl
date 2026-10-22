@@ -382,5 +382,78 @@
   "index": 4,
   "text": "The clearer the bubble, the surer they are.",
   "note": ""
+ },
+ {
+  "file": "dingo_story_01.mp3",
+  "character": "dingo",
+  "level": "story",
+  "index": 1,
+  "text": "Well hello there, friend! Welcome, welcome!",
+  "note": "audio says 'friend' for {name}"
+ },
+ {
+  "file": "dingo_story_02.mp3",
+  "character": "dingo",
+  "level": "story",
+  "index": 2,
+  "text": "I'm Dingo, head chef of this little kitchen. What's your name?",
+  "note": "",
+  "after": "name_input"
+ },
+ {
+  "file": "dingo_story_03.mp3",
+  "character": "dingo",
+  "level": "story",
+  "index": 3,
+  "text": "{name}! What a great name. So happy to meet you!",
+  "note": "audio says 'friend' for {name}"
+ },
+ {
+  "file": "dingo_story_04.mp3",
+  "character": "dingo",
+  "level": "story",
+  "index": 4,
+  "text": "Today's a big day. My two little apprentices are learning to cook, and I need a helper. That's you!",
+  "note": ""
+ },
+ {
+  "file": "dingo_story_05.mp3",
+  "character": "dingo",
+  "level": "story",
+  "index": 5,
+  "text": "Let's make some yummy onion soup together. Ready? Follow me!",
+  "note": ""
+ },
+ {
+  "file": "dingo_trans_0_1.mp3",
+  "character": "dingo",
+  "level": "bridge",
+  "index": 1,
+  "text": "Nice work, {name}! Now Wendy's turn. Can you teach her with stars?",
+  "note": "audio says 'friend' for {name}"
+ },
+ {
+  "file": "dingo_trans_1_2.mp3",
+  "character": "dingo",
+  "level": "bridge",
+  "index": 2,
+  "text": "Wendy's learning! But Kai never wants to try new things... let's help him explore.",
+  "note": ""
+ },
+ {
+  "file": "dingo_trans_2_3.mp3",
+  "character": "dingo",
+  "level": "bridge",
+  "index": 3,
+  "text": "Curious cooks find new tricks! Now, how sure are they about their moves?",
+  "note": ""
+ },
+ {
+  "file": "dingo_trans_3_4.mp3",
+  "character": "dingo",
+  "level": "bridge",
+  "index": 4,
+  "text": "They're almost real chefs! Time for the big soup contest. Let's go!",
+  "note": ""
  }
 ]

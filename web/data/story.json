@@ -1,0 +1,62 @@
+{
+ "_doc": "Story dialogue + level bridges. {name} = player's name (localStorage 'playerName'). voice = id in assets/voice/manifest.json (empty = text only). after: 'name_input' shows the name box when the line ends.",
+ "default_name": {
+  "en": "Friend",
+  "zh": "小朋友"
+ },
+ "intro": [
+  {
+   "voice": "dingo_story_01",
+   "en": "Well hello there, friend! Welcome, welcome!",
+   "zh": "嘿，你好呀，朋友！欢迎，欢迎！"
+  },
+  {
+   "voice": "dingo_story_02",
+   "after": "name_input",
+   "en": "I'm Dingo, head chef of this little kitchen. What's your name?",
+   "zh": "我是 Dingo，这间小厨房的主厨。你叫什么名字？"
+  },
+  {
+   "voice": "dingo_story_03",
+   "en": "{name}! What a great name. So happy to meet you!",
+   "zh": "{name}！好棒的名字。很高兴认识你！"
+  },
+  {
+   "voice": "dingo_story_04",
+   "en": "Today's a big day. My two little apprentices are learning to cook, and I need a helper. That's you!",
+   "zh": "今天可是个大日子。我的两个小学徒在学做饭，我需要一个小帮手——就是你！"
+  },
+  {
+   "voice": "dingo_story_05",
+   "en": "Let's make some yummy onion soup together. Ready? Follow me!",
+   "zh": "我们一起来做好喝的洋葱汤吧。准备好了吗？跟我来！"
+  }
+ ],
+ "bridges": {
+  "l0>l1": {
+   "voice": "dingo_trans_0_1",
+   "en": "Nice work, {name}! Now Wendy's turn. Can you teach her with stars?",
+   "zh": "干得好，{name}！现在轮到 Wendy 了。你能用星星教她吗？"
+  },
+  "l1>l2": {
+   "voice": "dingo_trans_1_2",
+   "en": "Wendy's learning! But Kai never wants to try new things... let's help him explore.",
+   "zh": "Wendy 在进步！可是 Kai 总不愿意尝试新东西……我们帮他去探索吧。"
+  },
+  "l2>l3": {
+   "voice": "dingo_trans_2_3",
+   "en": "Curious cooks find new tricks! Now, how sure are they about their moves?",
+   "zh": "好奇的小厨师会发现新窍门！那么，他们对自己的动作有多大把握呢？"
+  },
+  "l3>l4": {
+   "voice": "dingo_trans_3_4",
+   "en": "They're almost real chefs! Time for the big soup contest. Let's go!",
+   "zh": "他们快成真正的厨师啦！做汤大赛要开始了，出发！"
+  },
+  "l4>final": {
+   "voice": "",
+   "en": "What a team, {name}! Let's look back at everything you taught them.",
+   "zh": "真是好团队，{name}！我们来回顾一下你教会他们的一切吧。"
+  }
+ }
+}

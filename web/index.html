@@ -22,28 +22,14 @@
     <div id="homeStage" class="home-bg">
       <div class="homeBox">
         <img class="homeLogo" src="assets/home/title_logo.png" alt="">
-        <img class="homeWendy" src="assets/home/wendy_home.png" alt="Wendy">
-        <img class="homeKai" src="assets/home/kai_home.png" alt="Kai">
+        <canvas class="homeWendy" id="homeWendy" width="174" height="256" aria-label="Wendy"></canvas>
+        <canvas class="homeKai" id="homeKai" width="219" height="256" aria-label="Kai"></canvas>
         <button id="homeStart" class="btn-primary" data-t="home_start"></button>
-        <div id="homeDingoSlot"><figure id="menuDingo"><div class="bubble"><span data-t="menu_hi"></span></div><div id="menuDingoImg" role="img" aria-label="Dingo"></div></figure></div>
+        <div id="homeDingoSlot"><figure id="menuDingo"><div class="bubble"><span data-t="menu_hi"></span></div><canvas id="menuDingoImg" width="358" height="410" aria-label="Dingo"></canvas></figure></div>
       </div>
     </div>
     <div class="menuStage">
-      <div class="menuCard">
-        <h2 class="menuTitle" data-t="title"></h2>
-        <div id="menuProgress" class="progress"></div>
-        <div class="levels">
-          <button data-go="l0"><b>0</b> <span data-t="l0_name"></span></button>
-          <button data-go="l1"><b>1</b> <span data-t="l1_name"></span></button>
-          <button data-go="l2"><b>2</b> <span data-t="l2_name"></span></button>
-          <button data-go="l3"><b>3</b> <span data-t="l3_name"></span></button>
-          <button data-go="l4"><b>4</b> <span data-t="l4_name"></span></button>
-          <button data-go="final"><b>★</b> <span data-t="final_name"></span></button>
-        </div>
-        <button data-theatre="intro" data-t="watch_opening"></button>
-        <p class="note" data-t="menu_note"></p>
-      </div>
-      <div id="levelsDingoSlot"></div>
+      <div id="roadmap"></div>
     </div>
   </section>
 
@@ -65,6 +51,7 @@
         <p class="hint" data-t="l1_hint"></p>
         <div id="l1steps" class="steps small"></div>
         <button id="l1train" class="big" data-t="train"></button> <span id="l1tries" class="small"></span>
+        <p id="l1note" class="hint hidden"></p>
         <div id="l1msg" class="hint"></div>
         <div id="l1stats" class="stats"></div>
         <button class="ask" data-q="q1" data-t="ask"></button>
@@ -163,9 +150,28 @@
   <button id="theatreSkip" data-t="skip"></button>
 </div>
 <div id="subtitle" class="hidden"></div>
+<!-- Dingo's welcome dialogue (RPG box, typewriter, name entry) -->
+<div id="dialog" class="hidden home-bg" onclick="Story.click()">
+  <div class="dlgStage"><canvas id="dlgDingo" width="358" height="410" aria-label="Dingo"></canvas></div>
+  <div class="dlgBox"><b class="dlgName">Dingo</b><p id="dlgText"></p>
+    <div id="dlgNameRow" class="hidden" onclick="event.stopPropagation()"><label for="dlgName" data-t="your_name"></label>
+      <input id="dlgName" maxlength="16" autocomplete="off"><button id="dlgNameOk" class="btn-primary" data-t="ok"></button></div>
+    <button id="dlgNext" class="next" data-t="next" onclick="event.stopPropagation(); Story.click()"></button></div>
+</div>
+<!-- level bridge: Dingo + line + Next, then the roadmap animation -->
+<div id="bridge" class="hidden">
+  <div id="bridgeMap"></div>
+  <div class="bridgeCard"><canvas id="bridgeDingo" width="358" height="410" aria-label="Dingo"></canvas>
+    <div class="bridgeBubble"><p id="bridgeText"></p><button id="bridgeNext" class="next big" data-t="next"></button></div></div>
+</div>
+<div id="guideLayer"></div>
+<div id="guideBubble" class="hidden"><img alt=""><div><b></b> <span></span></div></div>
 <script src="i18n.js"></script>
 <script src="fx.js"></script>
 <script src="kai.js"></script>
+<script src="character.js"></script>
+<script src="guide.js"></script>
+<script src="story.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
