@@ -89,3 +89,84 @@ canvas:not(.kcanvas){width:clamp(300px,min(40vw,calc(100vh - 120px - 2*var(--m))
 .cards{flex-wrap:wrap}.cards img{width:min(200px,calc(50vw - 2*var(--m) - 12px))}#finalTable{max-width:100%}
 #endScreen .kcanvas{box-sizing:border-box;width:100%;height:100%}
 .screen.on{max-width:none}.screen.on>.row{max-width:1480px}
+/* ================= v3: home screen, opening, UI kit ================= */
+/* Swappable backgrounds: change --page-bg (whole page) or --home-bg (home art). Kitchen art untouched. */
+:root{--page-bg:#fff8ec;--home-bg:url(assets/home/home_bg_full.jpg);--radius:18px;--shadow:0 6px 18px #8a5a2033,0 2px 4px #8a5a201f}
+body{background:var(--page-bg)}
+.home-bg{background:var(--page-bg) var(--home-bg) center/cover no-repeat}
+body.onHome header{display:none}
+/* opening: cover-scaled exactly like the home box so the last frame cuts straight to home */
+#theatre.home{background:var(--page-bg)}
+#theatre.home video{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:cover}
+#theatre .btn-primary,#theatreStart{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:23;font-size:clamp(28px,4.5vmin,52px);min-width:6em}
+/* --- UI kit buttons: blank art as background, HTML text on top --- */
+button{border-style:solid;border-width:0;border-image:url(assets/ui/kit/btn_secondary_blank.png) 47 fill / 1.15em stretch;background:none;color:#fff;font-weight:bold;text-shadow:0 1px 2px #0005;padding:.45em 1.1em;border-radius:0;box-shadow:none}
+button:hover{background:none;filter:brightness(1.06)}
+button:active{border-image-source:url(assets/ui/kit/btn_secondary_pressed.png)}
+button.big,button.next,#homeStart,#theatreStart,.btn-primary{border-image-source:url(assets/ui/kit/btn_primary_blank.png)}
+button.big:active,button.next:active,#homeStart:active,#theatreStart:active{border-image-source:url(assets/ui/kit/btn_primary_pressed.png)}
+#again,.btn-danger{border-image-source:url(assets/ui/kit/btn_danger_blank.png)}#again:active{border-image-source:url(assets/ui/kit/btn_danger_pressed.png)}
+button.big,button.next{background:none;border-color:transparent}
+#rate button.on{border-image-source:url(assets/ui/kit/btn_primary_pressed.png);background:none}
+button:disabled{opacity:.45;filter:grayscale(.3)}
+.choice{text-align:center}
+/* --- UI kit panels: side panels + popups --- */
+.panel,.popup,.menuCard{border-style:solid;border-width:0;border-image:url(assets/ui/kit/panel_large.png) 60 fill / 28px stretch;background:none;padding:clamp(14px,2.2vmin,28px)}
+.popup{border-image-source:url(assets/ui/kit/panel_small.png)}
+.stats{border-radius:12px;box-shadow:inset 0 1px 3px #8a5a2022}
+/* --- home: 16:9 art box, cover-scaled; children in % of the 1280x720 frame --- */
+#menu.on{padding:0}
+#homeStage{position:fixed;inset:0;overflow:hidden;z-index:0}
+.homeBox{position:absolute;left:50%;top:50%;width:max(100vw,100vh*16/9);aspect-ratio:16/9;transform:translate(-50%,-50%);container-type:size}
+.homeBox>*{position:absolute;margin:0}
+.homeLogo{inset:0;width:100%;height:100%}
+.homeWendy{left:18.28%;top:68.9%;width:10.16%}
+.homeKai{left:24.84%;top:61.94%;width:16.25%;z-index:0}.homeWendy{z-index:1}
+#homeStart{left:50%;top:55.6%;transform:translate(-50%,-50%);width:19.5cqw;height:6.4cqw;font-size:2.7cqw;padding:0;border-image-width:3.2cqw}
+#homeDingoSlot{left:67.19%;top:38.89%;width:27.97%}   /* idle frame 358x410 box; content = dingo_home.png at (880,306) of the 1280x720 frame */
+#menuDingo{margin:0;position:relative}
+#menuDingoImg{width:100%;aspect-ratio:358/410;background:var(--still) 50% 86.7%/88.83% 92.68% no-repeat}
+@media (prefers-reduced-motion:no-preference){
+  #menuDingoImg{background:var(--sheet) 0 0/calc(var(--n)*100%) 100% no-repeat;animation:dingoIdle var(--dur) steps(32,jump-none) infinite}
+}
+@keyframes dingoIdle{from{background-position-x:0%}to{background-position-x:100%}}
+#menuDingo .bubble{position:absolute;bottom:97%;right:2%;width:max-content;max-width:160%;padding:.85em 1.3em 1.75em;background:url(assets/ui/kit/bubble_dingo_blank.png) center/100% 100% no-repeat;color:#6b4a2a;font-weight:bold;font-size:clamp(13px,1.6cqw,30px);white-space:nowrap;filter:drop-shadow(0 3px 4px #8a5a2030)}
+.levelsOn #menuDingo .bubble{right:auto;left:50%;transform:translateX(-50%)}
+/* --- level select: card centred in the viewport, Dingo at its right --- */
+.menuStage{display:none}
+.levelsOn .menuStage{display:flex;position:relative;z-index:1;min-height:calc(100vh - 70px);box-sizing:border-box;padding:var(--m);align-items:center;justify-content:center;gap:clamp(16px,3vw,48px)}
+.levelsOn #homeStage .homeLogo,.levelsOn #homeStart,.levelsOn .homeWendy,.levelsOn .homeKai{display:none}
+.levelsOn #homeStage::after{content:"";position:absolute;inset:0;background:#fff8ec66}
+header{position:relative;z-index:2;box-shadow:0 2px 8px #8a5a2022}
+.menuCard{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.4vmin,16px);max-width:min(860px,100%);box-sizing:border-box;padding:clamp(20px,3.4vmin,44px) clamp(22px,4vmin,52px)}
+.menuTitle{font-size:clamp(22px,3.4vmin,42px);margin:0;text-align:center;color:#c0661a}
+.menuCard .levels{margin:0;gap:clamp(10px,1.6vmin,18px);grid-template-columns:repeat(3,minmax(0,clamp(150px,14vw,240px)))}
+.menuCard .levels button{height:clamp(60px,8.5vmin,100px);font-size:clamp(14px,1.8vmin,21px);margin:0;border-image-width:clamp(24px,3.4vmin,46px)}
+.menuCard .note{text-align:center;max-width:640px;margin:0}
+.progress{display:flex;gap:6px;justify-content:center}
+#levelsDingoSlot{width:clamp(150px,20vmin,280px);flex:0 0 auto;padding-top:5em}
+@media (max-width:900px){
+  /* phone portrait: centred column — title, Start, then Dingo below (no cover crop) */
+  .homeBox{position:static;transform:none;width:100%;height:100%;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4vh;container-type:inline-size}
+  .homeBox>*{position:static}
+  .homeLogo{width:150vw;max-width:none;height:auto;margin:-26vw 0 -34vw;inset:auto}
+  .homeWendy,.homeKai{display:none}
+  #homeStart{transform:none;width:60vw;height:19vw;font-size:7vw;border-image-width:9.5vw}
+  #homeDingoSlot{width:46vw;margin-top:12vw}
+  #menuDingo .bubble{font-size:4.2vw;right:auto;left:50%;transform:translateX(-50%)}
+  .levelsOn .menuStage{flex-direction:column;gap:8px;min-height:0}
+  #levelsDingoSlot{width:30vw;padding-top:3.2em;order:-1}
+  .levelsOn #menuDingo .bubble{left:50%;font-size:3.8vw}
+  .menuCard .levels{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.menuCard .note{font-size:11px}
+  #theatre.home video{object-fit:contain}
+}
+/* level select: card exactly centred (grid 1fr|card|1fr), Dingo in the right gutter */
+#menu.on.levelsOn{margin:0;flex:1 1 auto;width:100%;max-width:none;display:flex}
+.levelsOn .menuStage{flex:1 1 auto;min-height:0;padding:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(12px,2.5vw,40px)}
+.levelsOn .menuCard{grid-column:2}
+.levelsOn #levelsDingoSlot{grid-column:3;justify-self:start;width:min(clamp(150px,20vmin,280px),100%);padding-top:4em}
+@media (max-width:900px){.levelsOn .menuStage{display:flex;flex-direction:column;justify-content:center}.levelsOn .menuCard{width:100%}}
+.panel,.popup,.menuCard{box-sizing:border-box}input[type=range]{max-width:100%}
+.levelsOn .menuStage{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}.levelsOn #levelsDingoSlot{width:clamp(140px,min(20vmin,calc((100vw - 900px)/2)),280px)}@media (max-width:900px){.levelsOn #levelsDingoSlot{width:30vw}}
+/* autoplay blocked: home art as the poster behind the big Start button */
+#theatre.poster{background:var(--page-bg) var(--home-bg) center/cover no-repeat}#theatre.poster video{opacity:0}

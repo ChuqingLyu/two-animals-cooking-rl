@@ -1,5 +1,11 @@
 // Feedback layer: SFX, voice lines + subtitles, concept theatre videos, frame-sequence animations.
 "use strict";
+// Swap-in art: replace these two paths when the art director delivers the new Dingo idle image / opening animation.
+const ART = {
+  DINGO_IDLE: {sheet: "assets/home/dingo_idle_sheet.webp", frames: 32, fps: 12, still: "assets/home/dingo_home.png"}, // home Dingo: 1-row sprite sheet (one request)
+  OPENING_VIDEO: "assets/home/intro_opening_silent.mp4", // opening animation (no music; the page plays bgm); last frame = home screen
+};
+
 const Sfx = {
   names: ["pickup", "plop", "bubble", "ding", "clink", "serve", "wrong", "tick"],
   buf: {}, ctx: null, muted: localStorage.getItem("muted") === "1", loop: null,
@@ -141,19 +147,34 @@ const Theatre = {
   seen: {},
   show(level, then) {
     this.seen[level] = true; Voice.stop(); const prevMusic = Music.current();
-    Music.play("bgm_story_loop", level === "intro" ? .35 : .12);       // low under the voiced concept videos
+    Music.play("bgm_story_loop", level === "intro" || level === "home" ? .35 : .12);       // low under the voiced concept videos
     const ov = document.getElementById("theatre"), v = this.video = document.getElementById("theatreVideo");
-    ov.classList.remove("hidden"); v.src = "assets/video/" + this.MAP[level] + ".mp4";
+    ov.classList.remove("hidden", "poster"); document.getElementById("theatreStart").classList.add("hidden");
+    v.src = level === "home" ? ART.OPENING_VIDEO : "assets/video/" + this.MAP[level] + ".mp4"; ov.classList.toggle("home", level === "home");
     const lines = this.VOICE[level]; this.overlay = !!lines;
     v.muted = !!lines || Sfx.muted; v.currentTime = 0;
     let videoDone = false, voiceDone = !lines, closed = false;
     const close = () => { if (closed) return; closed = true; Voice.stop(); v.pause(); v.removeAttribute("src"); v.load(); ov.classList.add("hidden");
       prevMusic ? Music.play(prevMusic.name, prevMusic.vol) : Music.stop(); then && then(); };
-    const check = () => { if (videoDone && voiceDone) setTimeout(close, 400); };
+    const check = () => { if (videoDone && voiceDone) setTimeout(close, level === "home" ? 0 : 400); };   // home: last frame == home screen, cut straight over
     v.onended = v.onerror = () => { videoDone = true; check(); };          // ended video stays on its last frame
     v.play().catch(() => { v.muted = true; v.play().catch(() => { videoDone = true; check(); }); });
     if (lines) Voice.play(lines).then(ok => { if (ok) { voiceDone = true; check(); } });
     document.getElementById("theatreSkip").onclick = close;
+  },
+  // first load: try to autoplay the opening with sound; if the browser blocks sound, show one big Start button over the first frame
+  async boot(then) {
+    document.body.classList.add("booting");
+    const done = () => { document.body.classList.remove("booting"); then && then(); };
+    const probe = new Audio("assets/voice/" + Voice.lines[this.VOICE.intro[0]].file); probe.volume = .01;
+    let canSound = false;
+    try { await probe.play(); canSound = true; probe.pause(); } catch (e) {}
+    if (canSound) { Sfx.unlock(); return this.show("home", done); }
+    const ov = document.getElementById("theatre"), v = document.getElementById("theatreVideo"), st = document.getElementById("theatreStart");
+    ov.classList.remove("hidden"); ov.classList.add("home", "poster"); st.classList.remove("hidden");
+    v.muted = true; v.preload = "auto"; v.src = ART.OPENING_VIDEO; v.currentTime = 0;   // paused first frame = poster
+    st.onclick = () => { Sfx.unlock(); this.show("home", done); };
+    document.getElementById("theatreSkip").onclick = () => { this.seen.home = true; v.removeAttribute("src"); v.load(); ov.classList.add("hidden"); ov.classList.remove("poster"); st.classList.add("hidden"); done(); };
   },
 };
 

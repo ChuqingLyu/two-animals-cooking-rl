@@ -18,16 +18,33 @@
 </header>
 <main>
   <section id="menu" class="screen">
-    <div class="levels">
-      <button data-go="l0"><b>0</b> <span data-t="l0_name"></span></button>
-      <button data-go="l1"><b>1</b> <span data-t="l1_name"></span></button>
-      <button data-go="l2"><b>2</b> <span data-t="l2_name"></span></button>
-      <button data-go="l3"><b>3</b> <span data-t="l3_name"></span></button>
-      <button data-go="l4"><b>4</b> <span data-t="l4_name"></span></button>
-      <button data-go="final"><b>★</b> <span data-t="final_name"></span></button>
+    <!-- home art: layered to match the opening video's last frame (16:9 box, cover-scaled like the video) -->
+    <div id="homeStage" class="home-bg">
+      <div class="homeBox">
+        <img class="homeLogo" src="assets/home/title_logo.png" alt="">
+        <img class="homeWendy" src="assets/home/wendy_home.png" alt="Wendy">
+        <img class="homeKai" src="assets/home/kai_home.png" alt="Kai">
+        <button id="homeStart" class="btn-primary" data-t="home_start"></button>
+        <div id="homeDingoSlot"><figure id="menuDingo"><div class="bubble"><span data-t="menu_hi"></span></div><div id="menuDingoImg" role="img" aria-label="Dingo"></div></figure></div>
+      </div>
     </div>
-    <button data-theatre="intro" data-t="watch_opening"></button>
-    <p class="note" data-t="menu_note"></p>
+    <div class="menuStage">
+      <div class="menuCard">
+        <h2 class="menuTitle" data-t="title"></h2>
+        <div id="menuProgress" class="progress"></div>
+        <div class="levels">
+          <button data-go="l0"><b>0</b> <span data-t="l0_name"></span></button>
+          <button data-go="l1"><b>1</b> <span data-t="l1_name"></span></button>
+          <button data-go="l2"><b>2</b> <span data-t="l2_name"></span></button>
+          <button data-go="l3"><b>3</b> <span data-t="l3_name"></span></button>
+          <button data-go="l4"><b>4</b> <span data-t="l4_name"></span></button>
+          <button data-go="final"><b>★</b> <span data-t="final_name"></span></button>
+        </div>
+        <button data-theatre="intro" data-t="watch_opening"></button>
+        <p class="note" data-t="menu_note"></p>
+      </div>
+      <div id="levelsDingoSlot"></div>
+    </div>
   </section>
 
   <section id="l0" class="screen">
@@ -142,6 +159,7 @@
 </div>
 <div id="theatre" class="hidden">
   <video id="theatreVideo" playsinline muted preload="auto"></video>
+  <button id="theatreStart" class="hidden" data-t="start_opening"></button>
   <button id="theatreSkip" data-t="skip"></button>
 </div>
 <div id="subtitle" class="hidden"></div>

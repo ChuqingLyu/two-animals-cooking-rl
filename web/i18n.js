@@ -77,6 +77,7 @@ en: {
 
 // ---- level flow per GDD_level_design.md (L0-L4 + recap) ----
 Object.assign(I18N.en, {
+  menu_hi: "Welcome to my kitchen!", home_start: "Start", start_opening: "▶ Start",
   l0_name: "Become a Soup Master", l1_name: "You give the stars", l2_name: "Curious monsters", l3_name: "Are you sure?", l4_name: "Soup contest", final_name: "Recap",
   menu_note: "Levels unlock one after another. L1-L3 show really-trained VDN models (overcooked-ai, cramped_room). In L4 Kai is a rule-based helper in the browser.",
   keys: "Arrows/WASD move, Space picks up / puts down, or click a tile.",
@@ -110,6 +111,7 @@ Object.assign(I18N.en, {
   q3_fb: ["Compare your score with the bowls they made. Were you right?", "Their confidence comes from their Q-values. Did the bowls match?", "Did the bowls match how sure you all were?"],
 });
 Object.assign(I18N.zh, {
+  menu_hi: "欢迎来到我的厨房！", home_start: "开始", start_opening: "▶ 开始",
   l0_name: "成为做汤大师", l1_name: "你来发星星", l2_name: "调皮的好奇心", l3_name: "你有信心吗？", l4_name: "做汤比赛", final_name: "回顾",
   menu_note: "关卡依次解锁。L1–L3 播放真实训练的 VDN 模型（overcooked-ai cramped_room）；L4 里的 Kai 是浏览器中的规则助手。",
   keys: "方向键/WASD 移动，空格拿/放，也可以点击格子。",

@@ -700,7 +700,7 @@ const Progress = {
   paint() {
     const m = this.max(), cur = this.ORDER.indexOf(App.cur);
     document.querySelectorAll("[data-go]").forEach(b => { const i = this.ORDER.indexOf(b.dataset.go); if (i > 0 && b.closest(".levels")) b.disabled = i > m; });
-    document.getElementById("progress").innerHTML = this.ORDER.map((id, i) =>
+    document.getElementById("menuProgress").innerHTML = document.getElementById("progress").innerHTML = this.ORDER.map((id, i) =>
       `<span class="dot ${i <= m ? "done" : ""} ${i === cur ? "cur" : ""}">${id === "final" ? "★" : i}</span>`).join("");
   },
 };
@@ -713,10 +713,17 @@ const App = {
     Object.values(this.LEVELS).forEach(l => l.stop && l.stop()); Voice.stop();
     document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
     this.cur = id; Progress.paint();
-    if (id === "menu") Music.play("bgm_story_loop", .3);
+    if (id === "menu") { Music.play("bgm_story_loop", .3); this.homeLevels(this.seenLevels); }
+    document.body.classList.toggle("onHome", id === "menu" && !this.seenLevels);
     (this.LEVELS[id] || {start() {}}).start();
   },
   refresh() { Progress.paint(); },
+  // home has two states: title + Start (matches the opening's last frame), then the level card
+  homeLevels(on) {
+    this.seenLevels = !!on; document.getElementById("menu").classList.toggle("levelsOn", !!on);
+    document.getElementById(on ? "levelsDingoSlot" : "homeDingoSlot").appendChild(document.getElementById("menuDingo"));
+    document.body.classList.toggle("onHome", this.cur === "menu" && !on);
+  },
   async init() {
     await Promise.all([Assets.load(), Fx.load(), Sfx.load(), Voice.load()]);
     KaiNet.load(await Assets.json("kai_net"));
@@ -733,9 +740,13 @@ const App = {
     document.getElementById("eps").oninput = () => L2.knob();
     document.getElementById("l2train").onclick = () => L2.train();
     window.addEventListener("keydown", e => { if (App.cur === "l0") L0.key(e); if (App.cur === "l4") L4.key(e); });
+    const di = ART.DINGO_IDLE, dEl = document.getElementById("menuDingoImg");
+    dEl.style.setProperty("--sheet", `url(${di.sheet})`); dEl.style.setProperty("--still", `url(${di.still})`);
+    dEl.style.setProperty("--n", di.frames); dEl.style.setProperty("--dur", di.frames / di.fps + "s");
+    document.getElementById("homeStart").onclick = () => this.homeLevels(true);
     Lang.apply(); this.go("menu");
-    // opening plays on the first click on the menu (audio needs a user gesture)
-    window.addEventListener("pointerdown", e => { if (!Theatre.seen.intro && this.cur === "menu" && !e.target.closest("button")) Theatre.show("intro"); }, {once: true});
+    // the opening plays first; the menu shows once it ends or is skipped
+    Theatre.boot();
   },
 };
 App.init();
