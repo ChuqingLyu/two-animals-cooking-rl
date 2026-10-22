@@ -205,7 +205,9 @@ const Voice = {
     document.body.classList.toggle("vidStage", !box.classList.contains("corner") && hid("theatre"));
     this.zhVideo = this.zhScene(S, sid); box.classList.toggle("zh", this.zhVideo);
     const src = this.zhVideo ? S.video_clean : S.video; if (!v.src.endsWith(src)) v.src = src;   // English: subtitled video as-is
-    v.muted = Sfx.muted; v.currentTime = t0; this.video = v;
+    v.muted = Sfx.muted; this.video = v;
+    const seek = () => { if (Math.abs(v.currentTime - t0) > .05) v.currentTime = t0; };   // a fresh src resets to 0 once it loads: seek again then
+    seek(); if (v.readyState < 1) v.addEventListener("loadedmetadata", seek, {once: true});
     return new Promise(res => {
       let cur = null; const done = (ok = true) => { if (!this._vres) return; v.ontimeupdate = v.onended = v.onerror = null; this._vres = null; v.pause(); this.sub(null); res(ok !== false); };
       this._vres = done;

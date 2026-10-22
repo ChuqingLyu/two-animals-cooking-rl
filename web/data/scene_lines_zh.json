@@ -6,13 +6,13 @@
     "id": "wendy_C1_01",
     "speaker": "wendy",
     "en": "Whoa! I got a star! What did I do?",
-    "zh": ""
+    "zh": "哇！我得到一颗星星！我做了什么？"
    },
    {
     "id": "dingo_C1_02",
     "speaker": "dingo",
     "en": "You put an onion in the pot. Stars tell you 'that was good, do it again!'",
-    "zh": ""
+    "zh": "你把洋葱放进了锅里。星星是在告诉你：“做得好，再来一次！”"
    }
   ],
   "C1_s02": [
@@ -20,13 +20,13 @@
     "id": "kai_C1_03",
     "speaker": "kai",
     "en": "Um... so if I want more stars, I do more of that?",
-    "zh": ""
+    "zh": "嗯……那如果我想要更多星星，就多做那件事？"
    },
    {
     "id": "dingo_C1_04",
     "speaker": "dingo",
     "en": "Exactly. That's called a reward.",
-    "zh": ""
+    "zh": "没错。这就叫“奖励”。"
    }
   ],
   "C2_s01": [
@@ -34,13 +34,13 @@
     "id": "kai_C2_01",
     "speaker": "kai",
     "en": "I always go this way. It's... a long way, but I know it.",
-    "zh": ""
+    "zh": "我总是走这条路。有点远……但我熟悉它。"
    },
    {
     "id": "wendy_C2_02",
     "speaker": "wendy",
     "en": "Ooh, what's that? I found a shortcut!",
-    "zh": ""
+    "zh": "哦，那是什么？我发现了一条近路！"
    }
   ],
   "C2_s02": [
@@ -48,7 +48,7 @@
     "id": "dingo_C2_03",
     "speaker": "dingo",
     "en": "Trying something new is called exploring. Sometimes it's a mess, sometimes you find something better.",
-    "zh": ""
+    "zh": "尝试新东西就叫“探索”。有时会搞砸，有时会发现更好的办法。"
    }
   ],
   "C3_s01": [
@@ -56,13 +56,13 @@
     "id": "dingo_C3_01",
     "speaker": "dingo",
     "en": "After lots of practice, they have a plan in their heads. That's their strategy.",
-    "zh": ""
+    "zh": "练习了很多次以后，他们脑子里有了一个计划。这就是他们的“策略”。"
    },
    {
     "id": "wendy_C3_02",
     "speaker": "wendy",
     "en": "I know where to go every time!",
-    "zh": ""
+    "zh": "我每次都知道该往哪儿走！"
    }
   ],
   "C3_s02": [
@@ -70,13 +70,13 @@
     "id": "kai_C3_03",
     "speaker": "kai",
     "en": "Um... I'm sure about the onions, but not the plates yet.",
-    "zh": ""
+    "zh": "嗯……洋葱我很有把握，盘子还不太确定。"
    },
    {
     "id": "dingo_C3_04",
     "speaker": "dingo",
     "en": "The clearer the bubble, the surer they are.",
-    "zh": ""
+    "zh": "泡泡越清楚，说明他们越有把握。"
    }
   ],
   "L0_s01": [
@@ -84,7 +84,7 @@
     "id": "dingo_L0_01",
     "speaker": "dingo",
     "en": "Welcome to my kitchen! Have you ever made onion soup? Let's make one together.",
-    "zh": ""
+    "zh": "欢迎来到我的厨房！你做过洋葱汤吗？我们一起来做一碗吧。"
    }
   ],
   "L0_s02": [
@@ -92,7 +92,7 @@
     "id": "dingo_L0_02",
     "speaker": "dingo",
     "en": "First, grab an onion.",
-    "zh": ""
+    "zh": "首先，拿一个洋葱。"
    }
   ],
   "L0_s03": [
@@ -100,7 +100,7 @@
     "id": "dingo_L0_03",
     "speaker": "dingo",
     "en": "Now drop it in the pot.",
-    "zh": ""
+    "zh": "现在把它放进锅里。"
    }
   ],
   "L0_s04": [
@@ -108,7 +108,7 @@
     "id": "dingo_L0_04",
     "speaker": "dingo",
     "en": "Let it cook for a bit.",
-    "zh": ""
+    "zh": "让它煮一会儿。"
    }
   ],
   "L0_s05": [
@@ -116,7 +116,7 @@
     "id": "dingo_L0_05",
     "speaker": "dingo",
     "en": "Grab a plate.",
-    "zh": ""
+    "zh": "拿一个盘子。"
    }
   ],
   "L0_s06": [
@@ -124,7 +124,7 @@
     "id": "dingo_L0_06",
     "speaker": "dingo",
     "en": "Serve it right here!",
-    "zh": ""
+    "zh": "就在这里上菜！"
    }
   ],
   "L0_s07": [
@@ -132,7 +132,7 @@
     "id": "dingo_L0_07",
     "speaker": "dingo",
     "en": "You did it! That's a perfect bowl. You're officially a Soup Master!",
-    "zh": ""
+    "zh": "你做到了！完美的一碗汤。你正式成为“汤大师”啦！"
    }
   ],
   "L0_s08": [
@@ -140,13 +140,13 @@
     "id": "wendy_L0_08",
     "speaker": "wendy",
     "en": "Hi! I'm Wendy, nice to meet you! Ooh, is that soup? It smells amazing!",
-    "zh": ""
+    "zh": "嗨！我是 Wendy，很高兴认识你！哦，那是汤吗？好香啊！"
    },
    {
     "id": "kai_L0_09",
     "speaker": "kai",
     "en": "Um... hello. I'm Kai. We're new here... could you show us how to make soup?",
-    "zh": ""
+    "zh": "嗯……你好，我是 Kai。我们是新来的……你能教我们做汤吗？"
    }
   ],
   "L0_s09": [
@@ -154,7 +154,7 @@
     "id": "dingo_L0_10",
     "speaker": "dingo",
     "en": "They're my new apprentices. They can't learn just by watching. They learn from stars. Every time they do a step right, you give them a star. Will you teach them?",
-    "zh": ""
+    "zh": "他们是我的新学徒。光看是学不会的，他们靠星星来学。他们每做对一步，你就给一颗星星。你愿意教他们吗？"
    }
   ],
   "L1_s01": [
@@ -162,7 +162,7 @@
     "id": "dingo_L1_01",
     "speaker": "dingo",
     "en": "Pick the steps that deserve a star, then press Train.",
-    "zh": ""
+    "zh": "选出值得给星星的步骤，然后按“训练”。"
    }
   ],
   "L1_s02": [
@@ -170,19 +170,19 @@
     "id": "wendy_L1_02",
     "speaker": "wendy",
     "en": "Onions! More onions! I love onions!",
-    "zh": ""
+    "zh": "洋葱！更多洋葱！我最爱洋葱了！"
    },
    {
     "id": "kai_L1_03",
     "speaker": "kai",
     "en": "Um... I think we have too many onions...",
-    "zh": ""
+    "zh": "嗯……我觉得洋葱太多了……"
    },
    {
     "id": "kai_L1_04",
     "speaker": "kai",
     "en": "I want a star... but how do I get one?",
-    "zh": ""
+    "zh": "我想要星星……可是怎么才能得到呢？"
    }
   ],
   "L1_s03": [
@@ -190,7 +190,7 @@
     "id": "dingo_L1_05",
     "speaker": "dingo",
     "en": "It took them a long time to find their first star.",
-    "zh": ""
+    "zh": "他们花了好久才找到第一颗星星。"
    }
   ],
   "L1_s04": [
@@ -198,13 +198,13 @@
     "id": "wendy_L1_06",
     "speaker": "wendy",
     "en": "We did it! Soup's up!",
-    "zh": ""
+    "zh": "成功啦！汤做好了！"
    },
    {
     "id": "dingo_L1_07",
     "speaker": "dingo",
     "en": "See? They learn whatever you reward. Nice work!",
-    "zh": ""
+    "zh": "看到了吗？你奖励什么，他们就学什么。做得好！"
    }
   ],
   "L2_s01": [
@@ -212,13 +212,13 @@
     "id": "wendy_L2_01",
     "speaker": "wendy",
     "en": "I know you gave me stars for soup... but what's over there? I just have to check!",
-    "zh": ""
+    "zh": "我知道你因为汤给了我星星……可那边有什么呢？我非去看看不可！"
    },
    {
     "id": "kai_L2_02",
     "speaker": "kai",
     "en": "Wendy, wait for me!",
-    "zh": ""
+    "zh": "Wendy，等等我！"
    }
   ],
   "L2_s02": [
@@ -226,7 +226,7 @@
     "id": "dingo_L2_03",
     "speaker": "dingo",
     "en": "They're very curious. Try turning their curiosity up or down.",
-    "zh": ""
+    "zh": "他们好奇心很强。试试把他们的好奇心调高或调低。"
    }
   ],
   "L2_s03": [
@@ -234,13 +234,13 @@
     "id": "wendy_L2_04",
     "speaker": "wendy",
     "en": "Wheee! Everything is so interesting!",
-    "zh": ""
+    "zh": "哇呼！什么都好有趣！"
    },
    {
     "id": "kai_L2_05",
     "speaker": "kai",
     "en": "Um... I'll just stay here. I don't want to try anything new.",
-    "zh": ""
+    "zh": "嗯……我就待在这儿吧。我不想试新东西。"
    }
   ],
   "L2_s04": [
@@ -248,7 +248,7 @@
     "id": "dingo_L2_06",
     "speaker": "dingo",
     "en": "If they never try anything, they never find a star.",
-    "zh": ""
+    "zh": "如果什么都不尝试，就永远找不到星星。"
    }
   ],
   "L2_s05": [
@@ -256,7 +256,7 @@
     "id": "dingo_L2_07",
     "speaker": "dingo",
     "en": "A little curious at first, then focused. That's how they find the best path. Trying lots of things at the start really helps!",
-    "zh": ""
+    "zh": "一开始多一点好奇，后来再专心。这样才能找到最好的路线。一开始多尝试，真的很有帮助！"
    }
   ],
   "L3_s01": [
@@ -264,7 +264,7 @@
     "id": "dingo_L3_01",
     "speaker": "dingo",
     "en": "Wow, you taught them well. Ready for the soup contest? First, how sure are you that we'll win?",
-    "zh": ""
+    "zh": "哇，你教得真好。准备好参加做汤比赛了吗？先说说，你有多大把握我们会赢？"
    }
   ],
   "L3_s02": [
@@ -272,19 +272,19 @@
     "id": "dingo_L3_02",
     "speaker": "dingo",
     "en": "Now let's ask Wendy and Kai.",
-    "zh": ""
+    "zh": "现在我们来问问 Wendy 和 Kai。"
    },
    {
     "id": "wendy_L3_03",
     "speaker": "wendy",
     "en": "Totally! I know exactly where the onions are!",
-    "zh": ""
+    "zh": "当然啦！我清楚地知道洋葱在哪儿！"
    },
    {
     "id": "kai_L3_04",
     "speaker": "kai",
     "en": "Um... I'm not so sure about the plates...",
-    "zh": ""
+    "zh": "嗯……盘子我不太有把握……"
    }
   ],
   "L4_s01": [
@@ -292,13 +292,13 @@
     "id": "dingo_L4_01",
     "speaker": "dingo",
     "en": "Here's a secret: nobody can make soup alone in this kitchen. You two have to work together!",
-    "zh": ""
+    "zh": "告诉你一个秘密：在这个厨房里，谁也没法一个人做汤。你们俩必须合作！"
    },
    {
     "id": "dingo_L4_02",
     "speaker": "dingo",
     "en": "You'll play as Wendy. Kai is counting on you. Ready... cook!",
-    "zh": ""
+    "zh": "你来扮演 Wendy。Kai 就靠你了。准备……开做！"
    }
   ],
   "L4_s02": [
@@ -306,13 +306,13 @@
     "id": "kai_L4_03",
     "speaker": "kai",
     "en": "We actually did it!",
-    "zh": ""
+    "zh": "我们真的做到了！"
    },
    {
     "id": "wendy_L4_04",
     "speaker": "wendy",
     "en": "Best team ever!",
-    "zh": ""
+    "zh": "最棒的团队！"
    }
   ],
   "L4_s03": [
@@ -320,19 +320,19 @@
     "id": "kai_L4_06",
     "speaker": "kai",
     "en": "Um... that was hard. I'll do my best next time.",
-    "zh": ""
+    "zh": "嗯……好难啊。下次我会尽力的。"
    },
    {
     "id": "wendy_L4_07",
     "speaker": "wendy",
     "en": "Let's try again! I know we can do it!",
-    "zh": ""
+    "zh": "再试一次吧！我知道我们能行！"
    },
    {
     "id": "dingo_L4_08",
     "speaker": "dingo",
     "en": "Close! Want another round?",
-    "zh": ""
+    "zh": "差一点！再来一局吗？"
    }
   ],
   "L4_s04": [
@@ -340,7 +340,7 @@
     "id": "dingo_fail_c",
     "speaker": "dingo",
     "en": "Two bowls wins. You're so close!",
-    "zh": ""
+    "zh": "做出两碗就赢了。你们就差一点点！"
    }
   ],
   "recap_L0_s01": [
@@ -348,13 +348,13 @@
     "id": "recap_01",
     "speaker": "dingo",
     "en": "Remember our very first soup? Onions, pot, cook, plate, serve!",
-    "zh": ""
+    "zh": "还记得我们的第一碗汤吗？洋葱、下锅、煮、装盘、上菜！"
    },
    {
     "id": "recap_02",
     "speaker": "dingo",
     "en": "In AI words, the cook is the agent. The kitchen is the environment.",
-    "zh": ""
+    "zh": "用 AI 的话来说，厨师就是“智能体”，厨房就是“环境”。"
    }
   ],
   "recap_L0_s02": [
@@ -362,13 +362,13 @@
     "id": "recap_03",
     "speaker": "dingo",
     "en": "Each moment in the kitchen is a state. Each move you pick is an action.",
-    "zh": ""
+    "zh": "厨房里的每一刻都是一个“状态”，你选的每一步都是一个“动作”。"
    },
    {
     "id": "recap_04",
     "speaker": "wendy",
     "en": "And the right order of actions makes the soup!",
-    "zh": ""
+    "zh": "动作按正确的顺序来，就能做出汤！"
    }
   ],
   "recap_L1_s01": [
@@ -376,13 +376,13 @@
     "id": "recap_05",
     "speaker": "wendy",
     "en": "Level one was all about rewards! A reward is like a gold star.",
-    "zh": ""
+    "zh": "第一关讲的是“奖励”！奖励就像一颗金星星。"
    },
    {
     "id": "recap_06",
     "speaker": "wendy",
     "en": "When I only got stars for onions, I just piled up onions. Zero soup!",
-    "zh": ""
+    "zh": "我只在拿洋葱时得到星星，结果我就一直堆洋葱，一碗汤都没有！"
    }
   ],
   "recap_L1_s02": [
@@ -390,13 +390,13 @@
     "id": "recap_07",
     "speaker": "wendy",
     "en": "So reward design matters. You learn what you get rewarded for.",
-    "zh": ""
+    "zh": "所以奖励怎么设计很重要。奖励什么，就学会什么。"
    },
    {
     "id": "recap_08",
     "speaker": "kai",
     "en": "Good rewards, like small stars for each helpful step, taught us much faster.",
-    "zh": ""
+    "zh": "好的奖励，比如每做对一步就给一颗小星星，能让我们学得快很多。"
    }
   ],
   "recap_L2_s01": [
@@ -404,13 +404,13 @@
     "id": "recap_09",
     "speaker": "kai",
     "en": "Level two was about exploring. It means trying new things.",
-    "zh": ""
+    "zh": "第二关讲的是“探索”，就是尝试新东西。"
    },
    {
     "id": "recap_10",
     "speaker": "kai",
     "en": "With zero curiosity, we kept bumping into walls. No soup at all.",
-    "zh": ""
+    "zh": "一点好奇心都没有的时候，我们一直撞墙，一碗汤也没做出来。"
    }
   ],
   "recap_L2_s02": [
@@ -418,13 +418,13 @@
     "id": "recap_11",
     "speaker": "kai",
     "en": "So at first, try a lot. Later, use what works best. That's exploitation.",
-    "zh": ""
+    "zh": "所以一开始要多尝试，后来再用最有效的办法。这叫“利用”。"
    },
    {
     "id": "recap_12",
     "speaker": "wendy",
     "en": "Trying, and trying again, is how we learned. That's training!",
-    "zh": ""
+    "zh": "试一试，再试一试，我们就是这样学会的。这就是“训练”！"
    }
   ],
   "recap_L3_s01": [
@@ -432,13 +432,13 @@
     "id": "recap_13",
     "speaker": "dingo",
     "en": "Level three asked a big question: is the AI sure?",
-    "zh": ""
+    "zh": "第三关问了一个大问题：AI 有把握吗？"
    },
    {
     "id": "recap_14",
     "speaker": "dingo",
     "en": "Each action has a value. That's a guess of how good it will be.",
-    "zh": ""
+    "zh": "每个动作都有一个“价值”，就是猜一猜这一步会有多好。"
    }
   ],
   "recap_L3_s02": [
@@ -446,13 +446,13 @@
     "id": "recap_15",
     "speaker": "dingo",
     "en": "Solid bubbles meant sure. Dashed bubbles meant not so sure.",
-    "zh": ""
+    "zh": "实线泡泡表示有把握，虚线泡泡表示不太确定。"
    },
    {
     "id": "recap_16",
     "speaker": "kai",
     "en": "If our confidence is low, don't trust us too much. Think for yourself!",
-    "zh": ""
+    "zh": "如果我们的信心很低，就别太相信我们。要自己动脑想一想！"
    }
   ],
   "recap_L4_s01": [
@@ -460,13 +460,13 @@
     "id": "recap_17",
     "speaker": "wendy",
     "en": "Level four was teamwork! You played me, and Kai cooked beside you.",
-    "zh": ""
+    "zh": "第四关是团队合作！你扮演我，Kai 在你旁边一起做饭。"
    },
    {
     "id": "recap_18",
     "speaker": "wendy",
     "en": "Two agents working together is called multi-agent cooperation.",
-    "zh": ""
+    "zh": "两个智能体一起合作，叫做“多智能体合作”。"
    }
   ],
   "recap_L4_s02": [
@@ -474,13 +474,13 @@
     "id": "recap_19",
     "speaker": "wendy",
     "en": "The team score is my score plus Kai's score, added up.",
-    "zh": ""
+    "zh": "团队得分就是我的得分加上 Kai 的得分。"
    },
    {
     "id": "recap_20",
     "speaker": "kai",
     "en": "Sometimes you get fewer stars, but the team does better. That's okay.",
-    "zh": ""
+    "zh": "有时候你自己的星星少一点，但团队更好了。这没关系。"
    }
   ],
   "recap_L4_s03": [
@@ -488,7 +488,7 @@
     "id": "recap_21",
     "speaker": "dingo",
     "en": "Now you know how AI learns. Great job, little chefs!",
-    "zh": ""
+    "zh": "现在你知道 AI 是怎么学习的了。干得好，小厨师们！"
    }
   ],
   "story_s01": [
@@ -496,13 +496,13 @@
     "id": "dingo_story_01",
     "speaker": "dingo",
     "en": "Well hello there, friend! Welcome, welcome!",
-    "zh": ""
+    "zh": "哎呀，你好呀，朋友！欢迎欢迎！"
    },
    {
     "id": "dingo_story_02",
     "speaker": "dingo",
     "en": "I'm Dingo, head chef of this little kitchen. What's your name?",
-    "zh": ""
+    "zh": "我是豆丁，这个小厨房的主厨。你叫什么名字？"
    }
   ],
   "story_s02": [
@@ -510,7 +510,7 @@
     "id": "dingo_story_03",
     "speaker": "dingo",
     "en": "What a great name, friend. So happy to meet you!",
-    "zh": ""
+    "zh": "好棒的名字，朋友。很高兴认识你！"
    }
   ],
   "story_s03": [
@@ -518,7 +518,7 @@
     "id": "dingo_story_04",
     "speaker": "dingo",
     "en": "Today's a big day. My two little apprentices are learning to cook, and I need a helper. That's you!",
-    "zh": ""
+    "zh": "今天是个大日子。我的两个小学徒要学做饭，我需要一个帮手。就是你！"
    }
   ],
   "story_s04": [
@@ -526,7 +526,7 @@
     "id": "dingo_story_05",
     "speaker": "dingo",
     "en": "Let's make some yummy onion soup together. Ready? Follow me!",
-    "zh": ""
+    "zh": "我们一起做一碗好喝的洋葱汤吧。准备好了吗？跟我来！"
    }
   ],
   "trans_s01": [
@@ -534,7 +534,7 @@
     "id": "dingo_trans_0_1",
     "speaker": "dingo",
     "en": "Nice work, friend! Now Wendy's turn. Can you teach her with stars?",
-    "zh": ""
+    "zh": "做得好，朋友！现在轮到 Wendy 了。你能用星星教她吗？"
    }
   ],
   "trans_s02": [
@@ -542,7 +542,7 @@
     "id": "dingo_trans_1_2",
     "speaker": "dingo",
     "en": "Wendy's learning! But Kai never wants to try new things... let's help him explore.",
-    "zh": ""
+    "zh": "Wendy 在进步！可是 Kai 总不想尝试新东西……我们来帮他探索吧。"
    }
   ],
   "trans_s03": [
@@ -550,7 +550,7 @@
     "id": "dingo_trans_2_3",
     "speaker": "dingo",
     "en": "Curious cooks find new tricks! Now, how sure are they about their moves?",
-    "zh": ""
+    "zh": "好奇的厨师会发现新窍门！那么，他们对自己的动作有多大把握呢？"
    }
   ],
   "trans_s04": [
@@ -558,7 +558,7 @@
     "id": "dingo_trans_3_4",
     "speaker": "dingo",
     "en": "They're almost real chefs! Time for the big soup contest. Let's go!",
-    "zh": ""
+    "zh": "他们快成真正的厨师啦！做汤大赛开始，出发！"
    }
   ]
  },
@@ -566,12 +566,12 @@
   "dingo_L4_05_a": {
    "speaker": "dingo",
    "en": "Your team made",
-   "zh": ""
+   "zh": "你们团队做出了"
   },
   "dingo_L4_05_b": {
    "speaker": "dingo",
    "en": "bowls. Great teamwork!",
-   "zh": ""
+   "zh": "碗汤。合作得真棒！"
   }
  }
 }

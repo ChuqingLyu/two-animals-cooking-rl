@@ -19,10 +19,13 @@ const Lang = {
     lb.setAttribute("aria-label", this.cur === "zh" ? "Switch to English" : "切换到中文");
     document.documentElement.lang = this.cur;
     document.title = "Q-Kitchen";   // English-only title; Chinese only as the small secondary line under the header title
+    document.querySelectorAll('img[src*="knowledge_card_"]').forEach(i => { const n = this.img(i.getAttribute("src")); if (n !== i.getAttribute("src")) i.src = n; });   // live swap
     App.refresh();
     if (typeof App !== "undefined" && App.cur === "final" && typeof Final !== "undefined") Final.relang();
     if (typeof App !== "undefined" && App.cur === "menu" && App.seenLevels) App.homeLevels(true);   // roadmap stop labels
   },
+  // knowledge-card images have text burned in: Chinese mode uses GAD's *_v2_zh.png next to each *_v2.png
+  img(src) { const en = String(src).replace(/(knowledge_card_\d+_v2)(_zh)?\.png$/, "$1.png"); return this.cur === "zh" ? en.replace(/(knowledge_card_\d+_v2)\.png$/, "$1_zh.png") : en; },
   toggle() { this.cur = this.cur === "zh" ? "en" : "zh"; localStorage.setItem("lang", this.cur); this.apply(); },
 };
 
@@ -140,7 +143,7 @@ const Pop = {
   card(key, then) {
     Pop.show(Lang.t(key + "_title"), Lang.t(key), null, then);
     const img = document.createElement("img");
-    img.src = "assets/cards/knowledge_card_" + Pop.CARD_IMG[key] + "_v2.png";
+    img.src = Lang.img("assets/cards/knowledge_card_" + Pop.CARD_IMG[key] + "_v2.png");
     img.alt = Lang.t(key + "_title") + ": " + Lang.t(key);
     img.style.cssText = "display:block;width:380px;max-width:calc(80vw / var(--z,1));border-radius:10px";
     if (Lang.cur === "en") {
@@ -813,7 +816,7 @@ const Final = {
     this.heads(ls, i, n);
     document.getElementById("recapTeacher").textContent = Lang.t("recap_teacher")(T);
     const vis = document.getElementById("recapVisual"), v = ls.visual || {}; vis.innerHTML = ""; vis.className = v.steps ? "steps" : "";
-    if (v.steps) Steps.render(vis, new Set([1, 2, 3, 4, 5]), null); else if (v.img) vis.innerHTML = `<img src="${v.img}" alt="">`;
+    if (v.steps) Steps.render(vis, new Set([1, 2, 3, 4, 5]), null); else if (v.img) vis.innerHTML = `<img src="${Lang.img(v.img)}" alt="">`;
     document.getElementById("recapTerms").innerHTML = (ls.terms || []).map(t => `<li>${t}</li>`).join("");
     document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("teacher", f.dataset.who === ls.teacher));
     this.card(i < n ? ls.card : null, i >= n);

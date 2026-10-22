@@ -14,6 +14,7 @@ class Guide {
   static level = null; static step = null; static stepFn = null; static lastInput = performance.now(); static shownIdle = false; static lastWrong = {};
   static async load() {
     try { Guide.hints = await (await fetch("data/hints.json")).json(); } catch (e) {}
+    try { const r = await fetch("data/hints_zh.json"); Guide.zh = r.ok ? await r.json() : {}; } catch (e) { Guide.zh = {}; }   // English text -> 中文 (tools/build_hints_zh.py)
     for (const k of ["ring", "pointer"]) try { GUIDE_ART[k].meta = await (await fetch(GUIDE_ART[k].json)).json(); } catch (e) {}
     ["pointerdown", "keydown"].forEach(t => addEventListener(t, () => Guide.input(), true));
     setInterval(() => Guide.poll(), 250);
@@ -65,8 +66,9 @@ class Guide {
   static say(speaker, text, near) {
     const b = document.getElementById("guideBubble");
     b.querySelector("img").src = GUIDE_ART.avatar[speaker] || GUIDE_ART.avatar.dingo;
-    b.querySelector("b").textContent = (Voice.NAMES[speaker] || speaker) + ":";
-    b.querySelector("span").textContent = Voice.fill(text); b.dataset.speaker = speaker;
+    const zh = Lang.cur === "zh";   // Chinese mode: hints_zh.json, English fallback
+    b.querySelector("b").textContent = ((zh ? Voice.NAMES_ZH : Voice.NAMES)[speaker] || speaker) + (zh ? "：" : ":");
+    b.querySelector("span").textContent = Voice.fill((zh && (Guide.zh || {})[text]) || text); b.dataset.speaker = speaker;
     b.classList.remove("hidden"); Guide.near = near || null; Guide.shownAt = performance.now(); Guide.place();
     clearTimeout(Guide.hideT); Guide.hideT = setTimeout(() => Guide.hide(), 4500);
   }

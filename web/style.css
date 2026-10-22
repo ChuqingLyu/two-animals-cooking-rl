@@ -370,3 +370,4 @@ header h1 .titleSub{display:block;font-size:.55em;font-weight:600;opacity:.75;li
 #langBtn b{font-weight:600;opacity:.7}#langBtn b.on{font-weight:900;opacity:1}
 /* Chinese mode on a clean scene video: light caption strip at the bottom of the video (no big box) */
 #sceneVideo.zh #sceneSub:not(:empty){display:block!important;position:absolute;left:0;right:0;bottom:0;transform:none;max-width:none;border-radius:0;box-shadow:none;background:linear-gradient(#fff8ec00,#fff8ecd9 35%);padding:1.2em 4% .6em;font-family:Nunito,"ZCOOL KuaiLe",sans-serif;font-weight:700;color:var(--ink);text-align:center}
+#sceneVideo.corner.zh #sceneSub:not(:empty){font-size:var(--fs-2);padding:.8em 3% .3em;line-height:1.25}
