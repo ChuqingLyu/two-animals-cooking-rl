@@ -66,7 +66,7 @@ const Draw = {
       const w = Math.min(T, nw), h = nh * w / nw, vx = tw.x, vy = tw.y;
       const sx = vx * T + (T - w) / 2, sy = vy * T + TOP + T - h;          // bottom-anchored, tweened between cells
       c.draw(ctx, sx, sy, w, h, p.f);
-      if (p.h) Draw.item(ctx, vx * T + 50, vy * T + TOP + 50, p.h, 7);
+      if (p.h && !c.showsItem(p.h, p.f)) Draw.item(ctx, vx * T + 50, vy * T + TOP + 50, p.h, 7);
       p._top = sy; p._vx = vx; p._vy = vy;
     });
     if (o.bubble !== false && fr.p[1] && fr.p[1].intent) Draw.bubble(ctx, fr.p[1], fr.p[1].intent);
@@ -842,6 +842,7 @@ const App = {
     window.addEventListener("keydown", e => { if (App.cur === "l0") L0.key(e); if (App.cur === "l4") L4.key(e); });
     // home characters go through the Character module (Dingo: sprite idle loop; Wendy / Kai: static until their art lands)
     this.homeViews = [new CharView(document.getElementById("menuDingoImg"), "dingo"), new CharView(document.getElementById("homeWendy"), "wendy"), new CharView(document.getElementById("homeKai"), "kai")];
+    this.refView = new CharView(document.getElementById("dingoRefCv"), "dingo", "kitchen");   // L4 referee: kitchen skin (idle / talk / happy / confused)
     document.getElementById("homeStart").onclick = () => Flow.start();
     Lang.apply(); this.go("menu");
     // the opening plays first; the menu shows once it ends or is skipped

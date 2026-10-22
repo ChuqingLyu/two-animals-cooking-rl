@@ -25,7 +25,7 @@ class Character {
 
   constructor(name, skin, def) {
     this.name = name; this.skin = skin; this.def = def;
-    this.action = "idle"; this.loop = true; this.t = 0; this.oneshot = null;
+    this.action = "idle"; this.facing = "down"; this.carrying = null; this.loop = true; this.t = 0; this.oneshot = null;
     this.fallback = new StaticBackend(def.static || {}, name, skin);
     this.backend = Character.makeBackend(def, this.fallback);
   }
@@ -44,18 +44,28 @@ class Character {
   // one-shot reaction (happy / confused); returns to the state machine afterwards
   react(action) { this.play(action, {loop: false}); }
   // state machine: one-shot > walk (moving) > talk (voice line) > idle
-  auto({moving = false, talking = false} = {}) {
+  // kitchen: walk resolves to walk_<facing>, or carry_<facing> while holding an item (see SpriteBackend.candidates)
+  auto({moving = false, talking = false, carrying = null} = {}) {
+    this.carrying = carrying || null;
     if (this.oneshot !== null) return;
     this.play(moving ? "walk" : talking ? "talk" : "idle");
   }
+  // true when the current sprite already shows the held prop (def.carries: item names baked into carry_* frames)
+  showsItem(item, facing = this.facing) {
+    const s = this.backend.spec && this.backend.spec(this, facing);
+    return !!(s && s.name && s.name.startsWith("carry_") && (this.def.carries || []).includes(item));
+  }
+  // name of the sheet actually drawn right now (tests / debugging)
+  current(facing = this.facing) { const s = this.backend.spec && this.backend.spec(this, facing); return s ? s.name : "static"; }
   update(dt) {
     this.t += dt;
     if (this.oneshot !== null && this.t >= this.oneshot) { this.oneshot = null; this.play("idle"); }
     this.backend.update && this.backend.update(dt, this);
   }
   frame() { return this.backend.frameIndex ? this.backend.frameIndex(this) : 0; }
-  size(facing) { const s = this.backend.size(facing, this); return s || this.fallback.size(facing, this); }
+  size(facing) { this.facing = facing || this.facing; const s = this.backend.size(facing, this); return s || this.fallback.size(facing, this); }
   draw(ctx, x, y, w, h, facing = "down") {
+    this.facing = facing;
     if (!this.backend.draw(ctx, x, y, w, h, facing, this)) this.fallback.draw(ctx, x, y, w, h, facing, this);
   }
 }
@@ -75,34 +85,53 @@ class StaticBackend {
   draw(ctx, x, y, w, h, facing) { const i = this.pick(facing); if (!i || !i.complete || !i.naturalWidth) return false; ctx.drawImage(i, x, y, w, h); return true; }
 }
 
-// sprite: def.actions[action] = {sheet, frameW, frameH, count, fps, cols?, facings?: {left: row, ...}} or {json: "path.json"} with the same fields
+// sprite: one sheet per action, loaded lazily (one request per action, never per frame).
+//   def.index = "anim2d/<char>/index.json" (written by tools/build_anim2d.py from the GAD folders: file-name driven,
+//   whatever <char>_<action>/ folders exist become actions; frame counts come from the GAD json)
+//   and/or def.actions[action] = {sheet, frameW, frameH, count, fps, cols?} or {json: "path.json"}.
+//   def.use: optional whitelist of actions for this skin (home uses idle/talk only).
 class SpriteBackend {
   constructor(def) {
-    this.actions = {}; this.def = def;
+    this.actions = {}; this.def = def; this.ready = Promise.resolve();
+    const use = def.use ? new Set(def.use) : null, add = (a, spec, base) => {
+      if (use && !use.has(a)) return;
+      this.actions[a] = {...spec, name: a, base, img: null};
+    };
     for (const [a, spec] of Object.entries(def.actions || {})) {
-      const s = this.actions[a] = {...spec, img: null};
-      if (spec.json) fetch(Character.url(spec.json)).then(r => r.json()).then(j => { Object.assign(s, j); s.img = Character.image(SpriteBackend.rel(spec.json, j.sheet)); });
-      else s.img = Character.image(spec.sheet);
+      if (spec.json) { const s = this.actions[a] = {name: a, img: null, pending: true};
+        fetch(Character.url(spec.json)).then(r => r.json()).then(j => { Object.assign(s, j, {pending: false}); s.base = spec.json; }).catch(() => {}); }
+      else add(a, spec, "");
     }
+    if (def.index) this.ready = fetch(Character.url(def.index)).then(r => r.json()).then(j => {
+      for (const [a, spec] of Object.entries(j.actions || {})) if (!this.actions[a]) add(a, spec, def.index);
+      this.load(this.actions.idle);
+    }).catch(() => {});
   }
-  static rel(jsonPath, sheet) { return sheet.includes("/") ? sheet : jsonPath.replace(/[^/]*$/, "") + sheet; }
-  spec(c) { return this.actions[c.action] || (c.action === 'idle' ? null : null); }   // missing action -> static fallback
+  static rel(jsonPath, sheet) { return sheet.includes("/") || !jsonPath ? sheet : jsonPath.replace(/[^/]*$/, "") + sheet; }
+  load(s) { if (s && !s.img && s.sheet) s.img = Character.image(SpriteBackend.rel(s.base, s.sheet)); return s; }
+  // fallback chain per logical action; first one that has a sheet wins (missing everything -> static)
+  static candidates(c, facing = "down") {
+    const f = facing || "down";
+    if (c.action === "walk") return [...(c.carrying ? ["carry_" + f] : []), "walk_" + f, "walk", "idle"];
+    return [c.action, "idle"];
+  }
+  spec(c, facing = c.facing) {
+    for (const n of SpriteBackend.candidates(c, facing)) { const s = this.actions[n]; if (s && !s.pending && s.sheet) return this.load(s); }
+    return null;
+  }
   frameIndex(c) {
     const s = this.spec(c); if (!s || !s.count) return 0;
     if (Character.reducedMotion()) return 0;
     const i = Math.floor(c.t / 1000 * (s.fps || 12));
-    return c.loop ? i % s.count : Math.min(i, s.count - 1);
+    return c.loop || c.oneshot !== null ? i % s.count : Math.min(i, s.count - 1);
   }
-  size(facing, c) { const s = this.spec(c); return s && s.frameW ? [s.frameW, s.frameH] : null; }
+  size(facing, c) { const s = this.spec(c, facing); return s && s.frameW ? [s.frameW, s.frameH] : null; }
   draw(ctx, x, y, w, h, facing, c) {
-    const s = this.spec(c); if (!s || !s.img || !s.img.complete || !s.img.naturalWidth) return false;
+    const s = this.spec(c, facing); if (!s || !s.img || !s.img.complete || !s.img.naturalWidth) return false;
     const cols = s.cols || s.count, i = this.frameIndex(c);
-    const row = s.facings ? (s.facings[facing] ?? s.facings.down ?? 0) * Math.ceil(s.count / cols) : 0;
-    let flip = false;
-    if (s.facings && s.facings[facing] === undefined && facing === "left" && s.facings.right !== undefined) flip = true;
-    const sx = (i % cols) * s.frameW, sy = (row + Math.floor(i / cols)) * s.frameH;
-    if (flip) { ctx.save(); ctx.translate(x + w, y); ctx.scale(-1, 1); ctx.drawImage(s.img, sx, sy, s.frameW, s.frameH, 0, 0, w, h); ctx.restore(); }
-    else ctx.drawImage(s.img, sx, sy, s.frameW, s.frameH, x, y, w, h);
+    const sx = (i % cols) * s.frameW, sy = Math.floor(i / cols) * s.frameH;
+    ctx.drawImage(s.img, sx, sy, s.frameW, s.frameH, x, y, w, h);
+    c.drawn = s.name; c.drawnFrame = i;
     return true;
   }
 }
@@ -175,7 +204,8 @@ class Cast {
       const tw = this.tw[i] || (this.tw[i] = new Tween(p.x, p.y));
       tw.to(p.x, p.y, this.stepMs[i] || 170, now); tw.step(now);
       const c = this.chars[i];
-      c.auto({moving: tw.moving, talking: Voice.speaking === Cast.NAMES[i]}); c.update(dt);
+      c.facing = p.f || c.facing;
+      c.auto({moving: tw.moving, talking: Voice.speaking === Cast.NAMES[i], carrying: p.h}); c.update(dt);
     });
   }
   react(i, action) { this.chars[i] && this.chars[i].react(action); }

@@ -1,0 +1,112 @@
+{
+ "source": "/workspace/cooking-game/art/anim2d",
+ "crop": [
+  30,
+  24,
+  460,
+  465
+ ],
+ "scale": 0.5,
+ "anchor": [
+  107.5,
+  220
+ ],
+ "actions": {
+  "carry_down": {
+   "sheet": "carry_down.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 17,
+   "cols": 8,
+   "fps": 12
+  },
+  "carry_left": {
+   "sheet": "carry_left.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 21,
+   "cols": 8,
+   "fps": 12
+  },
+  "carry_right": {
+   "sheet": "carry_right.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 21,
+   "cols": 8,
+   "fps": 12
+  },
+  "carry_up": {
+   "sheet": "carry_up.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 22,
+   "cols": 8,
+   "fps": 12
+  },
+  "confused": {
+   "sheet": "confused.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 48,
+   "cols": 8,
+   "fps": 12
+  },
+  "happy": {
+   "sheet": "happy.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 48,
+   "cols": 8,
+   "fps": 12
+  },
+  "idle": {
+   "sheet": "idle.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 48,
+   "cols": 8,
+   "fps": 12
+  },
+  "talk": {
+   "sheet": "talk.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 48,
+   "cols": 8,
+   "fps": 12
+  },
+  "walk_down": {
+   "sheet": "walk_down.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 19,
+   "cols": 8,
+   "fps": 12
+  },
+  "walk_left": {
+   "sheet": "walk_left.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 24,
+   "cols": 8,
+   "fps": 12
+  },
+  "walk_right": {
+   "sheet": "walk_right.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 24,
+   "cols": 8,
+   "fps": 12
+  },
+  "walk_up": {
+   "sheet": "walk_up.webp",
+   "frameW": 215,
+   "frameH": 220,
+   "count": 26,
+   "cols": 8,
+   "fps": 12
+  }
+ }
+}
