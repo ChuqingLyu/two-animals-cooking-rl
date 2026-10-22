@@ -21,14 +21,16 @@ async def main():
                   const sp=Voice.speaking, v=Final.views.find(v=>v.name===sp);
                   return {level:r.dataset.level, teacher:r.dataset.teacher, teacherFig:f&&f.dataset.who, head:document.getElementById('recapTeacher').textContent,
                     speaker:sp, talkAnim:v?v.ch.action:null, line:document.getElementById('recapLine').textContent, visual:!!document.querySelector('#recapVisual img'),
-                    audio:Voice.audio.src.split('/voice/')[1]||'', scene:Voice.inVideo?document.getElementById('sceneVideo').dataset.scene:'', cap:document.getElementById('sceneSub').textContent, visible:r.checkVisibility()}})()""")
+                    audio:Voice.audio.src.split('/voice/')[1]||'', scene:Voice.inVideo?document.getElementById('sceneVideo').dataset.scene:'', cap:document.getElementById('sceneSub').textContent, visible:r.checkVisibility(), term:document.getElementById('kcTermMain').textContent, draft:document.getElementById('kcDraft').checkVisibility(), lit:document.querySelectorAll('#kcBullets li.on').length, defn:document.getElementById('kcDef').textContent.length}})()""")
                 ok = st["level"] == lv and st["teacher"] == t and st["teacherFig"] == t and st["visual"] and st["visible"] and st["talkAnim"] == "talk" and (st["scene"].startswith("recap_") and st["cap"].startswith(st["speaker"].capitalize() + ": ") if st["scene"] else st["audio"].startswith("recap/"))
+                ok = ok and st["term"] != "" and st["draft"] and st["lit"] == 1 and st["defn"] > 0
                 ok = ok and data["lessons"][i]["level"] == lv and data["lessons"][i]["teacher"] == t
                 print(w, "lesson", i + 1, st, "OK" if ok else "FAIL")
                 if not ok: fails.append((w, i, st))
                 if w != 390 and i in (0, 1): await pg.screenshot(path=f"{OUT}recap_{w}_lesson{i + 1}_{lv}_{t}.png")
                 await pg.click("#recapNext")
             await pg.wait_for_timeout(900)
+            summ = await pg.evaluate("[document.getElementById('kcSummary').checkVisibility(), document.querySelectorAll('#kcSummary li').length]"); print(w, "summary card:", summ); fails += [] if summ == [True, 5] else [(w, "summary", summ)]
             wrap = await pg.evaluate("[document.getElementById('recap').dataset.lesson, document.getElementById('recap').dataset.teacher, document.getElementById('recapLine').textContent]")
             print(w, "wrap-up:", wrap); fails += [] if wrap[0] == "wrap" and wrap[1] == "dingo" else [(w, "wrap", wrap)]
             await pg.click("#recapNext"); await pg.wait_for_timeout(300)

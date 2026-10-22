@@ -53,7 +53,7 @@ const Draw = {
       if (!p.n) return; const [x, y] = pots[i];
       ctx.fillStyle = p.ready ? "#3caa3c" : p.cooking ? "#e67832" : "#5a5a5a";
       ctx.fillRect(x * T + 16, y * T + TOP + 44, 32, 16);
-      ctx.fillStyle = "#fff"; ctx.font = "11px sans-serif"; ctx.fillText(p.ready ? "OK" : p.n + "/3", x * T + 22, y * T + TOP + 56);
+      ctx.fillStyle = "#fff"; ctx.font = "11px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.fillText(p.ready ? "OK" : p.n + "/3", x * T + 22, y * T + TOP + 56);
     });
     (fr.counter || []).forEach(c => Draw.item(ctx, c.x * T + 32, c.y * T + TOP + 32, c.o, 9));
     if (o.trails) o.trails.forEach(([pts, col]) => pts.forEach(([x, y], k) => {
@@ -83,15 +83,15 @@ const Draw = {
     if (it.style === "dashed") {
       ctx.globalAlpha = .55; ctx.drawImage(img, x, y, w, h); ctx.globalAlpha = 1;
       ctx.setLineDash([4, 3]); ctx.strokeStyle = "#555"; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h); ctx.setLineDash([]);
-      ctx.fillStyle = "#c81e1e"; ctx.font = "bold 16px sans-serif"; ctx.fillText("?", x + w - 4, y + 12);
+      ctx.fillStyle = "#4A3528"; ctx.font = "bold 16px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.fillText("?", x + w - 4, y + 12);
     } else ctx.drawImage(img, x, y, w, h);
   },
   hud(ctx, lines) {
-    ctx.fillStyle = "#4a3420"; ctx.font = "14px sans-serif";
+    ctx.fillStyle = "#4A3528"; ctx.font = "14px Nunito, 'ZCOOL KuaiLe', sans-serif";
     lines.forEach((l, i) => ctx.fillText(l, 8, 20 + i * 18));
   },
   popups(ctx, pops, age = true) {
-    ctx.font = "bold 16px sans-serif";
+    ctx.font = "bold 16px Nunito, 'ZCOOL KuaiLe', sans-serif";
     pops.forEach(p => { ctx.globalAlpha = Math.max(0, 1 - p.age / 12); ctx.fillStyle = p.v >= 0 ? "#1e8c1e" : "#c81e1e";
       ctx.fillText((p.v >= 0 ? "+" : "") + p.v, p.x * T + 20, p.y * T + TOP - p.age * 2); if (age) p.age++; });
     ctx.globalAlpha = 1;
@@ -397,7 +397,7 @@ class KitchenGame {
     fr.p.forEach((p, i) => { k.p[i]._top = p._top; k.p[i]._vx = p._vx; k.p[i]._vy = p._vy; });
     Draw.cells(k.terrain, "P").forEach(([x, y], j) => {
       const pot = k.pots[j];
-      if (k.manualStart && pot.n >= 1 && !pot.cooking && !pot.ready) { ctx.fillStyle = "#c0661a"; ctx.font = "bold 10px sans-serif"; ctx.fillText("▶ " + Lang.t("start_cook"), x * T + 2, y * T + TOP + 12); }
+      if (k.manualStart && pot.n >= 1 && !pot.cooking && !pot.ready) { ctx.fillStyle = "#4A3528"; ctx.font = "bold 10px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.fillText("▶ " + Lang.t("start_cook"), x * T + 2, y * T + TOP + 12); }
       if (!pot.cooking && !pot.ready) return;
       const i = pot.ready ? 39 : Math.min(38, Math.floor((1 - pot.t / k.cook) * 39));
       ctx.drawImage(Fx.frames.hud_cook_ring[i], x * T + T - 26, y * T + TOP + 2, 24, 24);
@@ -407,8 +407,8 @@ class KitchenGame {
     Fx.draw(ctx);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     if (this.timeLeft !== null) { const tim = Fx.timer[Math.max(0, Math.min(60, this.timeLeft))]; if (tim) ctx.drawImage(tim, this.W - 300, 24, 270, 96); }
-    ctx.fillStyle = "#4a3420"; ctx.font = "bold 34px sans-serif"; ctx.fillText(`${Lang.t("soups")}: ${k.soups}`, 36, 70);
-    ctx.font = "bold 20px sans-serif"; ctx.textAlign = "center";
+    ctx.fillStyle = "#4A3528"; ctx.font = "bold 34px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.fillText(`${Lang.t("soups")}: ${k.soups}`, 36, 70);
+    ctx.font = "bold 20px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.textAlign = "center";
     k.p.forEach((p, i) => { if (this.o.solo && i) return; ctx.fillStyle = i ? "#2a7d72" : "#b8860b";
       ctx.fillText(i ? "Kai" : "Wendy", this.OX + ((p._vx ?? p.x) * T + T / 2) * this.S, this.OY + (((p._vy ?? p.y) + 1) * T + TOP) * this.S - 4); });
     ctx.textAlign = "left";
@@ -761,8 +761,8 @@ const L4 = {
       ctx.fillStyle = "#fff8ec"; ctx.fillRect(0, 0, 1280, 720);
       if (vid.readyState >= 2) ctx.drawImage(vid, 0, 0, 1280, 720);
       else if (still.complete && still.naturalWidth) ctx.drawImage(still, 0, 0, 1280, 720);
-      ctx.textAlign = "center"; ctx.fillStyle = win ? "#c0661a" : "#56709a"; ctx.font = "bold 84px sans-serif"; ctx.fillText(title, 640, 120);
-      ctx.fillStyle = "#4a3420"; ctx.font = "bold 38px sans-serif"; ctx.fillText(sub, 640, 182);
+      ctx.textAlign = "center"; ctx.fillStyle = "#4A3528"; ctx.font = "bold 84px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.fillText(title, 640, 120);
+      ctx.fillStyle = "#4A3528"; ctx.font = "bold 38px Nunito, 'ZCOOL KuaiLe', sans-serif"; ctx.fillText(sub, 640, 182);
       const stars = 3, got = Math.min(n, stars);
       for (let s = 0; s < stars; s++) { ctx.globalAlpha = s < got ? 1 : .25; ctx.drawImage(coin, 640 + (s - 1) * 150 - 45, 210, 90, 90); }
       ctx.globalAlpha = 1; ctx.textAlign = "left";
@@ -807,16 +807,42 @@ const Final = {
     if (v.steps) Steps.render(vis, new Set([1, 2, 3, 4, 5]), null); else if (v.img) vis.innerHTML = `<img src="${v.img}" alt="">`;
     document.getElementById("recapTerms").innerHTML = (ls.terms || []).map(t => `<li>${t}</li>`).join("");
     document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("teacher", f.dataset.who === ls.teacher));
-    document.querySelector(".recapBoard").classList.toggle("hidden", i >= n);
+    this.card(i < n ? ls.card : null, i >= n);
     const tok = this.tok = (this.tok || 0) + 1;
     for (const l of ls.lines) {
       if (tok !== this.tok || App.cur !== "final") return;
-      document.getElementById("recapWho").textContent = (Voice.NAMES[l.character] || l.character) + ":";
+      document.getElementById("recapWho").textContent = (Voice.NAMES[l.character] || l.character) + ":"; document.getElementById("recapWho").className = "sub-" + l.character;
       document.getElementById("recapLine").textContent = Voice.fill(l.text);
+      if (i < n && ls.card) this.lite(ls.card, (ls.card.line_bullet || [])[ls.lines.indexOf(l)] ?? 0);
       document.querySelectorAll(".recapCast figure").forEach(f => f.classList.toggle("speaking", f.dataset.who === l.character));
       if (!(await Voice.play([l.id]))) return;
     }
     if (tok === this.tok) document.querySelectorAll(".recapCast figure").forEach(f => f.classList.remove("speaking"));
+  },
+  // knowledge card (text = data, may be a draft); bullet b lights up and drives the headline term / definition / kitchen example
+  T(o, k) { const en = Lang.cur !== "zh" && o[k + "_en"]; return en || o[k + "_zh"] || ""; },
+  mark(t) { const e = document.createElement("span"); e.textContent = t; return e.innerHTML.replace(/\*\*([^*]+)\*\*/g, '<mark class="term">$1</mark>'); },
+  card(c, summary) {
+    const $ = id => document.getElementById(id), d = this.data.summary_card || {}, src = summary ? d : c;
+    $("kcDraft").classList.toggle("hidden", !(src && src.status === "draft")); $("kcDraft").textContent = Lang.t("card_draft");
+    ["kcDef", "kcKitchenRow", "kcBullets", "recapVisual"].forEach(id => $(id).classList.toggle("hidden", !!summary));
+    document.querySelector(".kcTerm").classList.toggle("hidden", !!summary); $("kcSummary").classList.toggle("hidden", !summary);
+    if (summary) {
+      $("kcSummary").innerHTML = `<h3>${Lang.t("card_summary")}</h3><ol>` + (d.topics || []).map(t => `<li><span class="kcLv">${t.level}</span> <b>${this.mark(this.T(t, "topic"))}</b><span class="kcChips">${t.terms.map(b => `<mark class="term">${Lang.cur === "zh" ? b.term_zh : (b.term_en || b.term_zh)}</mark>`).join(" ")}</span></li>`).join("") + "</ol>" + (d.closing_zh ? `<p>${this.mark(this.T(d, "closing"))}</p>` : "");
+      return;
+    }
+    if (!c) return;
+    $("kcBullets").innerHTML = c.bullets.map((b, k) => `<li data-b="${k}">${b.term_zh ? `<mark class="term">${Lang.cur === "zh" ? b.term_zh : (b.term_en || b.term_zh)}</mark> ` : ""}${this.mark(this.T(b, "text").replace(/^[^：:]{0,0}/, ""))}</li>`).join("");
+    this.lite(c, 0);
+  },
+  lite(c, k) {
+    const $ = id => document.getElementById(id);
+    document.querySelectorAll("#kcBullets li").forEach(li => li.classList.toggle("on", +li.dataset.b === k));
+    let h = k; while (h > 0 && !c.bullets[h].term_zh) h--;
+    const b = c.bullets[h] || {}, en = b.term_en, zh = b.term_zh;
+    $("kcTermMain").textContent = Lang.cur === "zh" ? zh : (en || zh); $("kcTermAlt").textContent = Lang.cur === "zh" ? (en || "") : (en ? zh : "");
+    $("kcDef").innerHTML = this.mark(this.T(b, "def")); const ex = this.T(b, "kitchen");
+    $("kcKitchen").innerHTML = this.mark(ex); $("kcKitchenRow").classList.toggle("hidden", !ex);
   },
   report() {
     Voice.stop(); Story.active = null; this.tok++;

@@ -17,7 +17,7 @@ async def main():
             st = await pg.evaluate("""(()=>{const v=document.getElementById('sceneVid'),c=document.getElementById('sceneSub'),bb=c.querySelector('b');
               return {visible:document.getElementById('sceneVideo').checkVisibility(), src:v.currentSrc.split('/').pop(), playing:!v.paused&&v.currentTime>0.3,
                 caption:c.textContent, cls:c.className, color:bb&&getComputedStyle(bb).color, ducked:Music.ducked, kokoro:!Voice.audio.paused}})()""")
-            ok = st["visible"] and st["src"] == "L0_s01_clean.mp4" and st["playing"] and st["caption"].startswith("Dingo: Welcome") and st["cls"] == "sub-dingo" and st["color"] == "rgb(246, 178, 107)" and st["ducked"] and not st["kokoro"]
+            ok = st["visible"] and st["src"] == "L0_s01_clean.mp4" and st["playing"] and st["caption"].startswith("Dingo: Welcome") and st["cls"] == "sub-dingo" and st["color"] == "rgb(192, 102, 26)" and st["ducked"] and not st["kokoro"]
             if w != 390: await pg.screenshot(path=f"{OUT}scene_L0_s01_{w}.png")
             await pg.wait_for_function("document.getElementById('sceneVideo').classList.contains('hidden') && Voice.audio.src.includes('/voice/')", timeout=12000)
             after = await pg.evaluate("[document.getElementById('sceneVideo').classList.contains('hidden'), Voice.audio.src.split('/').pop()]")

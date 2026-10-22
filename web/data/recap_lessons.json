@@ -40,7 +40,73 @@
      "text": "And the right order of actions makes the soup!",
      "voice": "recap/recap_04_wendy.mp3"
     }
-   ]
+   ],
+   "card": {
+    "status": "draft",
+    "approved_by": null,
+    "source": "cooking-game/docs/recap_cards.md (GAD draft)",
+    "note": "DRAFT, pending Lucy's review. Do not treat as final copy.",
+    "heading_zh": "第 0 课 · 老师：豆丁 —— 智能体与环境",
+    "topic_zh": "智能体与环境",
+    "bullets": [
+     {
+      "term_zh": "智能体",
+      "term_en": "Agent",
+      "text_zh": "做决定的那一方。厨房里，厨师就是智能体。",
+      "def_zh": "做决定的那一方。",
+      "kitchen_zh": "厨房里，厨师就是智能体。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "环境",
+      "term_en": "Environment",
+      "text_zh": "智能体所在的世界。这里就是厨房。",
+      "def_zh": "智能体所在的世界。",
+      "kitchen_zh": "这里就是厨房。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "状态",
+      "term_en": "State",
+      "text_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
+      "def_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "动作",
+      "term_en": "Action",
+      "text_zh": "智能体每一步的选择：走、拿、放、上菜。",
+      "def_zh": "智能体每一步的选择：走、拿、放、上菜。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "",
+      "term_en": "",
+      "text_zh": "关键：做汤需要**按顺序做很多个决定**，这叫序列决策。",
+      "def_zh": "关键：做汤需要**按顺序做很多个决定**，这叫序列决策。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ],
+    "line_bullet": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
   },
   {
    "level": "L1",
@@ -80,7 +146,63 @@
      "text": "Good rewards, like small stars for each helpful step, taught us much faster.",
      "voice": "recap/recap_08_kai.mp3"
     }
-   ]
+   ],
+   "card": {
+    "status": "draft",
+    "approved_by": null,
+    "source": "cooking-game/docs/recap_cards.md (GAD draft)",
+    "note": "DRAFT, pending Lucy's review. Do not treat as final copy.",
+    "heading_zh": "第 1 课 · 老师：Wendy —— 奖励 Reward",
+    "topic_zh": "奖励 Reward",
+    "bullets": [
+     {
+      "term_zh": "奖励",
+      "term_en": "Reward",
+      "text_zh": "做对一步得到的分数信号，就像金星。",
+      "def_zh": "做对一步得到的分数信号，就像金星。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "",
+      "term_en": "",
+      "text_zh": "智能体的目标：让**累计奖励**尽量多。",
+      "def_zh": "智能体的目标：让**累计奖励**尽量多。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "奖励设计",
+      "term_en": "",
+      "text_zh": "奖励给什么，它就学什么。只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
+      "def_zh": "奖励给什么，它就学什么。",
+      "kitchen_zh": "只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "",
+      "term_en": "",
+      "text_zh": "好办法：给每个有用的小步骤一点小奖励，学得更快（奖励塑形）。",
+      "def_zh": "好办法：给每个有用的小步骤一点小奖励，学得更快（奖励塑形）。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ],
+    "line_bullet": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
   },
   {
    "level": "L2",
@@ -120,7 +242,63 @@
      "text": "Trying, and trying again, is how we learned. That's training!",
      "voice": "recap/recap_12_wendy.mp3"
     }
-   ]
+   ],
+   "card": {
+    "status": "draft",
+    "approved_by": null,
+    "source": "cooking-game/docs/recap_cards.md (GAD draft)",
+    "note": "DRAFT, pending Lucy's review. Do not treat as final copy.",
+    "heading_zh": "第 2 课 · 老师：Kai —— 探索与利用",
+    "topic_zh": "探索与利用",
+    "bullets": [
+     {
+      "term_zh": "探索",
+      "term_en": "Exploration",
+      "text_zh": "尝试没做过的动作，发现新办法。",
+      "def_zh": "尝试没做过的动作，发现新办法。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "利用",
+      "term_en": "Exploitation",
+      "text_zh": "选目前已知最好的动作。",
+      "def_zh": "选目前已知最好的动作。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "",
+      "term_en": "",
+      "text_zh": "平衡：一开始多探索，后来多利用。完全不探索，就会一直撞墙。",
+      "def_zh": "平衡：一开始多探索，后来多利用。",
+      "kitchen_zh": "完全不探索，就会一直撞墙。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "训练",
+      "term_en": "Training",
+      "text_zh": "反复试错、根据奖励调整，一次次变好。",
+      "def_zh": "反复试错、根据奖励调整，一次次变好。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ],
+    "line_bullet": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
   },
   {
    "level": "L3",
@@ -160,7 +338,63 @@
      "text": "If our confidence is low, don't trust us too much. Think for yourself!",
      "voice": "recap/recap_16_kai.mp3"
     }
-   ]
+   ],
+   "card": {
+    "status": "draft",
+    "approved_by": null,
+    "source": "cooking-game/docs/recap_cards.md (GAD draft)",
+    "note": "DRAFT, pending Lucy's review. Do not treat as final copy.",
+    "heading_zh": "第 3 课 · 老师：豆丁 —— 动作价值与策略",
+    "topic_zh": "动作价值与策略",
+    "bullets": [
+     {
+      "term_zh": "动作价值",
+      "term_en": "Q",
+      "text_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
+      "def_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "策略",
+      "term_en": "Policy",
+      "text_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
+      "def_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "置信度",
+      "term_en": "",
+      "text_zh": "AI 对自己估计有多确定。实心泡泡=很确定，虚线泡泡=不太确定。",
+      "def_zh": "AI 对自己估计有多确定。",
+      "kitchen_zh": "实心泡泡=很确定，虚线泡泡=不太确定。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "",
+      "term_en": "",
+      "text_zh": "关键：AI 不确定时，别全信它，要自己判断。",
+      "def_zh": "关键：AI 不确定时，别全信它，要自己判断。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ],
+    "line_bullet": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
   },
   {
    "level": "L4",
@@ -200,7 +434,53 @@
      "text": "Sometimes you get fewer stars, but the team does better. That's okay.",
      "voice": "recap/recap_20_kai.mp3"
     }
-   ]
+   ],
+   "card": {
+    "status": "draft",
+    "approved_by": null,
+    "source": "cooking-game/docs/recap_cards.md (GAD draft)",
+    "note": "DRAFT, pending Lucy's review. Do not treat as final copy.",
+    "heading_zh": "第 4 课 · 老师：Wendy —— 多智能体合作",
+    "topic_zh": "多智能体合作",
+    "bullets": [
+     {
+      "term_zh": "多智能体",
+      "term_en": "Multi-agent",
+      "text_zh": "多个智能体在同一个环境里一起行动。",
+      "def_zh": "多个智能体在同一个环境里一起行动。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "团队价值",
+      "term_en": "",
+      "text_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
+      "def_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "",
+      "term_en": "",
+      "text_zh": "关键：有时个人少得一点，团队整体更好。合作看的是总分。",
+      "def_zh": "关键：有时个人少得一点，团队整体更好。",
+      "kitchen_zh": "合作看的是总分。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ],
+    "line_bullet": [
+     0,
+     1,
+     2,
+     2
+    ]
+   }
   }
  ],
  "wrapup": {
@@ -213,5 +493,191 @@
     "voice": "recap/recap_21_dingo.mp3"
    }
   ]
- }
+ },
+ "summary_card": {
+  "status": "draft",
+  "approved_by": null,
+  "source": "cooking-game/docs/recap_cards.md (GAD draft)",
+  "note": "DRAFT, pending Lucy's review. Do not treat as final copy.",
+  "heading_zh": "结尾 · 豆丁",
+  "topics": [
+   {
+    "level": "L0",
+    "teacher": "dingo",
+    "topic_zh": "智能体与环境",
+    "terms": [
+     {
+      "term_zh": "智能体",
+      "term_en": "Agent",
+      "text_zh": "做决定的那一方。厨房里，厨师就是智能体。",
+      "def_zh": "做决定的那一方。",
+      "kitchen_zh": "厨房里，厨师就是智能体。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "环境",
+      "term_en": "Environment",
+      "text_zh": "智能体所在的世界。这里就是厨房。",
+      "def_zh": "智能体所在的世界。",
+      "kitchen_zh": "这里就是厨房。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "状态",
+      "term_en": "State",
+      "text_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
+      "def_zh": "此刻环境的样子，比如锅里有几颗洋葱。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "动作",
+      "term_en": "Action",
+      "text_zh": "智能体每一步的选择：走、拿、放、上菜。",
+      "def_zh": "智能体每一步的选择：走、拿、放、上菜。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ]
+   },
+   {
+    "level": "L1",
+    "teacher": "wendy",
+    "topic_zh": "奖励 Reward",
+    "terms": [
+     {
+      "term_zh": "奖励",
+      "term_en": "Reward",
+      "text_zh": "做对一步得到的分数信号，就像金星。",
+      "def_zh": "做对一步得到的分数信号，就像金星。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "奖励设计",
+      "term_en": "",
+      "text_zh": "奖励给什么，它就学什么。只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
+      "def_zh": "奖励给什么，它就学什么。",
+      "kitchen_zh": "只奖励洋葱，它就只堆洋葱、不做汤（奖励被\"钻空子\"）。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ]
+   },
+   {
+    "level": "L2",
+    "teacher": "kai",
+    "topic_zh": "探索与利用",
+    "terms": [
+     {
+      "term_zh": "探索",
+      "term_en": "Exploration",
+      "text_zh": "尝试没做过的动作，发现新办法。",
+      "def_zh": "尝试没做过的动作，发现新办法。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "利用",
+      "term_en": "Exploitation",
+      "text_zh": "选目前已知最好的动作。",
+      "def_zh": "选目前已知最好的动作。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "训练",
+      "term_en": "Training",
+      "text_zh": "反复试错、根据奖励调整，一次次变好。",
+      "def_zh": "反复试错、根据奖励调整，一次次变好。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ]
+   },
+   {
+    "level": "L3",
+    "teacher": "dingo",
+    "topic_zh": "动作价值与策略",
+    "terms": [
+     {
+      "term_zh": "动作价值",
+      "term_en": "Q",
+      "text_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
+      "def_zh": "对\"在这个状态做这个动作，以后能得多少奖励\"的估计。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "策略",
+      "term_en": "Policy",
+      "text_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
+      "def_zh": "在每个状态选哪个动作的规则，通常选 Q 最高的。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "置信度",
+      "term_en": "",
+      "text_zh": "AI 对自己估计有多确定。实心泡泡=很确定，虚线泡泡=不太确定。",
+      "def_zh": "AI 对自己估计有多确定。",
+      "kitchen_zh": "实心泡泡=很确定，虚线泡泡=不太确定。",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ]
+   },
+   {
+    "level": "L4",
+    "teacher": "wendy",
+    "topic_zh": "多智能体合作",
+    "terms": [
+     {
+      "term_zh": "多智能体",
+      "term_en": "Multi-agent",
+      "text_zh": "多个智能体在同一个环境里一起行动。",
+      "def_zh": "多个智能体在同一个环境里一起行动。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     },
+     {
+      "term_zh": "团队价值",
+      "term_en": "",
+      "text_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
+      "def_zh": "团队得分 = 每个人得分相加（VDN 的思路）。",
+      "kitchen_zh": "",
+      "text_en": "",
+      "def_en": "",
+      "kitchen_en": ""
+     }
+    ]
+   }
+  ],
+  "closing_zh": "一句话总结：智能体在环境里做动作，靠奖励试错学习，学会一套策略，还能和队友合作。"
+ },
+ "_cards_doc": "lessons[].card / summary_card: knowledge-card text, seeded by tools/seed_recap_cards.py from GAD's draft. status=draft until Lucy approves; edit freely, no code change needed."
 }

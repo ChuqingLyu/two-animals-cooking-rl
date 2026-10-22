@@ -185,6 +185,9 @@ const Voice = {
     const t0 = run[0].start, last = run[run.length - 1], i1 = S.lines.indexOf(last);
     const t1 = Math.min(S.duration || 1e9, last.end + (i1 === S.lines.length - 1 ? .35 : .15));   // skip the silent held tail
     this.inVideo = true; box.classList.remove("hidden"); box.dataset.scene = sid;
+    const slot = document.getElementById("recapVideoSlot"), dock = !!(slot && slot.offsetParent);   // recap: video sits in the stage next to the knowledge card
+    if (dock && box.parentNode !== slot) slot.append(box); else if (!dock && box.parentNode !== document.body) document.body.append(box);
+    box.classList.toggle("docked", dock);
     // gameplay: small panel in the speaker's corner (kitchen tiles stay visible); story / bridges / recap: full-size centred
     const hid = id => { const e = document.getElementById(id); return !e || e.classList.contains("hidden"); };
     box.classList.toggle("corner", typeof App !== "undefined" && /^l\d$/.test(App.cur) && hid("dialog") && hid("bridge") && hid("theatre"));

@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Two Little Monsters Learn to Cook · Demo</title>
+<link rel="preload" href="assets/fonts/nunito.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/zcool_kuaile.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 <script src="stage.js"></script>
 </head>
@@ -119,15 +121,24 @@
     <div id="recap">
       <div class="recapHead"><span id="recapStep"></span><h2 id="recapTitle"></h2><span id="recapTeacher"></span></div>
       <div class="recapBody">
-        <div class="recapCast">
-          <figure data-who="dingo"><canvas id="recapDingo" width="358" height="410" aria-label="Dingo"></canvas><figcaption>Dingo</figcaption></figure>
-          <figure data-who="wendy"><canvas id="recapWendy" width="174" height="256" aria-label="Wendy"></canvas><figcaption>Wendy</figcaption></figure>
-          <figure data-who="kai"><canvas id="recapKai" width="219" height="256" aria-label="Kai"></canvas><figcaption>Kai</figcaption></figure>
+        <div class="recapStage">
+          <div class="recapCast">
+            <figure data-who="dingo"><canvas id="recapDingo" width="358" height="410" aria-label="Dingo"></canvas><figcaption>Dingo</figcaption></figure>
+            <figure data-who="wendy"><canvas id="recapWendy" width="174" height="256" aria-label="Wendy"></canvas><figcaption>Wendy</figcaption></figure>
+            <figure data-who="kai"><canvas id="recapKai" width="219" height="256" aria-label="Kai"></canvas><figcaption>Kai</figcaption></figure>
+          </div>
+          <div id="recapVideoSlot"></div>
         </div>
-        <div class="recapBoard panel">
-          <p id="recapCallout"></p>
+        <!-- knowledge card: text from data/recap_lessons.json (lessons[].card, summary_card) -->
+        <div class="recapBoard recapCard panel">
+          <span class="draftTag hidden" id="kcDraft"></span>
+          <div class="kcTerm"><b id="kcTermMain"></b><span id="kcTermAlt"></span></div>
+          <p id="kcDef"></p>
+          <p id="kcKitchenRow"><span class="kcLabel" data-t="in_kitchen"></span> <span id="kcKitchen"></span></p>
+          <ul id="kcBullets"></ul>
+          <div id="kcSummary" class="hidden"></div>
           <div id="recapVisual"></div>
-          <ul id="recapTerms"></ul>
+          <p id="recapCallout" class="hidden"></p><ul id="recapTerms" class="hidden"></ul>
         </div>
       </div>
       <div class="recapSay"><b id="recapWho"></b><p id="recapLine"></p><button id="recapNext" class="next big" data-t="next"></button></div>
