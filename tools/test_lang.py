@@ -54,8 +54,11 @@ async def main():
         ck("en scene video unchanged", ev == ["L0_s01.mp4", False], ev)
         # in-level hint: zh from hints_zh.json, English fallback
         await pg.evaluate("Voice.stop(); Lang.toggle(); Guide.zh['Now walk to the pot and press Space.']='现在走到锅边，按空格键。'; 0")
-        hz = await pg.evaluate("Guide.say('dingo','Now walk to the pot and press Space.'); const a=document.querySelector('#guideBubble').textContent; Guide.say('dingo','Not there. Look for the onion box.'); [a, document.querySelector('#guideBubble').textContent]")
-        ck("zh hint + English fallback", "现在走到锅边" in hz[0] and "豆丁" in hz[0] and "Not there" in hz[1], hz)
+        hz = await pg.evaluate("Guide.say('dingo','Now walk to the pot and press Space.'); const a=document.querySelector('#guideBubble').textContent; Guide.say('dingo','Untranslated test hint.'); [a, document.querySelector('#guideBubble').textContent]")
+        ck("zh hint + English fallback", "现在走到锅边" in hz[0] and "豆丁" in hz[0] and "Untranslated test hint." in hz[1], hz)
+        # PM bot's hints (all translated) + actual Chinese button labels they refer to
+        hn = await pg.evaluate("Lang.cur==='en'&&Lang.toggle(); [Object.keys(Guide.zh).length, ...['#l0next','#popClose','#l1train','.ask','#l4start'].map(s=>document.querySelector(s).textContent)]")
+        print("zh labels next/ok/train/ask/l4start:", hn[1:]); ck("zh hints loaded", hn[0] >= 53, hn[0])
         # knowledge-card images: live swap to *_v2_zh.png and back (popup + report gallery)
         await pg.evaluate("Lang.cur==='zh'&&Lang.toggle(); Pop.card(Object.keys(Pop.CARD_IMG)[0]); 0"); await pg.wait_for_timeout(300)
         KC = "[...document.querySelectorAll('img[src*=knowledge_card_]')].map(i=>i.getAttribute('src').split('/').pop())"
